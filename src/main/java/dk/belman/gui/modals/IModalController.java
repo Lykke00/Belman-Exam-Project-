@@ -1,4 +1,4 @@
-package easv.event.gui.modals;
+package dk.belman.gui.modals;
 
 public interface IModalController {
     void load();

@@ -1,4 +1,4 @@
-package easv.event.gui.utils;
+package dk.belman.gui.utils;
 
 import atlantafx.base.controls.Notification;
 import atlantafx.base.theme.Styles;

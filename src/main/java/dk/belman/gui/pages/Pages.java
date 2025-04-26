@@ -1,13 +1,7 @@
-package easv.event.gui.pages;
+package dk.belman.gui.pages;
 
 public enum Pages {
-    MAIN("/fxml/main.fxml"),
-    LOGIN("/fxml/pages/LoginPage.fxml"),
-    EVENT("/fxml/pages/EventPage.fxml"),
-    TICKETS("/fxml/pages/TicketPage.fxml"),
-    USERS("/fxml/pages/UserPage.fxml"),
-    EVENT_ITEM_PAGE("/fxml/pages/EventItemPage.fxml"),
-    TICKET_ITEM_PAGE("/fxml/pages/TicketItemPage.fxml");
+    MAIN("/fxml/main.fxml");
 
     private final String path;
     private Object controller;

@@ -1,23 +1,16 @@
-package easv.event.gui.utils;
+package dk.belman.gui.utils;
 
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.layout.ModalBox;
-import atlantafx.base.theme.Styles;
-import easv.event.gui.modals.IModalController;
-import easv.event.gui.modals.Modal;
-import easv.event.gui.pages.IPageController;
+import dk.belman.gui.modals.IModalController;
+import dk.belman.gui.modals.Modal;
 import javafx.animation.Animation;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Control;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.StackPane;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,10 +57,14 @@ public class ModalOverlay extends ModalPane {
     }
 
     public void showFXML(Modal modal) {
-        displayModal(modal);
+        try {
+            displayModal(modal);
+        } catch (Exception e) {
+            DialogHandler.showExceptionError("Error loading modal", "Modal loading failed", e);
+        }
     }
 
-    private void displayModal(Modal modal) {
+    private void displayModal(Modal modal) throws Exception {
         FXMLLoader loader;
         Node modalNode = modalCache.get(modal);
 
@@ -78,7 +75,7 @@ public class ModalOverlay extends ModalPane {
                 modal.setController(loader.getController());
                 modalCache.put(modal, modalNode);
             } catch (Exception e) {
-                throw new RuntimeException("Failed to load Modal: " + modal.getPath(), e);
+                throw new Exception("Failed to load Modal: " + modal.getPath(), e);
             }
         }
 

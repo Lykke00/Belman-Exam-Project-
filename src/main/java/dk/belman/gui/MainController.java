@@ -1,4 +1,4 @@
-package dk.belman;
+package dk.belman.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

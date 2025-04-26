@@ -1,4 +1,4 @@
-package easv.event.gui.utils;
+package dk.belman.gui.utils;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.util.StringConverter;

@@ -1,4 +1,4 @@
-package easv.event.gui.pages;
+package dk.belman.gui.pages;
 
 public interface IPageController {
     void load();

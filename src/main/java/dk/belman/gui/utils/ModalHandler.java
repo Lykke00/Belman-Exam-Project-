@@ -1,4 +1,4 @@
-package easv.event.gui.utils;
+package dk.belman.gui.utils;
 
 import javafx.scene.layout.StackPane;
 

@@ -1,6 +1,5 @@
-package easv.event.gui.utils;
+package dk.belman.gui.utils;
 
-import easv.event.gui.pages.Login.LoginController;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -37,7 +36,7 @@ public class DialogHandler {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
         Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
-        alertStage.getIcons().add(new Image(LoginController.class.getResourceAsStream("/images/favicon.png")));
+        //alertStage.getIcons().add(new Image(LoginController.class.getResourceAsStream("/images/favicon.png")));
         alert.setTitle(title);
         alert.setHeaderText(headerText);
         alert.setContentText(message);
@@ -66,7 +65,7 @@ public class DialogHandler {
             var alert = new Alert(Alert.AlertType.ERROR);
 
             Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
-            alertStage.getIcons().add(new Image(LoginController.class.getResourceAsStream("/images/favicon.png")));
+           // alertStage.getIcons().add(new Image(LoginController.class.getResourceAsStream("/images/favicon.png")));
 
             alert.setTitle(title);
             alert.setHeaderText(title);

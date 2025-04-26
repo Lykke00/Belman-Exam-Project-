@@ -1,9 +1,8 @@
-package easv.event.gui.utils;
+package dk.belman.gui.utils;
 
-import easv.event.gui.pages.IPageController;
-import easv.event.gui.pages.Pages;
+import dk.belman.gui.pages.IPageController;
+import dk.belman.gui.pages.Pages;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -13,7 +12,7 @@ import java.util.Map;
 
 public class PageHandler {
     private static PageHandler instance;
-    private final static Pages DEFAULT_PAGE = Pages.EVENT;
+    private final static Pages DEFAULT_PAGE = Pages.MAIN;
 
     private Map<Pages, PageData> pageCache = new HashMap<>();
 
@@ -36,7 +35,12 @@ public class PageHandler {
     }
 
     public void setCurrentPage(Pages page) {
-        PageData storePageNode = storeCurrentPage(page);
+        PageData storePageNode = null;
+        try {
+            storePageNode = storeCurrentPage(page);
+        } catch (Exception e) {
+            DialogHandler.showExceptionError("Error loading page", "Page loading failed", e);
+        }
 
         if (storePageNode == null || storePageNode.getPageParent() == null)
             return;
@@ -44,9 +48,17 @@ public class PageHandler {
         this.borderPane.setCenter(storePageNode.getPageParent());
     }
 
-    public PageData storeCurrentPage(Pages page) {
-        if (currentPage != null && page.getPath().equals(currentPage.getPath()))
+    public void updatePageController(Pages page) {
+        if (page.getController() instanceof IPageController) {
+            ((IPageController) page.getController()).load();
+        }
+    }
+
+    public PageData storeCurrentPage(Pages page) throws Exception {
+        if (currentPage != null && page.getPath().equals(currentPage.getPath())) {
+            updatePageController(page);
             return pageCache.get(currentPage);
+        }
 
         FXMLLoader loader;
         Parent pageNode;
@@ -61,15 +73,13 @@ public class PageHandler {
                 pageData = new PageData(pageNode, scene);
                 pageCache.put(page, pageData);
             } catch (Exception e) {
-                throw new RuntimeException("Failed to load page: " + page.getPath(), e);
+                throw new Exception("Failed to load page: " + page.getPath(), e);
             }
         } else {
             pageData = pageCache.get(page);
         }
 
-        if (page.getController() instanceof IPageController) {
-            ((IPageController) page.getController()).load();
-        }
+        updatePageController(page);
 
         currentPage = page;
         return pageData;
