@@ -1,0 +1,144 @@
+name: Android Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versionsnummer'
+        required: true
+        default: '1.0.0'
+      changelog:
+        description: 'Changelog'
+        required: true
+        default: 'Ingen ændringer angivet.'
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Cache APT packages
+        uses: actions/cache@v4
+        with:
+          path: /tmp/apt-cache
+          key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-
+
+      - name: Setup Gluon's GraalVM
+        uses: gluonhq/setup-graalvm@master
+        with:
+          graalvm: '22.1.0.1-Final'
+          jdk: 'java17'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install libraries
+        run: |
+          sudo apt-get update
+          sudo apt install libasound2-dev libavcodec-dev libavformat-dev libavutil-dev libgl-dev libgtk-3-dev libpango1.0-dev libxtst-dev
+
+      - name: Setup Android Keystore
+        id: android_keystore_file
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'my.keystore'
+          encodedString: ${{ secrets.GLUON_ANDROID_KEYSTORE_BASE64 }}
+
+      - name: Grant execute permission to mvnw
+        run: chmod +x ./mvnw
+
+      - name: Gluon Build
+        run: |
+          export ANDROID_SDK=$ANDROID_HOME
+          ./mvnw -Pandroid gluonfx:build gluonfx:package \
+            -Dgluonfx.target=android \
+            -Dgluonfx.android.architectures=armeabi-v7a,arm64-v8a,x86,x86_64,aarch64 \
+            -Dnative-image.options="--initialize-at-build-time=javafx.*,com.sun.prism.* -Dprism.order=sw,j2d -Dgluonfx.android.bundle=true"
+        env:
+          GLUON_ANDROID_KEYSTOREPATH: ${{ steps.android_keystore_file.outputs.filePath }}
+          GLUON_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.GLUON_ANDROID_KEYSTORE_PASSWORD }}
+          GLUON_ANDROID_KEYALIAS: ${{ secrets.GLUON_ANDROID_KEYALIAS }}
+          GLUON_ANDROID_KEYALIAS_PASSWORD: ${{ secrets.GLUON_ANDROID_KEYALIAS_PASSWORD }}
+
+      - name: Make staging directory
+        run: mkdir staging
+
+      - name: Copy APK and resources to staging
+        run: |
+          cp target/gluonfx/aarch64-android/gvm/Belman.apk staging/
+          cp target/gluonfx/aarch64-android/gvm/Belman.aab staging/
+          cp target/gluonfx/aarch64-android/libBelman.so staging/
+          cp target/gluonfx/aarch64-android/gvm/*.json staging/
+          cp target/gluonfx/aarch64-android/gensrc/android/AndroidManifest.xml staging/
+          cp target/gluonfx/aarch64-android/gensrc/android/build.gradle staging/
+          cp -r target/gluonfx/aarch64-android/gensrc/android/res staging/
+
+      - name: Download Bundletool
+        run: |
+          mkdir bundletool
+          curl -L -o bundletool/bundletool.jar https://github.com/google/bundletool/releases/download/1.18.1/bundletool-all-1.18.1.jar
+
+      - name: Create bundletools directory
+        run: mkdir -p staging/bundletools
+
+      - name: Create device-spec.json
+        run: |
+          cat > staging/bundletools/device-spec.json <<EOL
+          {
+            "supportedAbis": ["armeabi-v7a", "arm64-v8a", "x86", "x86_64"],
+            "screenDensity": 320,
+            "sdkVersion": 30,
+            "supportedLocales": ["en", "en-US"]
+          }
+          EOL
+
+      - name: Build APKs using Bundletool
+        run: |
+          java -jar bundletool/bundletool.jar build-apks \
+            --bundle=staging/Belman.aab \
+            --output=staging/bundletools/Belman.apks \
+            --ks=${{ steps.android_keystore_file.outputs.filePath }} \
+            --ks-pass=pass:${{ secrets.GLUON_ANDROID_KEYSTORE_PASSWORD }} \
+            --ks-key-alias=${{ secrets.GLUON_ANDROID_KEYALIAS }} \
+            --key-pass=pass:${{ secrets.GLUON_ANDROID_KEYALIAS_PASSWORD }} \
+            --device-spec=staging/bundletools/device-spec.json
+
+      - name: Extract APKs from .apks
+        run: |
+          mkdir -p staging/extracted_apk
+          java -jar bundletool/bundletool.jar extract-apks \
+            --apks=staging/bundletools/Belman.apks \
+            --output-dir=staging/extracted_apk \
+            --device-spec=staging/bundletools/device-spec.json
+
+      - name: Create zip of staging folder
+        run: zip -r Belman.zip staging/
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: "Release ${{ github.event.inputs.version }}"
+          body: ${{ github.event.inputs.changelog }}
+          files: |
+            Belman.zip
+            staging/Belman.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

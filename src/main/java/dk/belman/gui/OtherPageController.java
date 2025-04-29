@@ -2,45 +2,36 @@ package dk.belman.gui;
 
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.AppBar;
-import com.gluonhq.charm.glisten.control.LifecycleEvent;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import dk.belman.gui.utils.DialogHandler;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class MainController extends View implements Initializable {
+public class OtherPageController extends View implements Initializable {
 
     @FXML
-    private Button btnClick;
+    private Button backBtn;
 
-    @FXML
-    private Label lbl;
-
-    private int count;
-
-    public MainController() {
+    public OtherPageController() {
 
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btnClick.setOnAction(this::handleButtonClick);
+        backBtn.setOnAction(this::handleBackButtonClick);
     }
 
-    private void handleButtonClick(ActionEvent actionEvent) {
-        count++;
-        lbl.setText("du har trykket " + count + " gange");
+    private void handleBackButtonClick(ActionEvent actionEvent) {
+        AppManager.getInstance().switchToPreviousView();
     }
 
     @Override
