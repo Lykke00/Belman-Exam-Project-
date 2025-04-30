@@ -70,7 +70,7 @@ jobs:
           ./mvnw -Pandroid gluonfx:build gluonfx:package \
             -Dgluonfx.target=android \
             -Dgluonfx.android.architectures=armeabi-v7a,arm64-v8a,x86,x86_64,aarch64 \
-            -Dnative-image.options="--initialize-at-build-time=javafx.*,com.sun.prism.* -Dprism.order=sw,j2d -Dgluonfx.android.bundle=true"
+            -Dnative-image.options="--initialize-at-build-time=javafx.*,com.sun.prism.* -Dprism.order=sw,j2d -Dgluonfx.android.bundle=true -agentlib:native-image-agent=config-merge-dir=src/main/resources/META-INF/native-image"
         env:
           GLUON_ANDROID_KEYSTOREPATH: ${{ steps.android_keystore_file.outputs.filePath }}
           GLUON_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.GLUON_ANDROID_KEYSTORE_PASSWORD }}
