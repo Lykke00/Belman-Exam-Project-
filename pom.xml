@@ -74,13 +74,6 @@
             <artifactId>javafx-graphics</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.github.mkpaz/atlantafx-base -->
-        <dependency>
-            <groupId>io.github.mkpaz</groupId>
-            <artifactId>atlantafx-base</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-
 
         <!-- Gluon Mobile dependencies -->
         <dependency>
@@ -222,13 +215,6 @@
                 <configuration>
                     <enableSWRendering>false</enableSWRendering>
                     <mainClass>${main.class}</mainClass>
-                    <reflectionList>
-                        <list>javafx.scene.control.Button</list>
-                        <list>javafx.scene.control.Label</list>
-                        <list>javafx.fxml.FXMLLoader</list>
-                        <list>dk.belman.gui.MainController</list>
-                        <list>dk.belman.gui.OtherPageController</list>
-                    </reflectionList>
                     <attachList>
                         <list>display</list>
                         <list>lifecycle</list>
