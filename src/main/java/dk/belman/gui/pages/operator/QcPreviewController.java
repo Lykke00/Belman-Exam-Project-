@@ -1,11 +1,12 @@
 package dk.belman.gui.pages.operator;
 
-import com.dansoftware.pdfdisplayer.PDFDisplayer;
 import com.gluonhq.charm.glisten.mvc.View;
+import dk.belman.gui.utils.PDFPreviewer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,13 +19,9 @@ public class QcPreviewController extends View implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        PDFDisplayer displayer = new PDFDisplayer();
-        try {
-            displayer.loadPDF(new URL("https://www.tutorialspoint.com/jdbc/jdbc_tutorial.pdf"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        File file = new File("/Users/lykkebernberg/Desktop/Belman/src/main/resources/jdbc_tutorial.pdf");
+        PDFPreviewer pdfPreviewer = new PDFPreviewer(file);
 
-        vBoxMain.getChildren().add(0, displayer.toNode());
+        vBoxMain.getChildren().add(0, pdfPreviewer);
     }
 }

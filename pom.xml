@@ -58,12 +58,17 @@
 
 
     <dependencies>
-        <!-- PDF Previewer: https://github.com/Dansoftowner/PDFViewerFX/ -->
         <dependency>
-            <groupId>com.github.Dansoftowner</groupId>
-            <artifactId>PDFViewerFX</artifactId>
-            <version>0.8</version>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.30</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
 
         <!-- JavaFX dependencies -->
         <dependency>
