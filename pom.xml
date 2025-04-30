@@ -221,6 +221,7 @@
                         <list>javafx.fxml.FXMLLoader</list>
                         <list>dk.belman.gui.MainController</list>
                         <list>dk.belman.gui.OtherPageController</list>
+                        <list>dk.belman.gui.pages.operator.LandingController</list>
                     </reflectionList>
                     <attachList>
                         <list>display</list>
