@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.TextField?>
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox prefWidth="500.0" styleClass="outer-background" stylesheets="@../../../css/belman.css" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" spacing="30.0" styleClass="background" stylesheets="@../../../css/belman.css" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label text="Upload Image">
+                     <font>
+                        <Font name="System Bold" size="64.0" />
+                     </font>
+                  </Label>
+                  <VBox alignment="CENTER" fillWidth="false" maxWidth="750.0" prefWidth="500.0" spacing="20.0">
+                     <children>
+                        <VBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" text="Order Number" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="33.0" />
+                                 </font>
+                              </Label>
+                              <TextField maxWidth="700.0" prefWidth="500.0" styleClass="text-field-style" />
+                           </children>
+                        </VBox>
+                        <Button maxWidth="700.0" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="take-photo-btn" text="Take Photo">
+                           <font>
+                              <Font size="59.0" />
+                           </font>
+                        </Button>
+                        <Button maxWidth="700.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="500.0" styleClass="generate-qc-report-btn" text="Generate QC Report">
+                           <font>
+                              <Font size="59.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="100.0" right="100.0" />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </center>
+</View>

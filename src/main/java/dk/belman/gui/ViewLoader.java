@@ -19,10 +19,10 @@ public class ViewLoader {
     }
 
     public static View loadMainView() {
-        return loadView("/fxml/hello-view.fxml");
+        return loadView("/fxml/pages/operator/Landing.fxml");
     }
 
     public static View loadOtherPageView() {
-        return loadView("/fxml/other-page.fxml");
+        return loadView("/fxml/pages/other-page.fxml");
     }
 }
