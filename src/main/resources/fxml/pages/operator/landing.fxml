@@ -10,8 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import dk.belman.gui.pages.operator.LandingController?>
-
-<LandingController fx:controller="dk.belman.gui.pages.operator.LandingController" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<LandingController xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.LandingController">
    <center>
       <VBox prefWidth="500.0" styleClass="outer-background" stylesheets="@../../../css/belman.css" BorderPane.alignment="CENTER">
          <children>
@@ -46,7 +45,7 @@
                         </Button>
                      </children>
                      <VBox.margin>
-                        <Insets left="100.0" right="100.0" />
+                        <Insets left="100.0" right="100.0" top="50.0" />
                      </VBox.margin>
                   </VBox>
                </children>
@@ -54,7 +53,7 @@
                   <Insets />
                </opaqueInsets>
                <padding>
-                  <Insets bottom="20.0" top="20.0" />
+                  <Insets bottom="20.0" top="40.0" />
                </padding>
             </VBox>
          </children>

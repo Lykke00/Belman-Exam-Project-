@@ -222,6 +222,7 @@
                         <list>dk.belman.gui.MainController</list>
                         <list>dk.belman.gui.OtherPageController</list>
                         <list>dk.belman.gui.pages.operator.LandingController</list>
+                        <list>com.gluonhq.charm.glisten.control.TextField</list>
                     </reflectionList>
                     <attachList>
                         <list>display</list>
