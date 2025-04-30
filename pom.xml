@@ -58,7 +58,7 @@
 
 
     <dependencies>
-        <!-- PDF Previewer -->
+        <!-- PDF Previewer: https://github.com/Dansoftowner/PDFViewerFX/ -->
         <dependency>
             <groupId>com.github.Dansoftowner</groupId>
             <artifactId>PDFViewerFX</artifactId>

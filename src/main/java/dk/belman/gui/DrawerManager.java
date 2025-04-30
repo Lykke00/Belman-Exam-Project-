@@ -38,8 +38,9 @@ public class DrawerManager {
 
             final NavigationDrawer.ViewItem primaryItem = new NavigationDrawer.ViewItem("Home", MaterialDesignIcon.HOME.graphic(), Routes.HOME);
             final NavigationDrawer.ViewItem secondaryItem = new NavigationDrawer.ViewItem("Other Page", MaterialDesignIcon.DASHBOARD.graphic(), Routes.OTHER_PAGE);
+            final NavigationDrawer.ViewItem qcPreviewer = new NavigationDrawer.ViewItem("QC Preview", MaterialDesignIcon.DASHBOARD.graphic(), Routes.OPERATOR_QC_PREVIEW);
 
-            drawer.getItems().addAll(primaryItem, secondaryItem);
+            drawer.getItems().addAll(primaryItem, secondaryItem, qcPreviewer);
 
             if (Platform.isDesktop()) {
                 final NavigationDrawer.Item quitItem = new NavigationDrawer.Item("Quit", MaterialDesignIcon.EXIT_TO_APP.graphic());

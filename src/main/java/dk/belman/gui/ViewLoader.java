@@ -25,4 +25,8 @@ public class ViewLoader {
     public static View loadOtherPageView() {
         return loadView("/fxml/pages/other-page.fxml");
     }
+
+    public static View loadQCPreviewView() {
+        return loadView("/fxml/pages/operator/qcpreview.fxml");
+    }
 }

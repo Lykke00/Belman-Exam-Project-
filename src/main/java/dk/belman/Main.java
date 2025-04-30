@@ -35,6 +35,7 @@ public class Main extends Application {
         // Setup Views
         appManager.addViewFactory(Routes.HOME, ViewLoader::loadMainView);
         appManager.addViewFactory(Routes.OTHER_PAGE, ViewLoader::loadOtherPageView);
+        appManager.addViewFactory(Routes.OPERATOR_QC_PREVIEW, ViewLoader::loadQCPreviewView);
 
         // Setup Drawer
         DrawerManager.getInstance();
