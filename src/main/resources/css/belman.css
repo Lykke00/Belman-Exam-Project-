@@ -33,3 +33,16 @@
     -fx-border-color: #E5E7EB;
     -fx-font-size: 32;
 }
+
+.text-field-login {
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #E5E7EB;
+    -fx-font-size: 24;
+}
+
+.login-btn {
+    -fx-font-size: 32px;
+    -fx-background-color: -btn-blue-color;
+    -fx-background-radius: 8px;
+}
