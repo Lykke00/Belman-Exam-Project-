@@ -47,6 +47,7 @@ public class MainController extends View implements Initializable {
     public void updateAppBar(AppBar appBar) {
         AppManager appManager = AppManager.getInstance();
 
+        appManager.getAppBar().setTitle(new Label("Main Page"));
         appManager.getAppBar().setNavIcon(MaterialDesignIcon.MENU.button(e -> DrawerManager.getInstance().getDrawer().open()));
     }
 }

@@ -46,3 +46,12 @@
     -fx-background-color: -btn-blue-color;
     -fx-background-radius: 8px;
 }
+
+.secondary-color {
+    -fx-background-color: #7A9897;
+}
+
+.primary-color {
+    -fx-background-color: #00539B;
+}
+

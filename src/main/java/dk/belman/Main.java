@@ -33,8 +33,9 @@ public class Main extends Application {
 
     private void postInit(Scene scene) {
         // Setup Views
-        appManager.addViewFactory(Routes.HOME, ViewLoader::loadMainView);
-        appManager.addViewFactory(Routes.OTHER_PAGE, ViewLoader::loadOtherPageView);
+        appManager.addViewFactory(Routes.LOGIN, ViewLoader::loadLoginView);
+        appManager.addViewFactory(Routes.OPERATOR_LANDING, ViewLoader::loadOperatorLanding);
+        appManager.addViewFactory(Routes.OPERATOR_QC_PREVIEW, ViewLoader::loadQCPreviewView);
 
         // Setup Drawer
         DrawerManager.getInstance();
@@ -65,10 +66,9 @@ public class Main extends Application {
         appManager.start(stage);
         stage.setTitle("Belsign QR Report System");
 
-        AppManager.getInstance().switchView(Routes.OTHER_PAGE);
+        appManager.switchView(Routes.LOGIN);
 
-        appManager.switchView(Routes.HOME);
-        appManager.getAppBar().setNavIcon(MaterialDesignIcon.MENU.button(e -> DrawerManager.getInstance().getDrawer().open()));
+        appManager.getAppBar().setStyle("-fx-background-color: #00539B;");
     }
 
     private static void registerStorage() {

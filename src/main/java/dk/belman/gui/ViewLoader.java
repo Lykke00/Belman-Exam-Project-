@@ -18,11 +18,15 @@ public class ViewLoader {
         }
     }
 
-    public static View loadMainView() {
+    public static View loadLoginView() {
+        return loadView("/fxml/pages/loginApp.fxml");
+    }
+
+    public static View loadOperatorLanding() {
         return loadView("/fxml/pages/operator/landing.fxml");
     }
 
-    public static View loadOtherPageView() {
-        return loadView("/fxml/pages/other-page.fxml");
+    public static View loadQCPreviewView() {
+        return loadView("/fxml/pages/operator/qcpreview.fxml");
     }
 }
