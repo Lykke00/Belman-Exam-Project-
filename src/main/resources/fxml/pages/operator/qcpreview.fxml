@@ -3,30 +3,36 @@
 <?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View fx:controller="dk.belman.gui.pages.operator.QcPreviewController" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import dk.belman.gui.pages.operator.QcPreviewController?>
+<QcPreviewController prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.QcPreviewController">
     <center>
-        <VBox fx:id="vBoxMain" prefHeight="435.0" prefWidth="532.0" styleClass="outer-background" stylesheets="@../../../css/belman.css" BorderPane.alignment="CENTER">
+        <VBox prefHeight="435.0" prefWidth="532.0" styleClass="outer-background" stylesheets="@../../../css/belman.css" BorderPane.alignment="CENTER">
             <children>
-                <VBox alignment="TOP_CENTER" spacing="30.0" styleClass="background" stylesheets="@../../../css/belman.css" VBox.vgrow="ALWAYS">
+                <VBox fx:id="vBoxMain" alignment="TOP_CENTER" spacing="20.0" styleClass="background" stylesheets="@../../../css/belman.css" VBox.vgrow="ALWAYS">
                     <children>
-                        <Label text="Preview">
-                            <font>
-                                <Font name="System Bold" size="64.0" />
-                            </font>
-                        </Label>
-                  <VBox spacing="25.0">
+                  <VBox alignment="CENTER" minHeight="175.0" spacing="15.0">
                      <children>
-                                <Button maxWidth="700.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="557.0" styleClass="generate-qc-report-btn" text="Add comment">
+                                <Button fx:id="btnAddComment" maxWidth="700.0" minHeight="63.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="557.0" styleClass="generate-qc-report-btn" text="Add comment">
                                     <font>
                                         <Font size="59.0" />
                                     </font>
                                 </Button>
-                                <Button alignment="TOP_CENTER" maxWidth="700.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="557.0" styleClass="take-photo-btn" text="Send QC report">
+                        <Button maxWidth="700.0" minHeight="63.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="557.0" styleClass="generate-qc-report-btn" text="Edit pictures">
+                           <font>
+                              <Font size="59.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <Separator prefWidth="200.0" />
+                  <VBox alignment="CENTER" minHeight="100.0" prefHeight="112.0" prefWidth="558.0">
+                     <children>
+                                <Button alignment="TOP_CENTER" maxWidth="700.0" minHeight="100.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="557.0" styleClass="take-photo-btn" text="Send QC report">
                                     <font>
                                         <Font size="59.0" />
                                     </font>
@@ -37,9 +43,6 @@
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
-                    <padding>
-                        <Insets bottom="20.0" top="40.0" />
-                    </padding>
                 </VBox>
             </children>
             <padding>
@@ -47,4 +50,4 @@
             </padding>
         </VBox>
     </center>
-</View>
+</QcPreviewController>

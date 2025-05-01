@@ -36,11 +36,13 @@ public class DrawerManager {
                     new Avatar(21, new Image(Objects.requireNonNull(DrawerManager.class.getResourceAsStream("/icon.png")))));
             drawer.setHeader(header);
 
-            final NavigationDrawer.ViewItem primaryItem = new NavigationDrawer.ViewItem("Home", MaterialDesignIcon.HOME.graphic(), Routes.HOME);
-            final NavigationDrawer.ViewItem secondaryItem = new NavigationDrawer.ViewItem("Other Page", MaterialDesignIcon.DASHBOARD.graphic(), Routes.OTHER_PAGE);
-            final NavigationDrawer.ViewItem qcPreviewer = new NavigationDrawer.ViewItem("QC Preview", MaterialDesignIcon.DASHBOARD.graphic(), Routes.OPERATOR_QC_PREVIEW);
 
-            drawer.getItems().addAll(primaryItem, secondaryItem, qcPreviewer);
+            drawer.getHeader().setStyle("-fx-background-color: #7A9897; -fx-text-fill: white;");
+
+            final NavigationDrawer.ViewItem operatorLanding = new NavigationDrawer.ViewItem("Landing", MaterialDesignIcon.HOME.graphic(), Routes.OPERATOR_LANDING);
+            final NavigationDrawer.ViewItem operatorPreview = new NavigationDrawer.ViewItem("Preview", MaterialDesignIcon.DASHBOARD.graphic(), Routes.OPERATOR_QC_PREVIEW);
+
+            drawer.getItems().addAll(operatorLanding, operatorPreview);
 
             if (Platform.isDesktop()) {
                 final NavigationDrawer.Item quitItem = new NavigationDrawer.Item("Quit", MaterialDesignIcon.EXIT_TO_APP.graphic());

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.LandingController">
+<View xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.LoginController">
     <center>
         <VBox prefWidth="500.0" styleClass="outer-background" stylesheets="@../../css/belman.css" BorderPane.alignment="CENTER">
             <children>
@@ -47,7 +47,7 @@
                                                       <Font size="33.0" />
                                                   </font>
                                               </Label>
-                                              <TextField maxWidth="700.0" prefWidth="500.0" styleClass="text-field-login" />
+                                              <TextField fx:id="txtFieldUsername" maxWidth="700.0" prefWidth="500.0" styleClass="text-field-login" />
                                           </children>
                                       </VBox>
                               <VBox>
@@ -57,7 +57,7 @@
                                           <Font size="33.0" />
                                        </font>
                                     </Label>
-                                    <TextField maxWidth="700.0" prefWidth="500.0" styleClass="text-field-login" />
+                                    <TextField fx:id="txtFieldPassword" maxWidth="700.0" prefWidth="500.0" styleClass="text-field-login" />
                                     <HBox alignment="TOP_RIGHT">
                                        <children>
                                           <Label text="Forgot password? " />
@@ -67,7 +67,7 @@
                               </VBox>
                            </children>
                         </VBox>
-                                <Button maxWidth="700.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="500.0" styleClass="login-btn" text="Login">
+                                <Button fx:id="btnLogin" maxWidth="700.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="500.0" styleClass="login-btn" text="Login">
                                     <font>
                                         <Font size="59.0" />
                                     </font>

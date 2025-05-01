@@ -2,6 +2,7 @@ package dk.belman.gui.utils;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -19,9 +20,13 @@ public class PDFPreviewer extends ScrollPane {
     private PDDocument document;
 
     public PDFPreviewer(File pdfFile) {
-        setFitToWidth(true);
         setPadding(new Insets(10));
         contentBox.setPadding(new Insets(10));
+        contentBox.setAlignment(Pos.CENTER);
+
+        contentBox.setStyle("-fx-background-color: lightgray;");
+        this.setStyle("--fx-background-color: lightgray;");
+
         setContent(contentBox);
 
         try {
@@ -41,12 +46,13 @@ public class PDFPreviewer extends ScrollPane {
 
             ImageView imageView = new ImageView(fxImage);
             imageView.setPreserveRatio(true);
-            imageView.setFitWidth(600);
+            imageView.setFitWidth(625);
 
             Label pageNumber = new Label("Side " + (i + 1));
             pageNumber.setStyle("-fx-font-size: 14px; -fx-text-fill: gray;");
 
             VBox pageBox = new VBox(5, imageView, pageNumber);
+            pageBox.setAlignment(Pos.CENTER);
             pageBox.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: lightgray;");
             contentBox.getChildren().add(pageBox);
         }
