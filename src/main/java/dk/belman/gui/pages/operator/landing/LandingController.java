@@ -77,6 +77,8 @@ public class LandingController extends View implements Initializable {
         btnBegin.setOnAction(e -> {
             model.qcReportIdProperty().set(txtFieldOrderNumber.getText());
 
+            AppManager.getInstance().switchView(AppView.OPERATOR_PICTURE_PROCESS.getRoute());
+            /*
             model.getImages().clear();
             picturePane.getChildren().clear();
 
@@ -86,7 +88,7 @@ public class LandingController extends View implements Initializable {
             } else {
                 takePhotoMobile();
                 showPictures();
-            }
+            }*/
         });
     }
 
