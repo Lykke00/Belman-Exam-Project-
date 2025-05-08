@@ -6,12 +6,14 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 public class PictureProcessModel {
+
+    //hjernen bag det hele og holder styr på ALT
     private final SimpleObjectProperty<CurrentStateProcess> state = new SimpleObjectProperty<>(CurrentStateProcess.NONE);
-    private ObservableMap<CurrentStateProcess, ObservableList<PictureItemModel>> stateList = FXCollections.observableHashMap();
+
+    // vi gemmer alle states i en liste, for at kunne samenligne med vores ovenstående state
+    private final ObservableMap<CurrentStateProcess, PictureItemModel> stateList = FXCollections.observableHashMap();
 
     public PictureProcessModel() {
-        state.set(CurrentStateProcess.NONE);
-
         initializeStateList();
     }
 
@@ -20,7 +22,7 @@ public class PictureProcessModel {
             if (state.equals(CurrentStateProcess.NONE))
                 continue;
 
-            stateList.put(state, FXCollections.observableArrayList());
+            stateList.put(state, new PictureItemModel());
         }
     }
 
@@ -28,7 +30,7 @@ public class PictureProcessModel {
         return state;
     }
 
-    public ObservableMap<CurrentStateProcess, ObservableList<PictureItemModel>> getStateList() {
+    public ObservableMap<CurrentStateProcess, PictureItemModel> getStateList() {
         return stateList;
     }
 }

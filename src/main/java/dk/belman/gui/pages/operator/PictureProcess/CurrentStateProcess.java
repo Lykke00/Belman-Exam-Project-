@@ -7,9 +7,9 @@ public enum CurrentStateProcess {
     RIGHT("Right"),
     LEFT("Left"),
     FRONT("Front"),
-    BACK("Back"),;
+    BACK("Back");
 
-    private String textProperty;
+    private final String textProperty;
 
     CurrentStateProcess(String text) {
         this.textProperty = text;
