@@ -59,15 +59,31 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>2.0.30</version>
         </dependency>
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-swing</artifactId>
-            <version>${javafx.version}</version>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>kernel</artifactId>
+            <version>7.2.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>7.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>io</artifactId>
+            <version>7.2.5</version>
+        </dependency>
+
 
 
         <!-- JavaFX dependencies -->
@@ -88,9 +104,23 @@
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics</artifactId>
+            <artifactId>javafx-web</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.Dansoftowner</groupId>
+            <artifactId>PDFViewerFX</artifactId>
+            <version>0.8</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>ar.com.hjg</groupId>
+            <artifactId>pngj</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
 
         <!-- Gluon Mobile dependencies -->
         <dependency>
@@ -121,6 +151,16 @@
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>util</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>pictures</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>barcode-scan</artifactId>
             <version>${attach.version}</version>
         </dependency>
 
@@ -178,6 +218,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -193,10 +234,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                </configuration>
             </plugin>
 
             <!-- JavaFX Maven plugin for Desktop -->
@@ -204,24 +241,9 @@
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
-                <executions>
-                    <execution>
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>${main.class}</mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
-                            <noManPages>true</noManPages>
-                            <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
-                            <options>
-                                <option>-Djavafx.platform=desktop</option>
-                                <option>-Duser.home=${project.build.directory}/userHome</option>
-                            </options>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                </configuration>
             </plugin>
 
             <!-- Gluon plugin for mobile development -->
@@ -230,14 +252,23 @@
                 <artifactId>gluonfx-maven-plugin</artifactId>
                 <version>1.0.26</version>
                 <configuration>
-                    <enableSWRendering>false</enableSWRendering>
+                    <target>${gluonfx.target}</target>
                     <mainClass>${main.class}</mainClass>
                     <attachList>
                         <list>display</list>
                         <list>lifecycle</list>
                         <list>statusbar</list>
                         <list>storage</list>
+                        <list>pictures</list>
+                        <list>barcode-scan</list>
                     </attachList>
+                    <resourcesList>
+                        <list>src/main/resources</list>
+                    </resourcesList>
+                    <bundlesList>
+                        <list>${main.class}</list>
+                    </bundlesList>
+
                 </configuration>
             </plugin>
         </plugins>
