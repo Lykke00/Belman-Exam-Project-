@@ -5,8 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
-import java.util.List;
-
 public class PictureProcessModel {
     private final SimpleObjectProperty<CurrentStateProcess> state = new SimpleObjectProperty<>(CurrentStateProcess.NONE);
     private ObservableMap<CurrentStateProcess, ObservableList<PictureItemModel>> stateList = FXCollections.observableHashMap();
