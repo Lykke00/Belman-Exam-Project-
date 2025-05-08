@@ -46,12 +46,6 @@
                                     <Font size="59.0" />
                                  </font>
                               </Button>
-                              <Separator prefWidth="200.0" />
-                              <Button maxWidth="700.0" minHeight="75.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="500.0" styleClass="generate-qc-report-btn" text="Generate QC Report">
-                                 <font>
-                                    <Font size="59.0" />
-                                 </font>
-                              </Button>
                            </children>
                         </VBox>
                      </children>
