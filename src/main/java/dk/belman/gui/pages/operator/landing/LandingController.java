@@ -146,13 +146,13 @@ public class LandingController extends View implements Initializable {
         picturePane.setPrefTileWidth(PICTURE_HEIGHT);
         picturePane.setPrefTileHeight(PICTURE_WIDTH);
 
-        VBox buttonBox = new VBox(10);
-        buttonBox.setMinHeight(300);
+        HBox buttonBox = new HBox(10);
+        buttonBox.setMinWidth(0);
+        buttonBox.setMinHeight(0);
 
         buttonBox.setPadding(new Insets(10));
         buttonBox.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 8px;");
         buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setPrefWidth(Double.MAX_VALUE);
 
         Button btnPhoto = new Button("Take Photo");
         Button btnCreate = new Button("Create");
@@ -171,13 +171,24 @@ public class LandingController extends View implements Initializable {
         btnPhoto.getStyleClass().add("generate-qc-report-btn");
         btnCreate.getStyleClass().add("take-photo-btn");
 
-        btnPhoto.setPrefHeight(150);
-        btnCreate.setPrefHeight(100);
+        btnPhoto.setMinWidth(0);
+        btnCreate.setMinWidth(0);
 
-        btnPhoto.setPrefWidth(Double.MAX_VALUE);
-        btnCreate.setPrefWidth(Double.MAX_VALUE);
+        btnPhoto.setPrefWidth(400);
+        btnCreate.setPrefWidth(400);
 
-        buttonBox.getChildren().addAll(btnPhoto, new Separator(), btnCreate);
+        btnPhoto.setPrefHeight(200);
+        btnCreate.setPrefHeight(200);
+
+
+        btnPhoto.setMinHeight(0);
+        btnCreate.setMinHeight(0);
+
+
+   //     btnPhoto.setPrefWidth(Double.MAX_VALUE);
+   //     btnCreate.setPrefWidth(Double.MAX_VALUE);
+
+        buttonBox.getChildren().addAll(btnPhoto, btnCreate);
 
         Label label = new Label("title");
         label.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
