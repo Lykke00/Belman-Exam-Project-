@@ -7,6 +7,7 @@ import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.NavigationDrawer;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import dk.belman.gui.AppView;
 import dk.belman.gui.Routes;
 import javafx.scene.image.Image;
 
@@ -40,8 +41,8 @@ public class DrawerManager {
 
             drawer.getHeader().setStyle("-fx-background-color: #7A9897; -fx-text-fill: white;");
 
-            final NavigationDrawer.ViewItem operatorLanding = new NavigationDrawer.ViewItem("Landing", MaterialDesignIcon.HOME.graphic(), Routes.OPERATOR_LANDING);
-            final NavigationDrawer.ViewItem operatorPreview = new NavigationDrawer.ViewItem("Preview", MaterialDesignIcon.DASHBOARD.graphic(), Routes.OPERATOR_QC_PREVIEW);
+            final NavigationDrawer.ViewItem operatorLanding = new NavigationDrawer.ViewItem("Landing", MaterialDesignIcon.HOME.graphic(), AppView.OPERATOR_LANDING.getRoute());
+            final NavigationDrawer.ViewItem operatorPreview = new NavigationDrawer.ViewItem("Preview", MaterialDesignIcon.DASHBOARD.graphic(), AppView.OPERATOR_PICTURE_PROCESS.getRoute());
 
             drawer.getItems().addAll(operatorLanding, operatorPreview);
 

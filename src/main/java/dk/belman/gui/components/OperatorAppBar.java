@@ -3,6 +3,7 @@ package dk.belman.gui.components;
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import dk.belman.gui.AppView;
 import dk.belman.gui.Routes;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.utils.LabelStyle;
@@ -24,7 +25,7 @@ public class OperatorAppBar {
         Button logOut = MaterialDesignIcon.EXIT_TO_APP.button(e -> {
             InteractorManager.getInstance().getQCReportInteractor().getQCReportModel().reset();
             InteractorManager.getInstance().getAuthInteractor().getAuthModel().logOut(true);
-            AppManager.getInstance().switchView(Routes.LOGIN);
+            AppManager.getInstance().switchView(AppView.LOGIN.getRoute());
         });
 
         logOut.getStyleClass().add("logout-button");

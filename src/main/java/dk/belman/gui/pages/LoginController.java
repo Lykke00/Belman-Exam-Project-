@@ -5,6 +5,7 @@ import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.TextField;
 import com.gluonhq.charm.glisten.mvc.View;
+import dk.belman.gui.AppView;
 import dk.belman.gui.Routes;
 import dk.belman.gui.common.AuthModel;
 import dk.belman.gui.interactors.InteractorManager;
@@ -82,7 +83,7 @@ public class LoginController extends View implements Initializable {
 
     private void onLogin() {
         btnLogin.setOnAction(event -> {
-            AppManager.getInstance().switchView(Routes.OPERATOR_LANDING);
+            AppManager.getInstance().switchView(AppView.OPERATOR_LANDING.getRoute());
         });
     }
 

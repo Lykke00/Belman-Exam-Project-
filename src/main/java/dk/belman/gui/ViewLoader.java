@@ -8,25 +8,19 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ViewLoader {
-    public static View loadView(String fxmlPath) {
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(ViewLoader.class.getResource(fxmlPath)));
+    public static View load(AppView appView) {
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(ViewLoader.class.getResource(appView.getFxmlPath())));
+
         try {
-            return loader.load();
+            View view = loader.load();
+
+            if (appView.getTransitionFactory() != null)
+                view.setShowTransitionFactory(v -> appView.getTransitionFactory().create(v));
+
+            return view;
         } catch (IOException e) {
             DialogHandler.showExceptionError("Error loading view", "Loading FXML view failed", e);
-            return new View();
+            return new View(); // fallback
         }
-    }
-
-    public static View loadLoginView() {
-        return loadView("/fxml/pages/loginApp.fxml");
-    }
-
-    public static View loadOperatorLanding() {
-        return loadView("/fxml/pages/operator/landing.fxml");
-    }
-
-    public static View loadQCPreviewView() {
-        return loadView("/fxml/pages/operator/qcpreview.fxml");
     }
 }

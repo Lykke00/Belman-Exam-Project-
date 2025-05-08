@@ -5,6 +5,7 @@ import com.gluonhq.attach.util.Platform;
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.*;
 import com.gluonhq.charm.glisten.mvc.View;
+import dk.belman.gui.AppView;
 import dk.belman.gui.Routes;
 import dk.belman.gui.common.QCReportModel;
 import dk.belman.gui.components.OperatorAppBar;
@@ -204,6 +205,6 @@ public class LandingController extends View implements Initializable {
         model.commentProperty().set("");
 
         InteractorManager.getInstance().getAuthInteractor().getAuthModel().logOut(true);
-        AppManager.getInstance().switchView(Routes.LOGIN);
+        AppManager.getInstance().switchView(AppView.LOGIN.getRoute());
     }
 }

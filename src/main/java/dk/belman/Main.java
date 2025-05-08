@@ -6,6 +6,7 @@ import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
 import dk.belman.gui.*;
+import dk.belman.gui.components.DrawerManager;
 import dk.belman.gui.utils.LabelStyle;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -36,9 +37,7 @@ public class Main extends Application {
 
     private void postInit(Scene scene) {
         // Setup Views
-        appManager.addViewFactory(Routes.LOGIN, ViewLoader::loadLoginView);
-        appManager.addViewFactory(Routes.OPERATOR_LANDING, ViewLoader::loadOperatorLanding);
-        appManager.addViewFactory(Routes.OPERATOR_QC_PREVIEW, ViewLoader::loadQCPreviewView);
+        Routes.setupViews(appManager);
 
         // Setup Drawer
         DrawerManager.getInstance();
@@ -69,7 +68,7 @@ public class Main extends Application {
         appManager.start(stage);
         stage.setTitle("Belsign QR Report System");
 
-        appManager.switchView(Routes.LOGIN);
+        appManager.switchView(AppView.LOGIN.getRoute());
 
         appManager.getAppBar().setTitle(new Label("Belsign"));
 

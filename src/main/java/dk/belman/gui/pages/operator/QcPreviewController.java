@@ -6,7 +6,7 @@ import com.gluonhq.charm.glisten.control.Dialog;
 import com.gluonhq.charm.glisten.control.TextArea;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
-import dk.belman.gui.DrawerManager;
+import dk.belman.gui.components.DrawerManager;
 import dk.belman.gui.utils.PDFPreviewer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
