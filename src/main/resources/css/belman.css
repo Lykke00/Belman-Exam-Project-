@@ -2,6 +2,23 @@
     -btn-blue-color: #00539B
 }
 
+/* Default styles override */
+/* Remove textfield bottom line */
+.text-field {
+    -fx-border-width:0px !important;
+    -fx-alignment: center;
+    -fx-effect: null;
+}
+
+.text-field:hover,
+.text-field:focused,
+.text-field:selected {
+    -fx-border-width:0px !important;
+    -fx-alignment: center;
+    -fx-effect: null;
+}
+/* Normal styles below */
+
 .background {
     -fx-background-color: #F4F6F8;
     -fx-border-width: 1px;
@@ -27,6 +44,10 @@
     -fx-background-radius: 8px;
 }
 
+.generate-qc-report-btn:hover {
+    -fx-background-color: #8fb2b0;
+}
+
 .text-field-style {
     -fx-border-width: 1px;
     -fx-border-radius: 8px;
@@ -37,8 +58,13 @@
 .text-field-login {
     -fx-border-width: 1px;
     -fx-border-radius: 8px;
-    -fx-border-color: #E5E7EB;
+    -fx-background-radius: 8px;
+    -fx-border-color: #d3d5d8;
     -fx-font-size: 24;
+}
+
+.text-field-login:focused {
+    -fx-border-color: -btn-blue-color;
 }
 
 .login-btn {
@@ -47,11 +73,35 @@
     -fx-background-radius: 8px;
 }
 
+.hover-label:hover {
+    -fx-cursor: hand;
+    -fx-underline: true;
+}
+
 .secondary-color {
     -fx-background-color: #7A9897;
 }
 
 .primary-color {
-    -fx-background-color: #00539B;
+    -fx-background-color: -btn-blue-color;
 }
 
+.text-muted {
+    -fx-text-fill: #616161;
+}
+
+.logout-button:hover {
+    -fx-background-color: -primary-swatch-600 !important;
+}
+
+.text-area-comment {
+    -fx-font-size: 24px !important;
+}
+
+.comment-text-area {
+    text-area-background: blue;
+}
+
+.comment-text-area .content {
+    -fx-background-color: transparent;
+}
