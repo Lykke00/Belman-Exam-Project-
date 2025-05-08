@@ -5,10 +5,8 @@ import com.gluonhq.attach.util.Platform;
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.*;
 import com.gluonhq.charm.glisten.mvc.View;
-import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import dk.belman.gui.Routes;
 import dk.belman.gui.common.QCReportModel;
-import dk.belman.gui.components.DrawerManager;
 import dk.belman.gui.components.OperatorAppBar;
 import dk.belman.gui.components.SelectableImageView;
 import dk.belman.gui.interactors.InteractorManager;
@@ -23,13 +21,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -155,7 +150,7 @@ public class LandingController extends View implements Initializable {
         buttonBox.setAlignment(Pos.CENTER);
 
         Button btnPhoto = new Button("Take Photo");
-        Button btnCreate = new Button("Create");
+        Button btnCreate = new Button("Send QC Report");
 
         btnPhoto.setOnAction(e -> {
             if (Platform.isDesktop())
@@ -164,7 +159,7 @@ public class LandingController extends View implements Initializable {
                 takePhotoMobile();
         });
 
-        btnCreate.setOnAction(this::goToPreview);
+        btnCreate.setOnAction(this::sendQCReport);
 
         buttonBox.getStylesheets().add(getClass().getResource("/css/belman.css").toExternalForm());
 
@@ -180,13 +175,8 @@ public class LandingController extends View implements Initializable {
         btnPhoto.setPrefHeight(200);
         btnCreate.setPrefHeight(200);
 
-
         btnPhoto.setMinHeight(0);
         btnCreate.setMinHeight(0);
-
-
-   //     btnPhoto.setPrefWidth(Double.MAX_VALUE);
-   //     btnCreate.setPrefWidth(Double.MAX_VALUE);
 
         buttonBox.getChildren().addAll(btnPhoto, btnCreate);
 
@@ -208,21 +198,12 @@ public class LandingController extends View implements Initializable {
         dialog.showAndWait();
     }
 
-    private void goToPreview(ActionEvent actionEvent) {
+
+    private void sendQCReport(ActionEvent actionEvent) {
         model.getImages().clear();
+        model.commentProperty().set("");
 
-        for (Node node : picturePane.getChildren()) {
-            if (node instanceof SelectableImageView) {
-                SelectableImageView image = (SelectableImageView) node;
-
-                if (!image.isSelected())
-                    continue;
-
-                model.getImages().add(image.getImage());
-            }
-        }
-
-        model.setPreviewProperty(true);
-        AppManager.getInstance().switchView(Routes.OPERATOR_QC_PREVIEW);
+        InteractorManager.getInstance().getAuthInteractor().getAuthModel().logOut(true);
+        AppManager.getInstance().switchView(Routes.LOGIN);
     }
 }
