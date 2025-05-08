@@ -1,16 +1,19 @@
 package dk.belman;
 
+import com.gluonhq.attach.util.Platform;
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
 import dk.belman.gui.*;
+import dk.belman.gui.utils.LabelStyle;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -27,7 +30,7 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
-    //  public static final File ROOT_DIR;
+    public static File ROOT_DIR;
     private final AppManager appManager = AppManager.initialize(this::postInit);
 
 
@@ -42,16 +45,16 @@ public class Main extends Application {
 
         Swatch.BLUE.assignTo(scene);
         ((Stage) scene.getWindow()).getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/icon.png"))));
-
     }
 
     static {
-        registerStorage();
+        if (Platform.isDesktop()) {
+            registerStorage();
 
-        /*
-        ROOT_DIR = Services.get(StorageService.class)
-                .flatMap(StorageService::getPrivateStorage)
-                .orElseThrow(() -> new RuntimeException("Error retrieving private storage"));*/
+            ROOT_DIR = Services.get(StorageService.class)
+                    .flatMap(StorageService::getPrivateStorage)
+                    .orElseThrow(() -> new RuntimeException("Error retrieving private storage"));
+        }
     }
 
     private Stage primaryStage;
@@ -68,13 +71,24 @@ public class Main extends Application {
 
         appManager.switchView(Routes.LOGIN);
 
+        appManager.getAppBar().setTitle(new Label("Belsign"));
+
+        Image logo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/logo_white.png")));
+        Label title = LabelStyle.getAppBarTitle("Belsign");
+
+        ImageView logoView = new ImageView(logo);
+        logoView.setFitWidth(25);
+        logoView.setFitHeight(25);
+        logoView.setPreserveRatio(true);
+
+        HBox logoBox = new HBox(10, logoView, title);
+        logoBox.setAlignment(Pos.CENTER_LEFT);
+
+        appManager.getAppBar().setTitle(logoBox);
         appManager.getAppBar().setStyle("-fx-background-color: #00539B;");
     }
 
     private static void registerStorage() {
-        /*
-        PlatformUtils.registerStorage();
-
         StorageService storageService = new StorageService() {
             @Override
             public Optional<File> getPrivateStorage() {
@@ -109,7 +123,7 @@ public class Main extends Application {
             }
         };
 
-        Services.registerServiceFactory(storageServiceFactory);*/
+        Services.registerServiceFactory(storageServiceFactory);
     }
 
     public static void main(String[] args) {

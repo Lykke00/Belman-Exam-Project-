@@ -41,7 +41,7 @@
                         </VBox>
                         <VBox alignment="CENTER" minHeight="250.0" spacing="20.0">
                            <children>
-                              <Button fx:id="btnTakePhoto" maxWidth="700.0" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="take-photo-btn" text="Take Photo">
+                              <Button fx:id="btnBegin" maxWidth="700.0" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="begin-operator-btn" text="Begin">
                                  <font>
                                     <Font size="59.0" />
                                  </font>

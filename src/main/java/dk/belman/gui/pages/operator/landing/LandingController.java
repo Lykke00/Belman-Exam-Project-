@@ -43,7 +43,7 @@ public class LandingController extends View implements Initializable {
     private VBox vBoxMain;
 
     @FXML
-    private Button btnTakePhoto;
+    private Button btnBegin;
 
     private final TilePane picturePane = new TilePane();
 
@@ -69,11 +69,11 @@ public class LandingController extends View implements Initializable {
                 .and(txtFieldOrderNumber.textProperty().length().greaterThan(0));
         // .and(txtFieldOrderNumber.textProperty().length().lessThan(20));
 
-        btnTakePhoto.disableProperty().bind(isValid.not());
+        btnBegin.disableProperty().bind(isValid.not());
     }
 
     private void setupTakePhotoButton() {
-        btnTakePhoto.setOnAction(e -> {
+        btnBegin.setOnAction(e -> {
             model.qcReportIdProperty().set(txtFieldOrderNumber.getText());
 
             model.getImages().clear();
@@ -164,7 +164,7 @@ public class LandingController extends View implements Initializable {
         buttonBox.getStylesheets().add(getClass().getResource("/css/belman.css").toExternalForm());
 
         btnPhoto.getStyleClass().add("generate-qc-report-btn");
-        btnCreate.getStyleClass().add("take-photo-btn");
+        btnCreate.getStyleClass().add("begin-operator-btn");
 
         btnPhoto.setMinWidth(0);
         btnCreate.setMinWidth(0);
