@@ -1,0 +1,61 @@
+package dk.belman.gui.pages.operator.PictureProcess;
+
+import com.gluonhq.charm.glisten.mvc.View;
+import dk.belman.gui.components.OperatorPicture;
+import dk.belman.gui.components.SelectableImageView;
+import dk.belman.gui.interactors.InteractorManager;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class PictureFinalController extends View implements Initializable {
+    private final PictureProcessModel model = InteractorManager.getInstance().getPictureProcessInteractor().getModel();
+
+
+    @FXML
+    private ScrollPane scrollPanePictures;
+
+    @FXML
+    private HBox hBoxPicturesContainer;
+
+    @FXML
+    private Button btnSend;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setupBindings();
+
+        scrollPanePictures.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        hBoxPicturesContainer.getChildren().clear();
+        updatePictures();
+        updatePictures();
+
+    }
+
+    private void setupBindings() {
+        model.stateProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("State changed from " + oldValue + " to " + newValue);
+            if (newValue == CurrentStateProcess.FINISH) {
+                hBoxPicturesContainer.getChildren().clear();
+                updatePictures();
+            }
+        });
+    }
+
+    private void updatePictures() {
+        for (CurrentStateProcess state : model.getStateList().keySet()) {
+            PictureItemModel page = model.getStateList().get(state);
+            Image image = page.pictureProperty().get();
+
+            OperatorPicture operatorPicture = new OperatorPicture(image, state.textProperty(), 125, 125);
+            hBoxPicturesContainer.getChildren().add(operatorPicture);
+        }
+    }
+}

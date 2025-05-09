@@ -19,22 +19,17 @@
                         <Font name="System Bold" size="64.0" />
                      </font>
                   </Label>
-                  <VBox alignment="CENTER" fillWidth="false" maxWidth="750.0" prefWidth="500.0" spacing="20.0">
+                  <VBox alignment="CENTER" minHeight="250.0">
                      <children>
-                        <VBox fx:id="vBoxPicture" VBox.vgrow="ALWAYS" />
-                        <VBox alignment="CENTER" minHeight="250.0" spacing="20.0">
-                           <children>
-                              <Button fx:id="btnTakePicture" maxWidth="700.0" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="begin-operator-btn" text="Take picture">
-                                 <font>
-                                    <Font size="59.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </VBox>
+                        <Button fx:id="btnTakePicture" maxWidth="700.0" minWidth="-Infinity" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="begin-operator-btn" text="Take picture">
+                           <font>
+                              <Font size="59.0" />
+                           </font>
+                        </Button>
                      </children>
-                     <VBox.margin>
-                        <Insets left="100.0" right="100.0" top="50.0" />
-                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="100.0" />
+                     </padding>
                   </VBox>
                </children>
                <opaqueInsets>

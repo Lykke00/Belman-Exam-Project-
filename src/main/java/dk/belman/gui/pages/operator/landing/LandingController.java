@@ -11,6 +11,8 @@ import dk.belman.gui.common.QCReportModel;
 import dk.belman.gui.components.OperatorAppBar;
 import dk.belman.gui.components.SelectableImageView;
 import dk.belman.gui.interactors.InteractorManager;
+import dk.belman.gui.pages.operator.PictureProcess.CurrentStateProcess;
+import dk.belman.gui.pages.operator.PictureProcess.PictureProcessModel;
 import dk.belman.gui.utils.LabelStyle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -30,7 +32,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LandingController extends View implements Initializable {
-    private final QCReportModel model = InteractorManager.getInstance().getQCReportInteractor().getQCReportModel();
+    private final PictureProcessModel model = InteractorManager.getInstance().getPictureProcessInteractor().getModel();
 
     private PicturesService picturesService;
 
@@ -76,6 +78,7 @@ public class LandingController extends View implements Initializable {
     private void setupTakePhotoButton() {
         btnBegin.setOnAction(e -> {
             model.qcReportIdProperty().set(txtFieldOrderNumber.getText());
+            model.stateProperty().set(CurrentStateProcess.nextState(model.stateProperty().get()));
 
             AppManager.getInstance().switchView(AppView.OPERATOR_PICTURE_PROCESS.getRoute());
             /*
@@ -203,9 +206,6 @@ public class LandingController extends View implements Initializable {
 
 
     private void sendQCReport(ActionEvent actionEvent) {
-        model.getImages().clear();
-        model.commentProperty().set("");
-
         InteractorManager.getInstance().getAuthInteractor().getAuthModel().logOut(true);
         AppManager.getInstance().switchView(AppView.LOGIN.getRoute());
     }

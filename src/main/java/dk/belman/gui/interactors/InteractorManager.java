@@ -5,10 +5,12 @@ public class InteractorManager {
 
     private final QCReportInteractor qcReportInteractor;
     private final AuthInteractor authInteractor;
+    private final PictureProcessInteractor pictureProcessInteractor;
 
     private InteractorManager() {
         this.qcReportInteractor = new QCReportInteractor();
         this.authInteractor = new AuthInteractor(qcReportInteractor.getQCReportModel());
+        this.pictureProcessInteractor = new PictureProcessInteractor();
     }
 
     public static InteractorManager getInstance() {
@@ -24,6 +26,10 @@ public class InteractorManager {
 
     public AuthInteractor getAuthInteractor() {
         return authInteractor;
+    }
+
+    public PictureProcessInteractor getPictureProcessInteractor() {
+        return pictureProcessInteractor;
     }
 }
 

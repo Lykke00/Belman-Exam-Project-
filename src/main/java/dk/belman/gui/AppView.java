@@ -8,7 +8,8 @@ import com.gluonhq.charm.glisten.mvc.View;
 public enum AppView {
     LOGIN("login", "/fxml/pages/loginApp.fxml", FadeInDownBigTransition::new),
     OPERATOR_LANDING("operator_landing", "/fxml/pages/operator/landing.fxml"),
-    OPERATOR_PICTURE_PROCESS("operator_pictureprocess", "/fxml/pages/operator/pictureprocess.fxml", FadeInRightBigTransition::new);
+    OPERATOR_PICTURE_PROCESS("operator_pictureprocess", "/fxml/pages/operator/pictureprocess.fxml", FadeInRightBigTransition::new),
+    OPERATOR_PICTURE_FINAL("operator_pictureprocessfinal", "/fxml/pages/operator/picturefinal.fxml", FadeInRightBigTransition::new);
 
     private final String pageRoute;
     private final String fxmlPath;

@@ -82,8 +82,22 @@
     -fx-background-color: #7A9897;
 }
 
+.secondary-color:focused,
+.secondary-color:hover {
+    -fx-background-color: #8fb2b0;
+}
+
 .primary-color {
     -fx-background-color: -btn-blue-color;
+}
+
+.warning-color {
+    -fx-background-color: #ff4d4d;
+}
+
+.warning-color:focused,
+.warning-color:hover {
+    -fx-background-color: #ff1a1a;
 }
 
 .text-muted {
@@ -104,4 +118,18 @@
 
 .comment-text-area .content {
     -fx-background-color: transparent;
+}
+
+.picture-process-scrollpane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.picture-process-preview-container {
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #d3d5d8;
+    -fx-background-color: white;
 }

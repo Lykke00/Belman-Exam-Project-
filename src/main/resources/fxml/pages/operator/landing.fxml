@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.control.TextField?>
+<?import com.gluonhq.charm.glisten.mvc.View?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -10,19 +11,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import dk.belman.gui.pages.operator.landing.LandingController?>
-<LandingController xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.landing.LandingController">
+<View xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.landing.LandingController">
    <center>
       <VBox prefWidth="500.0" styleClass="outer-background" stylesheets="@../../../css/belman.css" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="TOP_CENTER" spacing="30.0" styleClass="background" stylesheets="@../../../css/belman.css" VBox.vgrow="ALWAYS">
                <children>
-                  <Label text="Upload Image">
+                  <Label text="Start uploading">
                      <font>
                         <Font name="System Bold" size="64.0" />
                      </font>
                   </Label>
-                  <VBox fx:id="vBoxMain" alignment="CENTER" fillWidth="false" maxWidth="750.0" prefWidth="500.0" spacing="20.0">
+                  <VBox fx:id="vBoxMain" alignment="CENTER" maxWidth="750.0" prefWidth="500.0" spacing="30.0">
                      <children>
                         <VBox VBox.vgrow="ALWAYS">
                            <children>
@@ -31,7 +31,7 @@
                                     <Font size="33.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtFieldOrderNumber" maxWidth="700.0" prefWidth="500.0">
+                              <TextField fx:id="txtFieldOrderNumber" maxWidth="1.7976931348623157E308">
                                  <styleClass>
                                     <String fx:value="text-field-style" />
                                     <String fx:value="text-muted" />
@@ -39,15 +39,16 @@
                               </TextField>
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER" minHeight="250.0" spacing="20.0">
-                           <children>
-                              <Button fx:id="btnBegin" maxWidth="700.0" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="begin-operator-btn" text="Begin">
-                                 <font>
-                                    <Font size="59.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </VBox>
+                        <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Separator>
+                        <Button fx:id="btnBegin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="begin-operator-btn" text="Begin">
+                           <font>
+                              <Font size="59.0" />
+                           </font>
+                        </Button>
                      </children>
                      <VBox.margin>
                         <Insets left="100.0" right="100.0" top="50.0" />
@@ -67,4 +68,4 @@
          </padding>
       </VBox>
    </center>
-</LandingController>
+</View>

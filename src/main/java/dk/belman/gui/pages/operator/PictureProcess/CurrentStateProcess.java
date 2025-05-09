@@ -3,11 +3,12 @@ package dk.belman.gui.pages.operator.PictureProcess;
 import javafx.beans.property.SimpleStringProperty;
 
 public enum CurrentStateProcess {
-    NONE("None"),
+    BEGIN("Begin"),
     RIGHT("Right"),
     LEFT("Left"),
     FRONT("Front"),
-    BACK("Back");
+    BACK("Back"),
+    FINISH("Finish");
 
     private final String textProperty;
 
@@ -22,11 +23,11 @@ public enum CurrentStateProcess {
     public static CurrentStateProcess nextState(CurrentStateProcess current) {
         int nextIndex = current.ordinal() + 1;
         CurrentStateProcess[] values = CurrentStateProcess.values();
-        return nextIndex < values.length ? values[nextIndex] : NONE;
+        return nextIndex < values.length ? values[nextIndex] : BEGIN;
     }
 
     public static CurrentStateProcess previousState(CurrentStateProcess current) {
         int prevIndex = current.ordinal() - 1;
-        return prevIndex >= 0 ? CurrentStateProcess.values()[prevIndex] : NONE;
+        return prevIndex >= 0 ? CurrentStateProcess.values()[prevIndex] : BEGIN;
     }
 }
