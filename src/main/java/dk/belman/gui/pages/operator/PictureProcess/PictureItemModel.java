@@ -1,5 +1,6 @@
 package dk.belman.gui.pages.operator.PictureProcess;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;

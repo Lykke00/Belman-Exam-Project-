@@ -9,6 +9,8 @@ public class OperatorReport {
     private LocalDateTime date;
     private List<ImageEntity> photos;
 
+    public OperatorReport() {}
+
     public OperatorReport(String orderNumber, User operator, LocalDateTime date, List<ImageEntity> photos) {
         this.orderNumber = orderNumber;
         this.operator = operator;

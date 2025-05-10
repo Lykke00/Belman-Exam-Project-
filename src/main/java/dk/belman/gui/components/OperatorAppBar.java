@@ -23,7 +23,6 @@ public class OperatorAppBar {
         id.setStyle("-fx-font-size: 16px; -fx-text-fill: #ededed;");
 
         Button logOut = MaterialDesignIcon.EXIT_TO_APP.button(e -> {
-            InteractorManager.getInstance().getQCReportInteractor().getQCReportModel().reset();
             InteractorManager.getInstance().getAuthInteractor().getAuthModel().logOut(true);
             AppManager.getInstance().switchView(AppView.LOGIN.getRoute());
         });

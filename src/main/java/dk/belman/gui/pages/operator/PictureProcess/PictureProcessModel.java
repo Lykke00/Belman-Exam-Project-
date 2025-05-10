@@ -1,9 +1,20 @@
 package dk.belman.gui.pages.operator.PictureProcess;
 
+import dk.belman.be.ImageEntity;
+import dk.belman.be.OperatorReport;
+import dk.belman.be.User;
+import dk.belman.gui.common.QCReportModel;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import javafx.scene.image.Image;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static dk.belman.gui.utils.ImageUtilities.convertImageToPngBytes;
 
 public class PictureProcessModel {
     private final SimpleStringProperty qcReportId = new SimpleStringProperty();
@@ -13,6 +24,8 @@ public class PictureProcessModel {
 
     // vi gemmer alle states i en liste, for at kunne samenligne med vores ovenstående state
     private final ObservableMap<CurrentStateProcess, PictureItemModel> stateList = FXCollections.observableHashMap();
+
+    private final SimpleBooleanProperty databaseLoading = new SimpleBooleanProperty(false);
 
     public PictureProcessModel() {
         initializeStateList();
@@ -38,5 +51,31 @@ public class PictureProcessModel {
 
     public ObservableMap<CurrentStateProcess, PictureItemModel> getStateList() {
         return stateList;
+    }
+
+    public SimpleBooleanProperty databaseLoadingProperty() {
+        return databaseLoading;
+    }
+
+    public static OperatorReport toEntity(PictureProcessModel pictureProcessModel) {
+        String qcReportId = pictureProcessModel.qcReportIdProperty().get();
+        List<ImageEntity> imageEntities = new ArrayList<>();
+
+        for (CurrentStateProcess state : pictureProcessModel.getStateList().keySet()) {
+            PictureItemModel page = pictureProcessModel.getStateList().get(state);
+
+            String takenFromAngle = state.textProperty();
+            Image image = page.pictureProperty().get();
+            String comment = page.commentProperty().get();
+
+            if (image != null) {
+                byte[] imageBytes = convertImageToPngBytes(image);
+                ImageEntity imageEntity = new ImageEntity(imageBytes, comment, takenFromAngle);
+                imageEntities.add(imageEntity);
+            }
+        }
+
+        User user = new User();
+        return new OperatorReport(qcReportId, user, imageEntities);
     }
 }

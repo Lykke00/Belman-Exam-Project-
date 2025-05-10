@@ -1,11 +1,15 @@
 package dk.belman.gui.pages.operator.PictureProcess;
 
+import com.gluonhq.charm.glisten.application.AppManager;
+import com.gluonhq.charm.glisten.control.Snackbar;
 import com.gluonhq.charm.glisten.mvc.View;
+import dk.belman.gui.AppView;
 import dk.belman.gui.components.GluonSnackbar;
 import dk.belman.gui.components.OperatorPicture;
 import dk.belman.gui.components.SelectableImageView;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.utils.DialogHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -18,7 +22,6 @@ import java.util.ResourceBundle;
 
 public class PictureFinalController extends View implements Initializable {
     private final PictureProcessModel model = InteractorManager.getInstance().getPictureProcessInteractor().getModel();
-
 
     @FXML
     private ScrollPane scrollPanePictures;
@@ -35,6 +38,8 @@ public class PictureFinalController extends View implements Initializable {
 
         scrollPanePictures.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         hBoxPicturesContainer.getChildren().clear();
+
+        btnSend.setOnAction(this::sendReport);
 
         updatePictures();
     }
@@ -59,13 +64,18 @@ public class PictureFinalController extends View implements Initializable {
         }
     }
 
-    private void sendReport() {
+    private void sendReport(ActionEvent actionEvent) {
         String reportId = model.qcReportIdProperty().get();
         if (reportId == null) {
             GluonSnackbar.showSnackbar("No report ID found");
             return;
         }
 
-
+        InteractorManager.getInstance().getQCReportInteractor().sendReport(success -> {
+            if (success) {
+                GluonSnackbar.showSnackbar("Report sent successfully");
+                AppManager.getInstance().switchView(AppView.LOGIN.getRoute());
+            }
+        });
     }
 }

@@ -1,39 +1,44 @@
 package dk.belman.gui.interactors;
 
+import dk.belman.be.OperatorReport;
+import dk.belman.bll.ReportManager;
 import dk.belman.gui.common.QCReportModel;
+import dk.belman.gui.pages.operator.PictureProcess.PictureItemModel;
+import dk.belman.gui.pages.operator.PictureProcess.PictureProcessModel;
 import dk.belman.gui.utils.BackgroundTaskExecutor;
+import dk.belman.gui.utils.DialogHandler;
+
+import java.util.function.Consumer;
 
 public class QCReportInteractor {
-    private final QCReportModel qcReportModel;
+    private final PictureProcessModel pictureProcessModel;
+    private final ReportManager reportManager;
 
     public QCReportInteractor() {
-        this.qcReportModel = new QCReportModel();
+        this.pictureProcessModel = new PictureProcessModel();
+        this.reportManager = new ReportManager();
     }
 
-    public void sendReport() {
+    public void sendReport(Consumer<Boolean> callback) {
         BackgroundTaskExecutor.execute(
             () -> {
-                // Simulate sending the report
-                Thread.sleep(2000); // Simulate network delay
-                return true; // Simulate success
+                OperatorReport report = PictureProcessModel.toEntity(pictureProcessModel);
+                return reportManager.createReport(report);
             },
             result -> {
-                if (result) {
-                    qcReportModel.setReportSent(true);
-                    System.out.println("Report sent successfully.");
-                } else {
-                    qcReportModel.setReportSent(false);
-                    System.out.println("Failed to send report.");
-                }
+                callback.accept(result);
             },
             error -> {
-                qcReportModel.setReportSent(false);
-                System.out.println("Error occurred while sending report: " + error.getMessage());
+                DialogHandler.showExceptionError("Error sending report", "Couldn't send report to database, an unexepected error occured", error);
+                callback.accept(false);
+            },
+                loading -> {
+                pictureProcessModel.databaseLoadingProperty().set(loading);
             }
         );
     }
 
-    public QCReportModel getQCReportModel() {
-        return qcReportModel;
+    public PictureProcessModel getPictureProcessModel() {
+        return pictureProcessModel;
     }
 }

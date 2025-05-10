@@ -1,5 +1,7 @@
 package dk.belman.gui.interactors;
 
+import dk.belman.gui.common.QCReportModel;
+
 public class InteractorManager {
     private static InteractorManager instance;
 
@@ -9,7 +11,7 @@ public class InteractorManager {
 
     private InteractorManager() {
         this.qcReportInteractor = new QCReportInteractor();
-        this.authInteractor = new AuthInteractor(qcReportInteractor.getQCReportModel());
+        this.authInteractor = new AuthInteractor(new QCReportModel());
         this.pictureProcessInteractor = new PictureProcessInteractor();
     }
 
