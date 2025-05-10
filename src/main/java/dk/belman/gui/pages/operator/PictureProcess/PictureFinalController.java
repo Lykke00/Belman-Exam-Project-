@@ -1,9 +1,11 @@
 package dk.belman.gui.pages.operator.PictureProcess;
 
 import com.gluonhq.charm.glisten.mvc.View;
+import dk.belman.gui.components.GluonSnackbar;
 import dk.belman.gui.components.OperatorPicture;
 import dk.belman.gui.components.SelectableImageView;
 import dk.belman.gui.interactors.InteractorManager;
+import dk.belman.gui.utils.DialogHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -32,11 +34,9 @@ public class PictureFinalController extends View implements Initializable {
         setupBindings();
 
         scrollPanePictures.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
         hBoxPicturesContainer.getChildren().clear();
-        updatePictures();
-        updatePictures();
 
+        updatePictures();
     }
 
     private void setupBindings() {
@@ -57,5 +57,15 @@ public class PictureFinalController extends View implements Initializable {
             OperatorPicture operatorPicture = new OperatorPicture(image, state.textProperty(), 125, 125);
             hBoxPicturesContainer.getChildren().add(operatorPicture);
         }
+    }
+
+    private void sendReport() {
+        String reportId = model.qcReportIdProperty().get();
+        if (reportId == null) {
+            GluonSnackbar.showSnackbar("No report ID found");
+            return;
+        }
+
+
     }
 }

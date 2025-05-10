@@ -1,9 +1,12 @@
 package dk.belman.gui.components;
 
+import com.gluonhq.charm.glisten.control.Dialog;
+import com.gluonhq.charm.glisten.control.TextArea;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import dk.belman.gui.utils.IconStyle;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -30,6 +33,7 @@ public class OperatorPicture extends StackPane {
     private Image image;
     private ImageView imageView;
     private PauseTransition longPressPause;
+    private String comment = "";
 
     public OperatorPicture(String imagePath, String pos, int width, int height) {
         this.image = new Image(imagePath);
@@ -54,8 +58,12 @@ public class OperatorPicture extends StackPane {
         rectangle.setArcHeight(10);
 
         rectangle.setFill(pattern);
-       // Color color = Color.rgb(10, 10, 10, 0.3);
-       // rectangle.setEffect(new DropShadow(10, color));  // Shadow
+
+        longPressPause = new PauseTransition(Duration.seconds(0.5));
+        longPressPause.setOnFinished(event -> showImageDialog());
+
+        rectangle.setOnMousePressed(this::handleMousePressed);
+        rectangle.setOnMouseReleased(this::handleMouseReleased);
 
         VBox pictureDetails = new VBox();
         pictureDetails.setAlignment(Pos.TOP_LEFT);
@@ -64,7 +72,7 @@ public class OperatorPicture extends StackPane {
         VBox.setVgrow(pictureDetails, Priority.ALWAYS);
 
         Label picturePosition = new Label(pos);
-        picturePosition.setStyle("-fx-text-fill: black; -fx-font-size: 16px; -fx-font-weight: bold;");
+        picturePosition.setStyle("-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;");
 
         Button addCommentBtn = new Button("Comment");
         addCommentBtn.getStyleClass().add("secondary-color");
@@ -72,6 +80,7 @@ public class OperatorPicture extends StackPane {
         addCommentBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         HBox.setHgrow(addCommentBtn, Priority.ALWAYS);
 
+        addCommentBtn.setOnAction(this::btnAddComment);
 
         Button retakeBtn = new Button("Retake");
         retakeBtn.getStyleClass().add("warning-color");
@@ -100,12 +109,6 @@ public class OperatorPicture extends StackPane {
         this.getStylesheets().add(getClass().getResource("/css/belman.css").toExternalForm());
         this.getStyleClass().add("picture-process-preview-container");
         this.setPickOnBounds(true);
-
-        longPressPause = new PauseTransition(Duration.seconds(0.5));
-        longPressPause.setOnFinished(event -> showImageDialog());
-
-        this.setOnMousePressed(this::handleMousePressed);
-        this.setOnMouseReleased(this::handleMouseReleased);
     }
 
     private void handleMousePressed(MouseEvent event) {
@@ -157,8 +160,43 @@ public class OperatorPicture extends StackPane {
         dialog.showAndWait();
     }
 
-    public boolean isSelected() {
-        return isSelected;
+    private void btnAddComment(ActionEvent event) {
+        Dialog<String> dialog = new Dialog<>("Add comment");
+        dialog.setTitleText("Add comment");
+        dialog.getTitle().setStyle("-fx-font-size: 24px; -fx-text-fill: #333; -fx-font-weight: bold;");
+
+        TextArea message = new TextArea();
+        message.setPromptText("Enter your comment here...");
+        message.setPrefHeight(200);
+        message.setStyle("-fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 8px;");
+        message.setPadding(new Insets(5));
+
+        Button closeBtn = new Button("Close");
+        closeBtn.setOnAction(ev -> dialog.hide());
+        closeBtn.setStyle("-fx-background-color: #EF4444; -fx-text-fill: white;-fx-background-radius: 8px; -fx-font-size: 24");
+
+        Button saveBtn = new Button("Save");
+        saveBtn.setOnAction(ev -> {
+            comment = message.getText();
+            dialog.hide();
+            GluonSnackbar.showSnackbar("Comment saved: " + comment);
+        });
+
+        saveBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;-fx-background-radius: 8px; -fx-font-size: 24");
+
+        HBox spacer = new HBox();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox hBox = new HBox(closeBtn, spacer, saveBtn);
+
+        VBox content = new VBox(10, message, hBox);
+        content.setStyle("-fx-padding: 5; -fx-background-radius: 8px; -fx-border-radius: 8px;");
+        dialog.setContent(content);
+
+        dialog.showAndWait();
+    }
+
+    public String getComment() {
+        return comment;
     }
 
     public ImageView getImageView() {

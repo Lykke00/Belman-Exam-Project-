@@ -7,6 +7,7 @@ import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
 import dk.belman.gui.*;
 import dk.belman.gui.components.DrawerManager;
+import dk.belman.gui.components.Snackbar;
 import dk.belman.gui.utils.LabelStyle;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -33,9 +34,16 @@ public class Main extends Application {
 
     public static File ROOT_DIR;
     private final AppManager appManager = AppManager.initialize(this::postInit);
+    private StackPane rootStack;
 
 
     private void postInit(Scene scene) {
+        rootStack = new StackPane();
+        rootStack.getChildren().add(scene.getRoot());
+
+        scene.setRoot(rootStack);
+        Snackbar.setStackPane(rootStack);
+
         // Setup Views
         Routes.setupViews(appManager);
 

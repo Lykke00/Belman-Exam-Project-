@@ -3,11 +3,13 @@ package dk.belman.gui.pages;
 import com.gluonhq.attach.barcodescan.BarcodeScanService;
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.AppBar;
+import com.gluonhq.charm.glisten.control.Snackbar;
 import com.gluonhq.charm.glisten.control.TextField;
 import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.gui.AppView;
 import dk.belman.gui.Routes;
 import dk.belman.gui.common.AuthModel;
+import dk.belman.gui.components.GluonSnackbar;
 import dk.belman.gui.interactors.InteractorManager;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
@@ -84,6 +86,9 @@ public class LoginController extends View implements Initializable {
     private void onLogin() {
         btnLogin.setOnAction(event -> {
             AppManager.getInstance().switchView(AppView.OPERATOR_LANDING.getRoute());
+            GluonSnackbar.showSnackbar("Successfully logged in", "OK", () -> {
+                GluonSnackbar.hideSnackbar();
+            });
         });
     }
 
