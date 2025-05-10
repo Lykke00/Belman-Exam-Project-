@@ -19,8 +19,8 @@ GO
 CREATE TABLE reports (
     id INT PRIMARY KEY identity(1,1),
     order_number VARCHAR(50) NOT NULL,
-    status VARCHAR(50) CHECK (status IN ('Pending', 'Accepted', 'Rejected')),
-    created_date DATETIME,
+    status VARCHAR(50) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Accepted', 'Rejected')),
+    created_date DATETIME NOT NULL,
     status_update_date DATETIME,
     operator_id INT NOT NULL,
     inspected_by INT,

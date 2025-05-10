@@ -1,7 +1,5 @@
 package dk.belman.gui.common;
 
-import dk.belman.be.ImageEntity;
-import dk.belman.be.OperatorReport;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -11,8 +9,6 @@ import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static dk.belman.gui.utils.ImageUtilities.convertImageToPngBytes;
 
 
 public class QCReportModel {

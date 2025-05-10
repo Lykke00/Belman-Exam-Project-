@@ -1,11 +1,11 @@
 package dk.belman.be;
 
-public class ImageEntity {
-    public byte[] image;
-    public String comment;
-    public String takenFromAngle;
+public class ReportImage {
+    private byte[] image;
+    private String comment;
+    private String takenFromAngle;
 
-    public ImageEntity(byte[] image, String comment, String takenFromAngle) {
+    public ReportImage(byte[] image, String comment, String takenFromAngle) {
         this.image = image;
         this.comment = comment;
         this.takenFromAngle = takenFromAngle;

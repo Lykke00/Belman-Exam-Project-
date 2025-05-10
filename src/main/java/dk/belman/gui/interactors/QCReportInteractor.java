@@ -8,26 +8,29 @@ import dk.belman.gui.pages.operator.PictureProcess.PictureProcessModel;
 import dk.belman.gui.utils.BackgroundTaskExecutor;
 import dk.belman.gui.utils.DialogHandler;
 
+import java.awt.*;
 import java.util.function.Consumer;
 
 public class QCReportInteractor {
     private final PictureProcessModel pictureProcessModel;
-    private final ReportManager reportManager;
+    private ReportManager reportManager;
 
     public QCReportInteractor() {
         this.pictureProcessModel = new PictureProcessModel();
-        this.reportManager = new ReportManager();
+        try {
+            this.reportManager = new ReportManager();
+        } catch (Exception e) {
+            DialogHandler.showExceptionError("Error initializing ReportManager", "Couldn't initialize ReportManager, an unexpected error occurred", e);
+        }
     }
 
     public void sendReport(Consumer<Boolean> callback) {
-        BackgroundTaskExecutor.execute(
+        BackgroundTaskExecutor.executeWithExceptionHandling(
             () -> {
                 OperatorReport report = PictureProcessModel.toEntity(pictureProcessModel);
                 return reportManager.createReport(report);
             },
-            result -> {
-                callback.accept(result);
-            },
+                callback,
             error -> {
                 DialogHandler.showExceptionError("Error sending report", "Couldn't send report to database, an unexepected error occured", error);
                 callback.accept(false);

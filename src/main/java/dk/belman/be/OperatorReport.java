@@ -7,18 +7,18 @@ public class OperatorReport {
     private String orderNumber;
     private User operator;
     private LocalDateTime date;
-    private List<ImageEntity> photos;
+    private List<ReportImage> photos;
 
     public OperatorReport() {}
 
-    public OperatorReport(String orderNumber, User operator, LocalDateTime date, List<ImageEntity> photos) {
+    public OperatorReport(String orderNumber, User operator, LocalDateTime date, List<ReportImage> photos) {
         this.orderNumber = orderNumber;
         this.operator = operator;
         this.date = date;
         this.photos = photos;
     }
 
-    public OperatorReport(String orderNumber, User operator, List<ImageEntity> photos) {
+    public OperatorReport(String orderNumber, User operator, List<ReportImage> photos) {
         this.orderNumber = orderNumber;
         this.operator = operator;
         this.date = LocalDateTime.now();
@@ -37,7 +37,7 @@ public class OperatorReport {
         return date;
     }
 
-    public List<ImageEntity> getPhotos() {
+    public List<ReportImage> getPhotos() {
         return photos;
     }
 

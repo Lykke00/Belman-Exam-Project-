@@ -1,9 +1,8 @@
 package dk.belman.gui.pages.operator.PictureProcess;
 
-import dk.belman.be.ImageEntity;
+import dk.belman.be.ReportImage;
 import dk.belman.be.OperatorReport;
 import dk.belman.be.User;
-import dk.belman.gui.common.QCReportModel;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -59,7 +58,7 @@ public class PictureProcessModel {
 
     public static OperatorReport toEntity(PictureProcessModel pictureProcessModel) {
         String qcReportId = pictureProcessModel.qcReportIdProperty().get();
-        List<ImageEntity> imageEntities = new ArrayList<>();
+        List<ReportImage> imageEntities = new ArrayList<>();
 
         for (CurrentStateProcess state : pictureProcessModel.getStateList().keySet()) {
             PictureItemModel page = pictureProcessModel.getStateList().get(state);
@@ -70,12 +69,13 @@ public class PictureProcessModel {
 
             if (image != null) {
                 byte[] imageBytes = convertImageToPngBytes(image);
-                ImageEntity imageEntity = new ImageEntity(imageBytes, comment, takenFromAngle);
-                imageEntities.add(imageEntity);
+                ReportImage reportImage = new ReportImage(imageBytes, comment, takenFromAngle);
+                imageEntities.add(reportImage);
             }
         }
 
         User user = new User();
+        user.setId(1);
         return new OperatorReport(qcReportId, user, imageEntities);
     }
 }
