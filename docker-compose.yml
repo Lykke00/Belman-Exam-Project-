@@ -1,0 +1,16 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql-server
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=BelmanSuperStrongPassword123!
+    ports:
+      - "1433:1433"
+    networks:
+      - mssql-network
+    restart: always
+
+networks:
+  mssql-network:
+    driver: bridge

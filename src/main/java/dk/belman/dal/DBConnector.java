@@ -11,7 +11,7 @@ import java.util.Properties;
 public class DBConnector implements IDBConnector {
     //designate file path for db settings
     private static final String PROPERTIES_FILE = "config/config.settings";
-    private SQLServerDataSource dataSource;
+    private final SQLServerDataSource dataSource;
 
     public DBConnector() throws IOException {
         //load db settings to properties
