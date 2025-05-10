@@ -12,7 +12,9 @@ import dk.belman.gui.common.AuthModel;
 import dk.belman.gui.components.GluonSnackbar;
 import dk.belman.gui.interactors.AuthInteractor;
 import dk.belman.gui.interactors.InteractorManager;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -83,6 +85,11 @@ public class LoginController extends View implements Initializable {
                 .or(txtFieldPassword.textProperty().isEmpty())
                 .or(model.databaseLoadingProperty());
 
+        btnLogin.textProperty().bind(
+                Bindings.when(model.databaseLoadingProperty())
+                        .then("Loading...")
+                        .otherwise("Login")
+        );
         btnLogin.disableProperty().bind(notValidFields);
     }
 

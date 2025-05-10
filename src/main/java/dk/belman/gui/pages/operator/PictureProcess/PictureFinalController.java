@@ -9,6 +9,7 @@ import dk.belman.gui.components.OperatorPicture;
 import dk.belman.gui.components.SelectableImageView;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.utils.DialogHandler;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,6 +47,13 @@ public class PictureFinalController extends View implements Initializable {
     private void sendBtnSetup() {
         btnSend.disableProperty().bind(model.databaseLoadingProperty());
         btnSend.setOnAction(this::sendReport);
+
+        btnSend.textProperty().bind(
+                Bindings.when(model.databaseLoadingProperty())
+                        .then("Loading...")
+                        .otherwise("Send")
+        );
+
     }
 
     private void setupBindings() {
