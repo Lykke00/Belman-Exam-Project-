@@ -1,19 +1,31 @@
 package dk.belman.gui.common;
 
+import dk.belman.gui.pages.common.UserModel;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AuthModel {
-    private QCReportModel qcReportModel;
+    public AuthModel() {}
 
-    public AuthModel(QCReportModel model) {
-        this.qcReportModel = model;
-    }
+    private final SimpleBooleanProperty databaseLoading = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty loginFailed = new SimpleBooleanProperty(false);
+
+    private final SimpleObjectProperty<UserModel> user = new SimpleObjectProperty<>(null);
 
     private final SimpleBooleanProperty logOut = new SimpleBooleanProperty();
+
+
+    public SimpleBooleanProperty databaseLoadingProperty() {
+        return databaseLoading;
+    }
+
+    public SimpleBooleanProperty loginFailedProperty() {
+        return loginFailed;
+    }
 
     private final List<ChangeListener<Boolean>> listeners = new ArrayList<>();
 
@@ -29,11 +41,12 @@ public class AuthModel {
     }
 
     public void logOut(boolean value) {
-        if (value)
-            qcReportModel.reset();
-
         logOut.set(value);
         notifyListeners();
 
+    }
+
+    public SimpleObjectProperty<UserModel> userProperty() {
+        return user;
     }
 }

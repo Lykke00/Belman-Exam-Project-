@@ -6,6 +6,7 @@ import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import dk.belman.gui.utils.IconStyle;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,7 +34,7 @@ public class OperatorPicture extends StackPane {
     private Image image;
     private ImageView imageView;
     private PauseTransition longPressPause;
-    private String comment = "";
+    private SimpleStringProperty comment = new SimpleStringProperty("");
 
     public OperatorPicture(String imagePath, String pos, int width, int height) {
         this.image = new Image(imagePath);
@@ -177,10 +178,11 @@ public class OperatorPicture extends StackPane {
 
         Button saveBtn = new Button("Save");
         saveBtn.setOnAction(ev -> {
-            comment = message.getText();
             dialog.hide();
             GluonSnackbar.showSnackbar("Comment saved: " + comment);
         });
+
+        comment.bind(message.textProperty());
 
         saveBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;-fx-background-radius: 8px; -fx-font-size: 24");
 
@@ -195,7 +197,7 @@ public class OperatorPicture extends StackPane {
         dialog.showAndWait();
     }
 
-    public String getComment() {
+    public SimpleStringProperty getComment() {
         return comment;
     }
 

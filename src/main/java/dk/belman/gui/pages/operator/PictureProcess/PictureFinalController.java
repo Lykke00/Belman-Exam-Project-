@@ -39,14 +39,17 @@ public class PictureFinalController extends View implements Initializable {
         scrollPanePictures.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         hBoxPicturesContainer.getChildren().clear();
 
-        btnSend.setOnAction(this::sendReport);
-
         updatePictures();
+        sendBtnSetup();
+    }
+
+    private void sendBtnSetup() {
+        btnSend.disableProperty().bind(model.databaseLoadingProperty());
+        btnSend.setOnAction(this::sendReport);
     }
 
     private void setupBindings() {
         model.stateProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("State changed from " + oldValue + " to " + newValue);
             if (newValue == CurrentStateProcess.FINISH) {
                 hBoxPicturesContainer.getChildren().clear();
                 updatePictures();
@@ -60,6 +63,9 @@ public class PictureFinalController extends View implements Initializable {
             Image image = page.pictureProperty().get();
 
             OperatorPicture operatorPicture = new OperatorPicture(image, state.textProperty(), 125, 125);
+
+            page.commentProperty().bind(operatorPicture.getComment());
+
             hBoxPicturesContainer.getChildren().add(operatorPicture);
         }
     }
@@ -71,7 +77,7 @@ public class PictureFinalController extends View implements Initializable {
             return;
         }
 
-        InteractorManager.getInstance().getQCReportInteractor().sendReport(success -> {
+        InteractorManager.getInstance().getPictureProcessInteractor().sendReport(success -> {
             if (success) {
                 GluonSnackbar.showSnackbar("Report sent successfully");
                 AppManager.getInstance().switchView(AppView.LOGIN.getRoute());

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static dk.belman.gui.utils.ImageUtilities.convertImageToPngBytes;
+import static dk.belman.gui.utils.ImageUtilities.convertImageToPngBytesParallel;
 
 public class PictureProcessModel {
     private final SimpleStringProperty qcReportId = new SimpleStringProperty();
@@ -68,7 +69,7 @@ public class PictureProcessModel {
             String comment = page.commentProperty().get();
 
             if (image != null) {
-                byte[] imageBytes = convertImageToPngBytes(image);
+                byte[] imageBytes = convertImageToPngBytesParallel(image);
                 ReportImage reportImage = new ReportImage(imageBytes, comment, takenFromAngle);
                 imageEntities.add(reportImage);
             }

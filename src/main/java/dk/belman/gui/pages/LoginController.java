@@ -10,6 +10,7 @@ import dk.belman.gui.AppView;
 import dk.belman.gui.Routes;
 import dk.belman.gui.common.AuthModel;
 import dk.belman.gui.components.GluonSnackbar;
+import dk.belman.gui.interactors.AuthInteractor;
 import dk.belman.gui.interactors.InteractorManager;
 import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
@@ -21,7 +22,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController extends View implements Initializable {
-    private final AuthModel model = InteractorManager.getInstance().getAuthInteractor().getAuthModel();
+    private final AuthInteractor authInteractor = InteractorManager.getInstance().getAuthInteractor();
+    private final AuthModel model = authInteractor.getAuthModel();
 
     @FXML
     private TextField txtFieldUsername, txtFieldPassword;
@@ -78,16 +80,27 @@ public class LoginController extends View implements Initializable {
 
     private void validate() {
         BooleanBinding notValidFields = txtFieldUsername.textProperty().isEmpty()
-                .or(txtFieldPassword.textProperty().isEmpty());
+                .or(txtFieldPassword.textProperty().isEmpty())
+                .or(model.databaseLoadingProperty());
 
         btnLogin.disableProperty().bind(notValidFields);
     }
 
     private void onLogin() {
         btnLogin.setOnAction(event -> {
-            AppManager.getInstance().switchView(AppView.OPERATOR_LANDING.getRoute());
-            GluonSnackbar.showSnackbar("Successfully logged in", "OK", () -> {
-                GluonSnackbar.hideSnackbar();
+            String workerId = txtFieldUsername.getText();
+            String password = txtFieldPassword.getText();
+
+            authInteractor.logIn(workerId, password, success -> {
+                if (!success) {
+                    GluonSnackbar.showSnackbar("Login failed", "OK", () -> {
+                        GluonSnackbar.hideSnackbar();
+                    });
+                    return;
+                }
+
+                GluonSnackbar.showSnackbar("Login succeeded");
+                AppManager.getInstance().switchView(AppView.OPERATOR_LANDING.getRoute());
             });
         });
     }

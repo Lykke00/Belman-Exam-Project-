@@ -9,8 +9,10 @@ GO
 
 CREATE TABLE users (
     id INT PRIMARY KEY IDENTITY(1,1),
+    workerId VARCHAR(50) NOT NULL,
     firstName VARCHAR(100),
     lastName VARCHAR(100),
+    password VARCHAR(100) NOT NULL,
     role INT NOT NULL,
     FOREIGN KEY (role) REFERENCES users_roles(id)
 );

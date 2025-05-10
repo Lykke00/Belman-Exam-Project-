@@ -4,6 +4,7 @@ import dk.belman.enums.UserRole;
 
 public class User {
     private int id;
+    private String workerId;
     private String firstName;
     private String lastName;
     private String email;
@@ -13,11 +14,36 @@ public class User {
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String email, String password, String role) {
+    public User(int id, String workerId, String firstName, String lastName, String email, String password, String role) {
         this.id = id;
+        this.workerId = workerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
+        this.role = UserRole.fromRole(role);
+    }
+
+    public User(int id, String firstName, String lastName, UserRole role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+    }
+
+    public User(String workerId, String firstName, String lastName, String password, UserRole role) {
+        this.workerId = workerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(int id, String workerId, String firstName, String lastName, String password, String role) {
+        this.id = id;
+        this.workerId = workerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.role = UserRole.fromRole(role);
     }
@@ -70,6 +96,14 @@ public class User {
         this.role = role;
     }
 
+    public String getWorkerId() {
+        return workerId;
+    }
+
+    public void setWorkerId(String workerId) {
+        this.workerId = workerId;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -82,4 +116,11 @@ public class User {
                 '}';
     }
 
+    public String getPasswordHash() {
+        return password;
+    }
+
+    public void setPasswordHash(String hashedPassword) {
+        this.password = hashedPassword;
+    }
 }
