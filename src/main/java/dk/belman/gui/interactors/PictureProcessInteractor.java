@@ -24,7 +24,6 @@ public class PictureProcessInteractor {
     public void sendReport(Consumer<Boolean> callback) {
         BackgroundTaskExecutor.executeWithExceptionHandling(
                 () -> {
-                    System.out.println(model.qcReportIdProperty().get());
                     OperatorReport report = PictureProcessModel.toEntity(model);
                     return reportManager.createReport(report);
                 },

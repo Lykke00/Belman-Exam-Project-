@@ -11,5 +11,7 @@ public class Routes {
         appManager.addViewFactory(AppView.OPERATOR_PICTURE_PROCESS.getRoute(), () -> ViewLoader.load(AppView.OPERATOR_PICTURE_PROCESS));
         appManager.addViewFactory(AppView.OPERATOR_PICTURE_FINAL.getRoute(), () -> ViewLoader.load(AppView.OPERATOR_PICTURE_FINAL));
 
+        /* ----- Inspector Views ----- */
+        appManager.addViewFactory(AppView.INSPECTOR_VIEW_REPORTS.getRoute(), () -> ViewLoader.load(AppView.INSPECTOR_VIEW_REPORTS));
     }
 }

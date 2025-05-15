@@ -1,8 +1,12 @@
 package dk.belman.bll;
 
 import dk.belman.be.OperatorReport;
+import dk.belman.be.Report;
 import dk.belman.dal.dao.IReportDAO;
 import dk.belman.dal.dao.ReportDAO;
+import dk.belman.gui.pages.common.ReportItemModel;
+
+import java.util.List;
 
 public class ReportManager {
     private final IReportDAO reportDAO;
@@ -11,7 +15,15 @@ public class ReportManager {
         this.reportDAO = new ReportDAO();
     }
 
+    public List<Report> getAll() throws Exception {
+        return reportDAO.getAll();
+    }
+
     public boolean createReport(OperatorReport report) throws Exception {
         return reportDAO.createReport(report);
+    }
+
+    public Report getReport(ReportItemModel report) throws Exception {
+        return reportDAO.getReport(report);
     }
 }

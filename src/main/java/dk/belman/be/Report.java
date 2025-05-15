@@ -1,25 +1,37 @@
 package dk.belman.be;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 public class Report {
 
     private int id;
     private String orderNumber;
     private String operator;
-    private LocalDate date;
-    private byte[] photos;
-    private String comment;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+    private List<byte[]> photos;
     private String status;
 
-    public Report(int id, String orderNumber, String operator, LocalDate date, byte[] photos, String comment, String status) {
+    public Report () {}
+
+    public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, List<byte[]> photos, String status) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.operator = operator;
-        this.date = date;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
         this.photos = photos;
-        this.comment = comment;
+        this.status = status;
+    }
+
+    public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, String status) {
+        this.id = id;
+        this.orderNumber = orderNumber;
+        this.operator = operator;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
         this.status = status;
     }
 
@@ -47,28 +59,28 @@ public class Report {
         this.operator = operator;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
     }
 
-    public byte[] getPhotos() {
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public List<byte[]> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(byte[] photos) {
+    public void setPhotos(List<byte[]> photos) {
         this.photos = photos;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public String getStatus() {
@@ -85,9 +97,9 @@ public class Report {
                 "id=" + id +
                 ", orderNumber='" + orderNumber + '\'' +
                 ", operator='" + operator + '\'' +
-                ", date=" + date +
-                ", photos=" + Arrays.toString(photos) +
-                ", comment='" + comment + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                ", photos=" + Arrays.toString(photos.toArray()) +
                 ", status='" + status + '\'' +
                 '}';
     }

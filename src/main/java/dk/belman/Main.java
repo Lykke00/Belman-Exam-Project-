@@ -1,9 +1,8 @@
 package dk.belman;
 
+import atlantafx.base.theme.PrimerLight;
 import com.gluonhq.attach.util.Platform;
 import com.gluonhq.charm.glisten.application.AppManager;
-import com.gluonhq.charm.glisten.mvc.View;
-import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
 import dk.belman.gui.*;
 import dk.belman.gui.components.DrawerManager;
@@ -17,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -28,17 +26,16 @@ import com.gluonhq.attach.storage.StorageService;
 import com.gluonhq.attach.util.Services;
 import com.gluonhq.attach.util.impl.ServiceFactory;
 
-import javafx.stage.StageStyle;
-
 public class Main extends Application {
 
     public static File ROOT_DIR;
     private final AppManager appManager = AppManager.initialize(this::postInit);
-    private StackPane rootStack;
-
 
     private void postInit(Scene scene) {
-        rootStack = new StackPane();
+        if (Platform.isDesktop())
+            scene.getStylesheets().add(new PrimerLight().getUserAgentStylesheet());
+
+        StackPane rootStack = new StackPane();
         rootStack.getChildren().add(scene.getRoot());
 
         scene.setRoot(rootStack);
@@ -64,8 +61,6 @@ public class Main extends Application {
         }
     }
 
-    private Stage primaryStage;
-
     @Override
     public void init() {
 
@@ -76,7 +71,7 @@ public class Main extends Application {
         appManager.start(stage);
         stage.setTitle("Belsign QR Report System");
 
-        appManager.switchView(AppView.LOGIN.getRoute());
+        appManager.switchView(AppView.INSPECTOR_VIEW_REPORTS.getRoute());
 
         appManager.getAppBar().setTitle(new Label("Belsign"));
 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<View xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.inspector.reports.ReportController">
+   <center>
+      <ScrollPane fx:id="scrollPaneView" fitToHeight="true" fitToWidth="true">
+         <content>
+            <VBox styleClass="outer-background">
+               <children>
+                  <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="background" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Upload Image">
+                           <font>
+                              <Font name="System Bold" size="64.0" />
+                           </font>
+                        </Label>
+                        <VBox fx:id="vBoxMain" alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</View>

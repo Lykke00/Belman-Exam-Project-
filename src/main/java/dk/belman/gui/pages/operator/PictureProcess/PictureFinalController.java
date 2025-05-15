@@ -1,14 +1,12 @@
 package dk.belman.gui.pages.operator.PictureProcess;
 
 import com.gluonhq.charm.glisten.application.AppManager;
-import com.gluonhq.charm.glisten.control.Snackbar;
 import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.gui.AppView;
 import dk.belman.gui.components.GluonSnackbar;
 import dk.belman.gui.components.OperatorPicture;
-import dk.belman.gui.components.SelectableImageView;
 import dk.belman.gui.interactors.InteractorManager;
-import dk.belman.gui.utils.DialogHandler;
+import dk.belman.gui.pages.common.PictureItemModel;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

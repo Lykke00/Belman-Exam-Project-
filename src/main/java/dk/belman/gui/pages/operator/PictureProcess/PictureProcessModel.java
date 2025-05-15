@@ -3,6 +3,7 @@ package dk.belman.gui.pages.operator.PictureProcess;
 import dk.belman.be.ReportImage;
 import dk.belman.be.OperatorReport;
 import dk.belman.be.User;
+import dk.belman.gui.pages.common.PictureItemModel;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,7 +14,6 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dk.belman.gui.utils.ImageUtilities.convertImageToPngBytes;
 import static dk.belman.gui.utils.ImageUtilities.convertImageToPngBytesParallel;
 
 public class PictureProcessModel {

@@ -6,6 +6,7 @@ import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.gui.AppView;
 import dk.belman.gui.interactors.InteractorManager;
+import dk.belman.gui.pages.common.PictureItemModel;
 import dk.belman.gui.utils.DialogHandler;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;

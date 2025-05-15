@@ -1,17 +1,33 @@
 package dk.belman.dal.dao;
 
+import dk.belman.be.Report;
 import dk.belman.be.ReportImage;
 import dk.belman.be.OperatorReport;
 import dk.belman.dal.DBConnector;
 import dk.belman.dal.IDBConnector;
+import dk.belman.gui.pages.common.ReportItemModel;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReportDAO implements IReportDAO {
     private final IDBConnector connector;
 
     public ReportDAO() throws Exception {
         this.connector = new DBConnector();
+    }
+
+    private Report ReportFromResultSet(ResultSet rs) throws Exception {
+        int reportId = rs.getInt("id");
+        String orderNumber = rs.getString("order_number");
+        String status = rs.getString("status");
+        Timestamp createdDate = rs.getTimestamp("created_date");
+        Timestamp updatedDate = rs.getTimestamp("update_date");
+        int operatorId = rs.getInt("operator_id");
+        int inspectedBy = rs.getInt("inspected_by");
+
+        return new Report(reportId, orderNumber, "" + operatorId, createdDate.toLocalDateTime(), updatedDate.toLocalDateTime(), status);
     }
 
     @Override
@@ -68,6 +84,49 @@ public class ReportDAO implements IReportDAO {
 
         } catch (SQLException e) {
             throw new Exception("Database error", e);
+        }
+    }
+
+    @Override
+    public List<Report> getAll() throws Exception {
+        List<Report> reports = new ArrayList<>();
+
+        String query = """
+                    SELECT * FROM reports
+                """;
+
+        try (Connection conn = connector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                reports.add(ReportFromResultSet(rs));
+            }
+            return reports;
+        } catch (SQLException e) {
+            throw new Exception("Couldn't fetch all reports from database", e);
+        }
+    }
+
+    @Override
+    public Report getReport(ReportItemModel report) throws Exception {
+        String query = """
+                SELECT * FROM reports
+                WHERE id = ?
+            """;
+
+        try (Connection conn = connector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, report.getId());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return ReportFromResultSet(rs);
+                } else {
+                    throw new Exception("Report not found with ID: " + report.getId());
+                }
+            }
         }
     }
 }

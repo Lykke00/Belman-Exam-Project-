@@ -7,10 +7,12 @@ public class InteractorManager {
 
     private final AuthInteractor authInteractor;
     private final PictureProcessInteractor pictureProcessInteractor;
+    private final ReportInteractor reportInteractor;
 
     private InteractorManager() {
         this.authInteractor = new AuthInteractor();
         this.pictureProcessInteractor = new PictureProcessInteractor();
+        this.reportInteractor = new ReportInteractor();
     }
 
     public static InteractorManager getInstance() {
@@ -26,6 +28,10 @@ public class InteractorManager {
 
     public PictureProcessInteractor getPictureProcessInteractor() {
         return pictureProcessInteractor;
+    }
+
+    public ReportInteractor getReportInteractor() {
+        return reportInteractor;
     }
 }
 
