@@ -2,12 +2,18 @@
 
 <?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.inspector.reports.ReportController">
+<View xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.inspector.reports.ReportController">
    <center>
       <ScrollPane fx:id="scrollPaneView" fitToHeight="true" fitToWidth="true">
          <content>
@@ -27,6 +33,28 @@
                            <padding>
                               <Insets left="20.0" right="20.0" />
                            </padding>
+                           <children>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="cmbBoxItemsPerPage" prefWidth="150.0" />
+                                    <HBox HBox.hgrow="ALWAYS" />
+                                    <ComboBox fx:id="cmbBoxFilter" prefWidth="150.0" />
+                                    <TextField fx:id="txtFieldSearch" prefHeight="26.0" prefWidth="196.0" promptText="Search..." />
+                                 </children>
+                              </HBox>
+                              <TableView fx:id="tblView" VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn fx:id="tblColOrderNumber" prefWidth="75.0" text="Order number" />
+                                  <TableColumn fx:id="tblColStatus" prefWidth="75.0" text="Status" />
+                                    <TableColumn fx:id="tblColCreated" prefWidth="75.0" text="Created" />
+                                    <TableColumn fx:id="tblColOperator" prefWidth="75.0" text="Operator" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <Pagination fx:id="paginationTbl" pageCount="1" VBox.vgrow="ALWAYS" />
+                           </children>
                         </VBox>
                      </children>
                      <opaqueInsets>

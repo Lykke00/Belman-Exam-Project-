@@ -1,84 +1,221 @@
 package dk.belman.gui.pages.inspector.reports;
 
 import com.gluonhq.charm.glisten.mvc.View;
+import dk.belman.gui.components.ContextMenu.MenuItemInfo;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.interactors.ReportInteractor;
 import dk.belman.gui.pages.common.ReportItemModel;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
-import org.bouncycastle.tsp.TSPUtil;
+import org.kordamp.ikonli.feather.Feather;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import static dk.belman.gui.components.ContextMenu.CustomContextMenu.createContextMenu;
+
 public class ReportController extends View implements Initializable {
     private final ReportInteractor reportInteractor = InteractorManager.getInstance().getReportInteractor();
     private final ReportModel model = reportInteractor.getReportModel();
 
+    private final static String ALL_REPORTS = "All";
+    private final static String PENDING_REPORTS = "Pending";
+    private final static String ACCEPTED_REPORTS = "Accepted";
+    private final static String REJECTED_REPORTS = "Rejected";
+
     @FXML
-    private ScrollPane scrollPaneView;
+    private ComboBox<String> cmbBoxFilter;
+
+    @FXML
+    private ComboBox<Integer> cmbBoxItemsPerPage;
+
+    @FXML
+    private TextField txtFieldSearch;
+
+    @FXML
+    private Pagination paginationTbl;
+
+    @FXML
+    private TableView<ReportItemModel> tblView;
+
+    @FXML
+    private TableColumn<ReportItemModel, String> tblColOrderNumber, tblColStatus, tblColCreated, tblColOperator;
 
     @FXML
     private VBox vBoxMain;
 
-    private ObservableList<ReportItemModel> siteDetailsList = FXCollections.observableArrayList();
+    private String currentFilterValue = PENDING_REPORTS;
+    private String currentSearchText = "";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        TableView<ReportItemModel> tableView = atlantaFxTable();
+        setupTableView();
+        setupTablePaginationView();
+        setupItemsPerPage();
+        setupTextFieldSearch();
+        setupComboBoxFilter();
+        setupContextMenu(tblView);
 
-        Pagination pg = new Pagination();
-        pg.setPageCount(5);
-        pg.setPageFactory(index -> {
-            int pageSize = 10;
-            int fromIndex = index * pageSize;
-            int toIndex = Math.min(fromIndex + pageSize, model.reportsProperty().size());
-            tableView.setItems(FXCollections.observableArrayList(model.reportsProperty().subList(fromIndex, toIndex)));
-            return tableView;
-        });
-
-        vBoxMain.getChildren().addAll(tableView, pg);
+        Button btnRefresh = new Button("Refresh");
+        btnRefresh.setOnAction(e -> {addTestData();});
+        vBoxMain.getChildren().add(btnRefresh);
     }
 
-    private TableView<ReportItemModel> atlantaFxTable() {
-        TableView<ReportItemModel> tableView = new TableView<>();
+    private void addTestData() {
+        for (int i = 0; i < 1; i++) {
+            ReportItemModel item = new ReportItemModel();
+            item.orderNumberProperty().set("Order #" + i);
+            item.statusProperty().set(i % 2 == 0 ? "Pending" : "Accepted");
+            item.createdDateProperty().set(LocalDateTime.now());
+            item.operatorIdProperty().set("Operator #" + i);
+            model.reportsProperty().add(item);
+        }
+    }
 
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tableView.setItems(model.reportsProperty());
+    private void setupContextMenu(TableView<ReportItemModel> tableView) {
+        List<MenuItemInfo<ReportItemModel>> menuItemInfos = List.of(
+                new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::contextMenuShow),
+                new MenuItemInfo<>(true),
+                new MenuItemInfo<>(Feather.EDIT_2, new SimpleStringProperty("Change status"), System.out::println),
+                new MenuItemInfo<>(Feather.BOOK_OPEN, new SimpleStringProperty("Generate PDF"), System.out::println),
+                new MenuItemInfo<>(true),
+                new MenuItemInfo<>(Feather.TRASH, new SimpleStringProperty("Delete"), System.out::println)
+            );
 
-        TableColumn<ReportItemModel, String> orderNumberColumn = new TableColumn("Order number");
-        orderNumberColumn.setCellValueFactory(cellData -> cellData.getValue().orderNumberProperty());
+        var contextMenu = createContextMenu(menuItemInfos, tableView);
 
+        tableView.setContextMenu(contextMenu);
+    }
 
-        TableColumn<ReportItemModel, String> statusColumn = new TableColumn("Status");
-        statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+    private void contextMenuShow(ReportItemModel item) {
+        System.out.println("Context menu shown " + item.orderNumberProperty().get());
+    }
 
-        TableColumn<ReportItemModel, String> createdColumn = new TableColumn("Created");
+    private void setupComboBoxFilter() {
+        ObservableList<String> filterOptions = FXCollections.observableArrayList(ALL_REPORTS, PENDING_REPORTS, ACCEPTED_REPORTS, REJECTED_REPORTS);
+        cmbBoxFilter.setItems(filterOptions);
+
+        cmbBoxFilter.getSelectionModel().select(1);
+        currentFilterValue = PENDING_REPORTS;
+
+        cmbBoxFilter.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, selectedValue) -> {
+            if (selectedValue != null) {
+                currentFilterValue = selectedValue;
+                applyFilters();
+            }
+        });
+    }
+
+    private void setupTextFieldSearch() {
+        txtFieldSearch.textProperty().addListener((observable, oldValue, searchValue) -> {
+            currentSearchText = searchValue;
+            applyFilters();
+        });
+    }
+
+    private void applyFilters() {
+        Predicate<ReportItemModel> combinedFilter = reportItem -> {
+            boolean matchesFilter = switch (currentFilterValue) {
+                case ALL_REPORTS -> true;
+                case PENDING_REPORTS -> reportItem.statusProperty().get().equals("Pending");
+                case ACCEPTED_REPORTS -> reportItem.statusProperty().get().equals("Accepted");
+                case REJECTED_REPORTS -> reportItem.statusProperty().get().equals("Rejected");
+                default -> false;
+            };
+
+            boolean matchesSearch = true;
+            if (currentSearchText != null && !currentSearchText.isEmpty()) {
+                String lowerCaseFilter = currentSearchText.toLowerCase();
+                matchesSearch = reportItem.orderNumberProperty().get().toLowerCase().contains(lowerCaseFilter);
+            }
+
+            return matchesFilter && matchesSearch;
+        };
+
+        model.setFilter(combinedFilter);
+
+        paginationTbl.setCurrentPageIndex(0);
+    }
+
+    private void setupItemsPerPage() {
+        ObservableList<Integer> itemsPerPageOptions = FXCollections.observableArrayList(10, 25, 50, 100);
+        cmbBoxItemsPerPage.setItems(itemsPerPageOptions);
+        cmbBoxItemsPerPage.getSelectionModel().select(0);
+
+        cmbBoxItemsPerPage.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                model.pageSizeProperty().set(newValue);
+                model.updatePageCount();
+                paginationTbl.setPageCount(model.getPageCount());
+                model.setPage(paginationTbl.getCurrentPageIndex(), newValue);
+            }
+        });
+    }
+
+    private void setupTablePaginationView() {
+        paginationTbl.setCurrentPageIndex(0);
+        paginationTbl.setPageCount(1);
+
+        paginationTbl.currentPageIndexProperty().addListener((obs, oldIndex, newIndex) -> {
+            int pageSize = cmbBoxItemsPerPage.getValue() != null ? cmbBoxItemsPerPage.getValue() : 10;
+            model.setPage(newIndex.intValue(), pageSize);
+        });
+
+        model.pageCountProperty().addListener((obs, oldCount, newCount) -> {
+            paginationTbl.setPageCount(newCount.intValue());
+        });
+
+        model.loadedProperty().addListener((obs, wasLoaded, isNowLoaded) -> {
+            if (isNowLoaded) {
+                int pageSize = cmbBoxItemsPerPage.getValue() != null ? cmbBoxItemsPerPage.getValue() : 10;
+                model.pageSizeProperty().set(pageSize);
+
+                tblView.setItems(model.pagedReportsProperty());
+
+                applyFilters();
+                model.updatePageCount();
+                paginationTbl.setPageCount(model.getPageCount());
+                model.setPage(0, pageSize);
+            }
+        });
+    }
+
+    private void setupTableView() {
+        tblView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tblView.setItems(model.pagedReportsProperty());
+
+        tblView.setPlaceholder(new Label("No reports found"));
+
+        tblColOrderNumber.setCellValueFactory(cellData -> cellData.getValue().orderNumberProperty());
+        tblColStatus.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        createdColumn.setCellValueFactory(cellData -> {
+        tblColCreated.setCellValueFactory(cellData -> {
             LocalDateTime dateTime = cellData.getValue().getCreatedDate();
             String formatted = (dateTime != null) ? formatter.format(dateTime) : "";
             return new ReadOnlyStringWrapper(formatted);
         });
 
-        TableColumn<ReportItemModel, String> operatorColumn = new TableColumn("Operator");
-        operatorColumn.setCellValueFactory(cellData -> cellData.getValue().operatorIdProperty());
+        tblColOperator.setCellValueFactory(cellData -> cellData.getValue().operatorIdProperty());
 
-        tableView.getColumns().addAll(orderNumberColumn, statusColumn, createdColumn, operatorColumn);
+        tblView.getColumns().addAll(tblColOrderNumber, tblColStatus, tblColCreated, tblColOperator);
 
-        tableView.setRowFactory(e -> {
+        tblView.setRowFactory(e -> {
             TableRow<ReportItemModel> row = new TableRow<>();
             row.itemProperty().addListener((obs, oldItem, newItem) -> {
                 if (newItem != null) {
@@ -91,10 +228,5 @@ public class ReportController extends View implements Initializable {
             });
             return row;
         });
-
-        return tableView;
     }
 }
-
-
-
