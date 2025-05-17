@@ -122,11 +122,43 @@ public class ReportDAO implements IReportDAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return ReportFromResultSet(rs);
+                    Report reportFromDB = ReportFromResultSet(rs);
+                    reportFromDB.setPhotos(getReportImages(reportFromDB));
+                    return reportFromDB;
                 } else {
                     throw new Exception("Report not found with ID: " + report.getId());
                 }
             }
+        }
+    }
+
+    @Override
+    public List<ReportImage> getReportImages(Report report) throws Exception {
+        List<ReportImage> reportImages = new ArrayList<>();
+        String query = """
+                    SELECT * FROM reports_images
+                    WHERE report_id = ?
+                """;
+
+        try (Connection conn = connector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, report.getId());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    byte[] image = rs.getBytes("picture");
+                    String comment = rs.getString("comment");
+                    String angle = rs.getString("angle");
+
+                    reportImages.add(new ReportImage(id, image, comment, angle));
+                }
+            }
+
+            return reportImages;
+        } catch (SQLException e) {
+            throw new Exception("Couldn't fetch all report images from database", e);
         }
     }
 }

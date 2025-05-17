@@ -1,12 +1,16 @@
 package dk.belman.gui.pages.common;
 
 import dk.belman.be.Report;
+import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReportItemModel {
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
@@ -16,6 +20,8 @@ public class ReportItemModel {
     private final SimpleObjectProperty<LocalDateTime> updatedDate = new SimpleObjectProperty<>();
     private final SimpleStringProperty operatorId = new SimpleStringProperty();
     private final SimpleStringProperty inspectedBy = new SimpleStringProperty();
+
+    private final ObservableList<PictureItemModel> images = FXCollections.observableArrayList();
 
     public IntegerProperty idProperty() {
         return id;
@@ -73,6 +79,15 @@ public class ReportItemModel {
         return inspectedBy.get();
     }
 
+    public ObservableList<PictureItemModel> getImages() {
+        return images;
+    }
+
+    public void setImages(ObservableList<PictureItemModel> images) {
+        this.images.clear();
+        this.images.addAll(images);
+    }
+
     public static ReportItemModel fromEntity(Report report) {
         ReportItemModel model = new ReportItemModel();
         model.id.set(report.getId());
@@ -82,6 +97,15 @@ public class ReportItemModel {
         model.updatedDate.set(report.getUpdatedDate());
         model.operatorId.set(report.getOperator());
         model.inspectedBy.set("inspector");
+
+        if (report.getPhotos() != null) {
+            List<PictureItemModel> pictures = report.getPhotos().stream()
+                    .map(PictureItemModel::fromEntity)
+                    .toList();
+
+            model.images.setAll(pictures);
+        }
+
         return model;
     }
 

@@ -1,16 +1,11 @@
 package dk.belman.gui.interactors;
 
-import dk.belman.be.OperatorReport;
 import dk.belman.bll.ReportManager;
 import dk.belman.gui.pages.common.ReportItemModel;
-import dk.belman.gui.pages.inspector.reportitemview.ReportItemViewModel;
+import dk.belman.gui.pages.inspector.reportview.ReportItemViewModel;
 import dk.belman.gui.pages.inspector.reports.ReportModel;
-import dk.belman.gui.pages.operator.PictureProcess.PictureProcessModel;
 import dk.belman.gui.utils.BackgroundTaskExecutor;
 import dk.belman.gui.utils.DialogHandler;
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -59,7 +54,7 @@ public class ReportInteractor {
                 () -> reportManager.getReport(report),
                 reportItemModel -> {
                     ReportItemModel itemModel = ReportItemModel.fromEntity(reportItemModel);
-                    reportItemViewModel.reportItemModelProperty().set(itemModel);
+                    reportItemViewModel.reportItemModelProperty(itemModel);
                 },
                 error -> {
                     DialogHandler.showExceptionError("Error fetching report", "Couldn't fetch report from database, an unexepected error occured", error);

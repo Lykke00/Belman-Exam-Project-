@@ -11,14 +11,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import org.kordamp.ikonli.feather.Feather;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 
 import java.net.URL;
@@ -76,15 +79,22 @@ public class ReportController extends View implements Initializable {
     }
 
     private void addTestData() {
-        for (int i = 0; i < 1; i++) {
-            ReportItemModel item = new ReportItemModel();
-            item.orderNumberProperty().set("Order #" + i);
-            item.statusProperty().set(i % 2 == 0 ? "Pending" : "Accepted");
-            item.createdDateProperty().set(LocalDateTime.now());
-            item.operatorIdProperty().set("Operator #" + i);
-            model.reportsProperty().add(item);
-        }
+        String[] statuses = {"Pending", "Accepted", "Rejected"};
+
+        Random random = new Random(System.currentTimeMillis());
+
+        ReportItemModel item = new ReportItemModel();
+        item.orderNumberProperty().set("Order #" + System.currentTimeMillis() % 1000);
+
+        String randomStatus = statuses[random.nextInt(statuses.length)];
+        item.statusProperty().set(randomStatus);
+
+        item.createdDateProperty().set(LocalDateTime.now());
+        item.operatorIdProperty().set("Operator #" + random.nextInt(10));
+
+        model.reportsProperty().add(item);
     }
+
 
     private void setupContextMenu(TableView<ReportItemModel> tableView) {
         List<MenuItemInfo<ReportItemModel>> menuItemInfos = List.of(
@@ -203,8 +213,44 @@ public class ReportController extends View implements Initializable {
         tblColOrderNumber.setCellValueFactory(cellData -> cellData.getValue().orderNumberProperty());
         tblColStatus.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        tblColStatus.setCellFactory(column -> new TableCell<ReportItemModel, String>() {
+            private final Label badge = new Label();
 
+            {
+                badge.setTextFill(Color.WHITE);
+                badge.setPadding(new Insets(2, 8, 2, 8));
+                badge.setStyle("-fx-font-weight: bold;");
+            }
+
+            @Override
+            protected void updateItem(String status, boolean empty) {
+                super.updateItem(status, empty);
+
+                if (empty || status == null) {
+                    setGraphic(null);
+                } else {
+                    switch (status) {
+                        case "Pending":
+                            badge.setStyle("-fx-background-color: #3498db; -fx-background-radius: 4; -fx-text-fill: white");
+                            break;
+                        case "Accepted":
+                            badge.setStyle("-fx-background-color: #2ecc71; -fx-background-radius: 4; -fx-text-fill: white");
+                            break;
+                        case "Rejected":
+                            badge.setStyle("-fx-background-color: #e74c3c; -fx-background-radius: 4; -fx-text-fill: white");
+                            break;
+                        default:
+                            badge.setStyle("-fx-background-color: #95a5a6; -fx-background-radius: 4; -fx-text-fill: white");
+                    }
+
+                    badge.setText(status);
+                    setGraphic(badge);
+                }
+            }
+        });
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         tblColCreated.setCellValueFactory(cellData -> {
             LocalDateTime dateTime = cellData.getValue().getCreatedDate();
             String formatted = (dateTime != null) ? formatter.format(dateTime) : "";

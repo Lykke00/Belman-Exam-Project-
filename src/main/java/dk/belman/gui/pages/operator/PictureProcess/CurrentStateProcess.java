@@ -16,6 +16,14 @@ public enum CurrentStateProcess {
         this.textProperty = text;
     }
 
+    public static CurrentStateProcess fromString(String takenFromAngle) {
+        for (CurrentStateProcess state : CurrentStateProcess.values()) {
+            if (state.textProperty.equalsIgnoreCase(takenFromAngle))
+                return state;
+        }
+        return BEGIN;
+    }
+
     public String textProperty() {
         return textProperty;
     }

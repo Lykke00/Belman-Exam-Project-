@@ -10,7 +10,8 @@ public enum AppView {
     OPERATOR_LANDING("operator_landing", "/fxml/pages/operator/landing.fxml"),
     OPERATOR_PICTURE_PROCESS("operator_pictureprocess", "/fxml/pages/operator/pictureprocess.fxml", FadeInRightBigTransition::new),
     OPERATOR_PICTURE_FINAL("operator_pictureprocessfinal", "/fxml/pages/operator/picturefinal.fxml", FadeInRightBigTransition::new),
-    INSPECTOR_VIEW_REPORTS("inspector_viewreports", "/fxml/pages/inspector/reports.fxml", FadeInRightBigTransition::new);
+    INSPECTOR_VIEW_REPORTS("inspector_viewreports", "/fxml/pages/inspector/reports.fxml", FadeInRightBigTransition::new),
+    INSPECTOR_VIEW_REPORT("inspector_viewreport", "/fxml/pages/inspector/reportItemView.fxml");
 
     private final String pageRoute;
     private final String fxmlPath;

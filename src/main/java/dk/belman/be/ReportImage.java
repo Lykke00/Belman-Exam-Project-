@@ -1,14 +1,26 @@
 package dk.belman.be;
 
 public class ReportImage {
+    private int id;
     private byte[] image;
     private String comment;
     private String takenFromAngle;
+
+    public ReportImage(int id, byte[] image, String comment, String takenFromAngle) {
+        this.id = id;
+        this.image = image;
+        this.comment = comment;
+        this.takenFromAngle = takenFromAngle;
+    }
 
     public ReportImage(byte[] image, String comment, String takenFromAngle) {
         this.image = image;
         this.comment = comment;
         this.takenFromAngle = takenFromAngle;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public byte[] getImage() {

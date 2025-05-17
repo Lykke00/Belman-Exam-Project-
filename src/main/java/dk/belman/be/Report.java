@@ -11,12 +11,12 @@ public class Report {
     private String operator;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
-    private List<byte[]> photos;
+    private List<ReportImage> photos;
     private String status;
 
     public Report () {}
 
-    public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, List<byte[]> photos, String status) {
+    public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, List<ReportImage> photos, String status) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.operator = operator;
@@ -75,11 +75,11 @@ public class Report {
         this.updatedDate = updatedDate;
     }
 
-    public List<byte[]> getPhotos() {
+    public List<ReportImage> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(List<byte[]> photos) {
+    public void setPhotos(List<ReportImage> photos) {
         this.photos = photos;
     }
 
