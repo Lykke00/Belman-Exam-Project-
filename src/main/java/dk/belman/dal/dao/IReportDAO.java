@@ -3,6 +3,7 @@ package dk.belman.dal.dao;
 import dk.belman.be.OperatorReport;
 import dk.belman.be.Report;
 import dk.belman.be.ReportImage;
+import dk.belman.enums.ReportStatus;
 import dk.belman.gui.pages.common.ReportItemModel;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface IReportDAO {
     Report getReport(ReportItemModel report) throws Exception;
 
     List<ReportImage> getReportImages(Report report) throws Exception;
+
+    boolean updateReportStatus(Report report, ReportStatus status) throws Exception;
 }

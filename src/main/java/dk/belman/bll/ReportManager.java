@@ -4,6 +4,7 @@ import dk.belman.be.OperatorReport;
 import dk.belman.be.Report;
 import dk.belman.dal.dao.IReportDAO;
 import dk.belman.dal.dao.ReportDAO;
+import dk.belman.enums.ReportStatus;
 import dk.belman.gui.pages.common.ReportItemModel;
 
 import java.util.List;
@@ -25,5 +26,10 @@ public class ReportManager {
 
     public Report getReport(ReportItemModel report) throws Exception {
         return reportDAO.getReport(report);
+    }
+
+    public boolean updateReportStatus(Report report, ReportStatus status) throws Exception
+    {
+        return reportDAO.updateReportStatus(report, status);
     }
 }

@@ -1,5 +1,7 @@
 package dk.belman.be;
 
+import dk.belman.enums.ReportStatus;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +14,7 @@ public class Report {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private List<ReportImage> photos;
-    private String status;
+    private ReportStatus status;
 
     public Report () {}
 
@@ -23,7 +25,7 @@ public class Report {
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
         this.photos = photos;
-        this.status = status;
+        this.status = ReportStatus.fromString(status);
     }
 
     public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, String status) {
@@ -32,7 +34,7 @@ public class Report {
         this.operator = operator;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-        this.status = status;
+        this.status = ReportStatus.fromString(status);
     }
 
     public int getId() {
@@ -83,11 +85,11 @@ public class Report {
         this.photos = photos;
     }
 
-    public String getStatus() {
+    public ReportStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ReportStatus status) {
         this.status = status;
     }
 

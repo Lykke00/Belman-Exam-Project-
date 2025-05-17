@@ -1,6 +1,7 @@
 package dk.belman.gui.pages.common;
 
 import dk.belman.be.Report;
+import dk.belman.enums.ReportStatus;
 import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,7 +16,7 @@ import java.util.List;
 public class ReportItemModel {
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
     private final SimpleStringProperty orderNumber = new SimpleStringProperty();
-    private final SimpleStringProperty status = new SimpleStringProperty();
+    private final SimpleObjectProperty<ReportStatus> status = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<LocalDateTime> createdDate = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<LocalDateTime> updatedDate = new SimpleObjectProperty<>();
     private final SimpleStringProperty operatorId = new SimpleStringProperty();
@@ -31,7 +32,7 @@ public class ReportItemModel {
         return orderNumber;
     }
 
-    public SimpleStringProperty statusProperty() {
+    public SimpleObjectProperty<ReportStatus> statusProperty() {
         return status;
     }
 
@@ -60,7 +61,7 @@ public class ReportItemModel {
     }
 
     public String getStatus() {
-        return status.get();
+        return status.get().getStatus();
     }
 
     public LocalDateTime getCreatedDate() {
@@ -111,12 +112,12 @@ public class ReportItemModel {
 
     public static Report toEntity(ReportItemModel model) {
         Report report = new Report();
-        report.setId(model.getId());
-        report.setOrderNumber(model.getOrderNumber());
-        report.setStatus(model.getStatus());
-        report.setCreatedDate(model.getCreatedDate());
-        report.setUpdatedDate(model.getUpdatedDate());
-        report.setOperator(model.getOperatorId());
+        report.setId(model.idProperty().get());
+        report.setOrderNumber(model.orderNumberProperty().get());
+        report.setStatus(model.statusProperty().get());
+        report.setCreatedDate(model.createdDateProperty().get());
+        report.setUpdatedDate(model.updatedDateProperty().get());
+        report.setOperator(model.operatorIdProperty().get());
         return report;
     }
 }

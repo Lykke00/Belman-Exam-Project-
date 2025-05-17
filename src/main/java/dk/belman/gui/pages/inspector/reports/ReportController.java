@@ -1,6 +1,7 @@
 package dk.belman.gui.pages.inspector.reports;
 
 import com.gluonhq.charm.glisten.mvc.View;
+import dk.belman.enums.ReportStatus;
 import dk.belman.gui.components.ContextMenu.MenuItemInfo;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.interactors.ReportInteractor;
@@ -13,9 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.feather.Feather;
@@ -79,14 +77,14 @@ public class ReportController extends View implements Initializable {
     }
 
     private void addTestData() {
-        String[] statuses = {"Pending", "Accepted", "Rejected"};
+        ReportStatus[] statuses = {ReportStatus.ACCEPTED, ReportStatus.REJECTED, ReportStatus.PENDING};
 
         Random random = new Random(System.currentTimeMillis());
 
         ReportItemModel item = new ReportItemModel();
         item.orderNumberProperty().set("Order #" + System.currentTimeMillis() % 1000);
 
-        String randomStatus = statuses[random.nextInt(statuses.length)];
+        ReportStatus randomStatus = statuses[random.nextInt(statuses.length)];
         item.statusProperty().set(randomStatus);
 
         item.createdDateProperty().set(LocalDateTime.now());
@@ -141,9 +139,9 @@ public class ReportController extends View implements Initializable {
         Predicate<ReportItemModel> combinedFilter = reportItem -> {
             boolean matchesFilter = switch (currentFilterValue) {
                 case ALL_REPORTS -> true;
-                case PENDING_REPORTS -> reportItem.statusProperty().get().equals("Pending");
-                case ACCEPTED_REPORTS -> reportItem.statusProperty().get().equals("Accepted");
-                case REJECTED_REPORTS -> reportItem.statusProperty().get().equals("Rejected");
+                case PENDING_REPORTS -> reportItem.statusProperty().get().equals(ReportStatus.PENDING);
+                case ACCEPTED_REPORTS -> reportItem.statusProperty().get().equals(ReportStatus.ACCEPTED);
+                case REJECTED_REPORTS -> reportItem.statusProperty().get().equals(ReportStatus.REJECTED);
                 default -> false;
             };
 
@@ -211,7 +209,11 @@ public class ReportController extends View implements Initializable {
         tblView.setPlaceholder(new Label("No reports found"));
 
         tblColOrderNumber.setCellValueFactory(cellData -> cellData.getValue().orderNumberProperty());
-        tblColStatus.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+        tblColStatus.setCellValueFactory(cellData -> {
+            ReportStatus status = cellData.getValue().statusProperty().get(); // Assuming getStatus() returns your enum
+            String displayText = status != null ? status.getStatus() : "";
+            return new ReadOnlyStringWrapper(displayText);
+        });
 
         tblColStatus.setCellFactory(column -> new TableCell<ReportItemModel, String>() {
             private final Label badge = new Label();
@@ -258,8 +260,6 @@ public class ReportController extends View implements Initializable {
         });
 
         tblColOperator.setCellValueFactory(cellData -> cellData.getValue().operatorIdProperty());
-
-        tblView.getColumns().addAll(tblColOrderNumber, tblColStatus, tblColCreated, tblColOperator);
 
         tblView.setRowFactory(e -> {
             TableRow<ReportItemModel> row = new TableRow<>();

@@ -5,6 +5,7 @@ import dk.belman.be.ReportImage;
 import dk.belman.be.OperatorReport;
 import dk.belman.dal.DBConnector;
 import dk.belman.dal.IDBConnector;
+import dk.belman.enums.ReportStatus;
 import dk.belman.gui.pages.common.ReportItemModel;
 
 import java.sql.*;
@@ -159,6 +160,34 @@ public class ReportDAO implements IReportDAO {
             return reportImages;
         } catch (SQLException e) {
             throw new Exception("Couldn't fetch all report images from database", e);
+        }
+    }
+
+    @Override
+    public boolean updateReportStatus(Report report, ReportStatus status) throws Exception {
+        String query = """
+                UPDATE reports
+                SET status = ?
+                WHERE id = ?
+            """;
+
+        try (Connection conn = connector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, status.toString());
+
+            stmt.setInt(2, report.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                report.setStatus(status);
+                return true;
+            } else {
+                throw new Exception("Failed to update report status");
+            }
+        } catch (Exception e) {
+            throw new Exception("Failed to update report status", e);
         }
     }
 }
