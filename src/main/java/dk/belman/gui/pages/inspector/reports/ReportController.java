@@ -5,19 +5,29 @@ import dk.belman.enums.ReportStatus;
 import dk.belman.gui.components.ContextMenu.MenuItemInfo;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.interactors.ReportInteractor;
+import dk.belman.gui.modals.Modal;
+import dk.belman.gui.modals.viewreport.ViewReportModalController;
 import dk.belman.gui.pages.common.ReportItemModel;
+import dk.belman.gui.utils.ModalHandler;
+import dk.belman.gui.utils.ModalOverlay;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.feather.Feather;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -96,7 +106,7 @@ public class ReportController extends View implements Initializable {
 
     private void setupContextMenu(TableView<ReportItemModel> tableView) {
         List<MenuItemInfo<ReportItemModel>> menuItemInfos = List.of(
-                new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::contextMenuShow),
+                new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::loadPopUp),
                 new MenuItemInfo<>(true),
                 new MenuItemInfo<>(Feather.EDIT_2, new SimpleStringProperty("Change status"), System.out::println),
                 new MenuItemInfo<>(Feather.BOOK_OPEN, new SimpleStringProperty("Generate PDF"), System.out::println),
@@ -209,11 +219,15 @@ public class ReportController extends View implements Initializable {
         tblView.setPlaceholder(new Label("No reports found"));
 
         tblColOrderNumber.setCellValueFactory(cellData -> cellData.getValue().orderNumberProperty());
-        tblColStatus.setCellValueFactory(cellData -> {
-            ReportStatus status = cellData.getValue().statusProperty().get(); // Assuming getStatus() returns your enum
-            String displayText = status != null ? status.getStatus() : "";
-            return new ReadOnlyStringWrapper(displayText);
-        });
+        tblColStatus.setCellValueFactory(cellData ->
+                Bindings.createStringBinding(
+                        () -> {
+                            ReportStatus status = cellData.getValue().statusProperty().get();
+                            return status != null ? status.getStatus() : "";
+                        },
+                        cellData.getValue().statusProperty()
+                )
+        );
 
         tblColStatus.setCellFactory(column -> new TableCell<ReportItemModel, String>() {
             private final Label badge = new Label();
@@ -251,7 +265,6 @@ public class ReportController extends View implements Initializable {
             }
         });
 
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         tblColCreated.setCellValueFactory(cellData -> {
             LocalDateTime dateTime = cellData.getValue().getCreatedDate();
@@ -267,7 +280,7 @@ public class ReportController extends View implements Initializable {
                 if (newItem != null) {
                     row.setOnMouseClicked(event -> {
                         if (event.getClickCount() == 2) {
-                            reportInteractor.loadReport(newItem);
+                            loadPopUp(row.getItem());
                         }
                     });
                 }
@@ -275,4 +288,11 @@ public class ReportController extends View implements Initializable {
             return row;
         });
     }
+
+    private void loadPopUp(ReportItemModel item) {
+        reportInteractor.loadReport(item);
+
+        ModalHandler.getInstance().getModalOverlay().showFXML(Modal.REPORT_ITEM_VIEW);
+    }
+
 }

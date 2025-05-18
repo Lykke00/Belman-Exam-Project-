@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fx:controller="dk.belman.gui.pages.inspector.reportview.ReportItemViewController" fx:id="scrollPaneView" fitToHeight="true" fitToWidth="true" stylesheets="@../../../css/belman.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fx:id="scrollPaneView" fitToHeight="true" fitToWidth="true" stylesheets="@../../../css/belman.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.inspector.reportview.ReportItemViewController">
    <content>
       <VBox styleClass="outer-background">
          <children>

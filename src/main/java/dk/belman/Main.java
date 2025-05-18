@@ -8,6 +8,7 @@ import dk.belman.gui.*;
 import dk.belman.gui.components.DrawerManager;
 import dk.belman.gui.components.Snackbar;
 import dk.belman.gui.utils.LabelStyle;
+import dk.belman.gui.utils.ModalHandler;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -37,6 +38,8 @@ public class Main extends Application {
 
         StackPane rootStack = new StackPane();
         rootStack.getChildren().add(scene.getRoot());
+
+        ModalHandler.getInstance().setRoot(rootStack);
 
         scene.setRoot(rootStack);
         Snackbar.setStackPane(rootStack);

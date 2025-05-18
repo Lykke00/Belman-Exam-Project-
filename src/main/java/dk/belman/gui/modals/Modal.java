@@ -1,7 +1,7 @@
 package dk.belman.gui.modals;
 
 public enum Modal {
-    TEST("/fxml/modals/test.fxml");
+    REPORT_ITEM_VIEW("/fxml/modals/ViewReportModal.fxml");
 
     private final String path;
     private Object controller;

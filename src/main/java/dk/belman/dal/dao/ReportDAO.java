@@ -9,6 +9,7 @@ import dk.belman.enums.ReportStatus;
 import dk.belman.gui.pages.common.ReportItemModel;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,9 @@ public class ReportDAO implements IReportDAO {
         int operatorId = rs.getInt("operator_id");
         int inspectedBy = rs.getInt("inspected_by");
 
-        return new Report(reportId, orderNumber, "" + operatorId, createdDate.toLocalDateTime(), updatedDate.toLocalDateTime(), status);
+        LocalDateTime updatedDateConvert = updatedDate != null ? updatedDate.toLocalDateTime() : null;
+
+        return new Report(reportId, orderNumber, "" + operatorId, createdDate.toLocalDateTime(), updatedDateConvert, status);
     }
 
     @Override

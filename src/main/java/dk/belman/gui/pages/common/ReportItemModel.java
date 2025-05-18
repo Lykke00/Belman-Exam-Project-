@@ -89,6 +89,24 @@ public class ReportItemModel {
         this.images.addAll(images);
     }
 
+    public void copyFromEntity(Report report) {
+        this.id.set(report.getId());
+        this.orderNumber.set(report.getOrderNumber());
+        this.status.set(report.getStatus());
+        this.createdDate.set(report.getCreatedDate());
+        this.updatedDate.set(report.getUpdatedDate());
+        this.operatorId.set(report.getOperator());
+        this.inspectedBy.set("inspector");
+
+        if (report.getPhotos() != null) {
+            List<PictureItemModel> pictures = report.getPhotos().stream()
+                    .map(PictureItemModel::fromEntity)
+                    .toList();
+
+            this.images.setAll(pictures);
+        }
+    }
+
     public static ReportItemModel fromEntity(Report report) {
         ReportItemModel model = new ReportItemModel();
         model.id.set(report.getId());
