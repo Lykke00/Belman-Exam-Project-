@@ -171,7 +171,7 @@ public class ReportDAO implements IReportDAO {
     public boolean updateReportStatus(Report report, ReportStatus status) throws Exception {
         String query = """
                 UPDATE reports
-                SET status = ?
+                SET status = ?, update_date = ?
                 WHERE id = ?
             """;
 
@@ -179,8 +179,8 @@ public class ReportDAO implements IReportDAO {
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, status.toString());
-
-            stmt.setInt(2, report.getId());
+            stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setInt(3, report.getId());
 
             int rowsAffected = stmt.executeUpdate();
 
