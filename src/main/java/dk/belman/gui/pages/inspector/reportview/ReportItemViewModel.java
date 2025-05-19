@@ -8,6 +8,7 @@ public class ReportItemViewModel {
     private final SimpleObjectProperty<ReportItemModel> reportItemModelProperty = new SimpleObjectProperty<>();
     private final SimpleBooleanProperty loadedProperty = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty updatingProperty = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty inspectorUpdatingProperty = new SimpleBooleanProperty(false);
 
     public SimpleObjectProperty<ReportItemModel> reportItemModelProperty() {
         return reportItemModelProperty;
@@ -23,5 +24,9 @@ public class ReportItemViewModel {
 
     public SimpleBooleanProperty updatingProperty() {
         return updatingProperty;
+    }
+
+    public SimpleBooleanProperty inspectorUpdatingProperty() {
+        return inspectorUpdatingProperty;
     }
 }

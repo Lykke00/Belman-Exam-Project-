@@ -89,6 +89,25 @@ public class ReportInteractor {
         );
     }
 
+    public void updateInspectorComment(ReportItemModel reportItemModel, String comment, Consumer<Boolean> callback) {
+        BackgroundTaskExecutor.executeWithExceptionHandling(
+                () -> reportManager.updateInspectorComment(ReportItemModel.toEntity(reportItemModel), comment),
+                updated -> {
+                    if (updated) {
+                        reportItemModel.inspectorCommentProperty().set(comment);
+                    }
+                    callback.accept(updated);
+                },
+                error -> {
+                    callback.accept(false);
+                    DialogHandler.showExceptionError("Error updating inspector comment", "Couldn't update inspector comment, an unexpected error occurred", error);
+                },
+                loading -> {
+                    reportItemViewModel.inspectorUpdatingProperty().set(!loading);
+                }
+        );
+    }
+
     public ReportModel getReportModel() {
         return reportModel;
     }
