@@ -1,8 +1,10 @@
 package dk.belman.gui.pages.inspector.reports;
 
+import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.enums.ReportStatus;
 import dk.belman.gui.components.ContextMenu.MenuItemInfo;
+import dk.belman.gui.components.CustomAppBar;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.interactors.ReportInteractor;
 import dk.belman.gui.modals.Modal;
@@ -295,4 +297,8 @@ public class ReportController extends View implements Initializable {
         ModalHandler.getInstance().getModalOverlay().showFXML(Modal.REPORT_ITEM_VIEW);
     }
 
+    @Override
+    public void updateAppBar(AppBar appBar) {
+        CustomAppBar.updateAppBar(appBar, "Reports", false);
+    }
 }

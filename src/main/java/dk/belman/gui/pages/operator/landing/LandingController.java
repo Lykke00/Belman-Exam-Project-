@@ -8,7 +8,7 @@ import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.gui.AppView;
 import dk.belman.gui.Routes;
 import dk.belman.gui.common.QCReportModel;
-import dk.belman.gui.components.OperatorAppBar;
+import dk.belman.gui.components.CustomAppBar;
 import dk.belman.gui.components.SelectableImageView;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.pages.operator.PictureProcess.CurrentStateProcess;
@@ -57,7 +57,7 @@ public class LandingController extends View implements Initializable {
 
     @Override
     public void updateAppBar(AppBar appBar) {
-        OperatorAppBar.updateAppBar(appBar, "Upload Images", false);
+        CustomAppBar.updateAppBar(appBar, "Upload Images", false);
     }
 
     @Override

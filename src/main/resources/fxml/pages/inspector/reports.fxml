@@ -13,7 +13,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.inspector.reports.ReportController">
+<?import dk.belman.gui.pages.inspector.reports.ReportController?>
+<ReportController xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.inspector.reports.ReportController">
    <center>
       <ScrollPane fx:id="scrollPaneView" fitToHeight="true" fitToWidth="true">
          <content>
@@ -72,4 +73,4 @@
          </content>
       </ScrollPane>
    </center>
-</View>
+</ReportController>
