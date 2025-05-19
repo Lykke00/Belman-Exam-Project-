@@ -32,4 +32,9 @@ public class ReportManager {
     {
         return reportDAO.updateReportStatus(report, status);
     }
+
+    public boolean updateInspectorComment(Report report, String comment) throws Exception
+    {
+        return reportDAO.updateInspectorComment(report, comment);
+    }
 }
