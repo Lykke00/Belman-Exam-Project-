@@ -23,6 +23,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,6 +78,18 @@ public class ViewReportModalController implements Initializable {
         progressIndicator.setProgress(-1);
         progressIndicator.setPadding(new Insets(50, 0, 50, 0));
 
+        ObservableBooleanValue isAccepted = reportItemModel.statusProperty().isEqualTo(ReportStatus.ACCEPTED);
+        ObservableBooleanValue isRejected = reportItemModel.statusProperty().isEqualTo(ReportStatus.REJECTED);
+        BooleanBinding disableComment = Bindings.or(
+                isAccepted,
+                isRejected
+        );
+
+        btnAddComment.disableProperty().bind(disableComment);
+
+        btnAccept.disableProperty().bind(isAccepted);
+        btnReject.disableProperty().bind(isRejected);
+
         vBoxPreview.getChildren().add(progressIndicator);
 
         StackPane stackPane = new StackPane();
@@ -100,15 +113,7 @@ public class ViewReportModalController implements Initializable {
         btnAccept.getStyleClass().add(Styles.SUCCESS);
         btnReject.getStyleClass().add(Styles.DANGER);
 
-        btnAccept.setOnAction(event -> {
-            ReportItemModel reportItemModel = reportItemViewModel.reportItemModelProperty().get();
-            reportInteractor.updateReportStatus(reportItemModel, ReportStatus.ACCEPTED, success -> {
-                if (success) {
-                    GluonSnackbar.showSnackbar("Report accepted successfully");
-                    ModalHandler.getInstance().hideModal();
-                }
-            });
-        });
+        btnAccept.setOnAction(this::confirmSignatureBox);
 
         btnReject.setOnAction(event -> {
             ReportItemModel reportItemModel = reportItemViewModel.reportItemModelProperty().get();
@@ -122,6 +127,44 @@ public class ViewReportModalController implements Initializable {
 
         btnAddComment.setOnAction(this::btnAddComment);
         btnAddComment.getStyleClass().add("normal-btn");
+    }
+
+    private void confirmSignatureBox(ActionEvent event) {
+        javafx.scene.control.Dialog<String> dialog = new javafx.scene.control.Dialog<>();
+        dialog.setTitle("Confirm signature");
+        dialog.setHeaderText("Confirm signature");
+
+        dialog.setContentText("By confirming, you accept the quality report and your signature will be added");
+
+        dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        dialog.initOwner(btnAccept.getScene().getWindow());
+
+        ButtonType saveButtonType = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, cancelButtonType);
+
+        dialog.getDialogPane().lookupButton(saveButtonType).getStyleClass().add(Styles.SUCCESS);
+        dialog.getDialogPane().lookupButton(cancelButtonType).getStyleClass().add(Styles.DANGER);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                ReportItemModel reportItemModel = reportItemViewModel.reportItemModelProperty().get();
+                reportInteractor.updateReportStatus(reportItemModel, ReportStatus.ACCEPTED, success -> {
+                    if (success) {
+                        GluonSnackbar.showSnackbar("Report accepted successfully");
+                        ModalHandler.getInstance().hideModal();
+                    }
+                });
+            }
+            return null;
+        });
+
+        Platform.runLater(() -> {
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.setAlwaysOnTop(true);
+        });
+
+        dialog.showAndWait();
     }
 
     private void btnAddComment(ActionEvent event) {
