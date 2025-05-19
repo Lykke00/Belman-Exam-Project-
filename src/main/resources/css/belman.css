@@ -1,5 +1,6 @@
 * {
-    -btn-blue-color: #00539B
+    -btn-blue-color: #00539B;
+    -btn-blue-hover-color: #0260b2;
 }
 
 /* Default styles override */
@@ -30,6 +31,26 @@
 .outer-background {
     -fx-background-color: #E9E9E9;
 }
+
+.normal-btn {
+    -fx-background-color: -btn-blue-color;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-text-fill: white;
+}
+
+.normal-btn:hover {
+    -fx-text-fill: white;
+    -fx-background-color: -btn-blue-hover-color;
+}
+
+.normal-btn:focused,
+.normal-btn:pressed,
+.normal-btn:armed {
+    -fx-text-fill: white !important;
+    -fx-background-color: derive(-btn-blue-hover-color, -10%) !important;
+}
+
 
 .begin-operator-btn {
     -fx-font-size: 32px;
