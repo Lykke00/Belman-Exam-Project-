@@ -24,4 +24,6 @@ public interface IReportDAO {
     List<ReportImage> getReportImages(Report report) throws Exception;
 
     boolean updateReportStatus(Report report, ReportStatus status) throws Exception;
+
+    boolean updateInspectorComment(Report report, String comment) throws Exception;
 }

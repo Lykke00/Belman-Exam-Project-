@@ -28,10 +28,11 @@ public class ReportDAO implements IReportDAO {
         Timestamp updatedDate = rs.getTimestamp("update_date");
         int operatorId = rs.getInt("operator_id");
         int inspectedBy = rs.getInt("inspected_by");
+        String inspectorComment = rs.getString("inspector_comment");
 
         LocalDateTime updatedDateConvert = updatedDate != null ? updatedDate.toLocalDateTime() : null;
 
-        return new Report(reportId, orderNumber, "" + operatorId, createdDate.toLocalDateTime(), updatedDateConvert, status);
+        return new Report(reportId, orderNumber, "" + operatorId, createdDate.toLocalDateTime(), updatedDateConvert, status, inspectorComment);
     }
 
     @Override
@@ -191,6 +192,32 @@ public class ReportDAO implements IReportDAO {
             }
         } catch (Exception e) {
             throw new Exception("Failed to update report status", e);
+        }
+    }
+
+    @Override
+    public boolean updateInspectorComment(Report report, String comment) throws Exception {
+        String query = """
+                UPDATE reports
+                SET inspector_comment = ?
+                WHERE id = ?
+            """;
+
+        try (Connection conn = connector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, comment);
+            stmt.setInt(2, report.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                report.setInspectorComment(comment);
+                return true;
+            } else {
+                throw new Exception("Failed to update inspector comment");
+            }
+        } catch (Exception e) {
+            throw new Exception("Failed to update inspector comment", e);
         }
     }
 }

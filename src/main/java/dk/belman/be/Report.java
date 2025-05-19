@@ -15,10 +15,11 @@ public class Report {
     private LocalDateTime updatedDate;
     private List<ReportImage> photos;
     private ReportStatus status;
+    private String inspectorComment;
 
     public Report () {}
 
-    public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, List<ReportImage> photos, String status) {
+    public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, List<ReportImage> photos, String status, String inspectorComment) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.operator = operator;
@@ -26,15 +27,17 @@ public class Report {
         this.updatedDate = updatedDate;
         this.photos = photos;
         this.status = ReportStatus.fromString(status);
+        this.inspectorComment = inspectorComment;
     }
 
-    public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, String status) {
+    public Report(int id, String orderNumber, String operator, LocalDateTime createdDate, LocalDateTime updatedDate, String status, String inspectorComment) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.operator = operator;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
         this.status = ReportStatus.fromString(status);
+        this.inspectorComment = inspectorComment;
     }
 
     public int getId() {
@@ -91,6 +94,14 @@ public class Report {
 
     public void setStatus(ReportStatus status) {
         this.status = status;
+    }
+
+    public String getInspectorComment() {
+        return inspectorComment;
+    }
+
+    public void setInspectorComment(String inspectorComment) {
+        this.inspectorComment = inspectorComment;
     }
 
     @Override
