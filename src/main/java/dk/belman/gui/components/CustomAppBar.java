@@ -78,7 +78,7 @@ public class CustomAppBar {
         HBox hBox = new HBox(5, id, logOut);
         hBox.setAlignment(Pos.CENTER_RIGHT);
 
-        hBox.getStylesheets().add(CustomAppBar.class.getResource("/css/belman.css").toExternalForm());
+        hBox.getStylesheets().add(Objects.requireNonNull(CustomAppBar.class.getResource("/css/belman.css")).toExternalForm());
 
         appBar.getActionItems().add(hBox);
 

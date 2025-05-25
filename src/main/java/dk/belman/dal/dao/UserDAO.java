@@ -112,6 +112,66 @@ public class UserDAO implements IUserDAO {
         }
     }
 
+    @Override
+    public boolean editUser(User newData) throws Exception {
+        String query = """
+                UPDATE users SET workerId = ?, firstName = ?, lastName = ?, role = ? 
+                WHERE id = ?
+                """;
+
+        try (Connection conn = dbConnector.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                stmt.setString(1, newData.getWorkerId());
+                stmt.setString(2, newData.getFirstName());
+                stmt.setString(3, newData.getLastName());
+                stmt.setInt(4, getRoleIdByName(conn, newData.getRole().getRole()));
+                stmt.setInt(5, newData.getId());
+
+                int rowsAffected = stmt.executeUpdate();
+                return rowsAffected > 0;
+            } catch (Exception e) {
+                throw new Exception("User couldn't be edited", e);
+            }
+    }
+
+    @Override
+    public boolean updatePassword(User user, String newPassword) throws Exception {
+        String query = "UPDATE users SET password = ? WHERE id = ?";
+
+        try (Connection conn = dbConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, newPassword);
+            stmt.setInt(2, user.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            throw new Exception("Password couldn't be updated", e);
+        }
+    }
+
+    @Override
+    public boolean updateUserStatus(User user, boolean active) throws Exception {
+        String query = """
+                UPDATE users SET active = ?
+                WHERE id = ?
+                """;
+
+        try (Connection conn = dbConnector.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setBoolean(1, active);
+            stmt.setInt(2, user.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            throw new Exception("User status couldn't be updated", e);
+        }
+    }
+
     private int getRoleIdByName(Connection conn, String roleName) throws Exception {
         String query = "SELECT id FROM users_roles WHERE role = ?";
 

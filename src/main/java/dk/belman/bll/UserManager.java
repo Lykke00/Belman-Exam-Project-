@@ -58,4 +58,32 @@ public class UserManager {
     public List<User> getAll() throws Exception {
         return userDAO.getAllUsers();
     }
+
+    public boolean editUser(User newData, User oldUser) throws Exception {
+        if (!newData.getWorkerId().equals(oldUser.getWorkerId())) {
+            User userExists = userDAO.getUserByWorkerId(newData.getWorkerId());
+            if (userExists != null)
+                throw new Exception("USER_EXISTS");
+        }
+
+        if (newData.getPassword() != null && !newData.getPassword().isEmpty()) {
+            String hashedPassword = BCrypt.withDefaults().hashToString(BCRYPT_COST, newData.getPasswordHash().toCharArray());
+            oldUser.setPasswordHash(hashedPassword);
+
+            if (!userDAO.updatePassword(oldUser, oldUser.getPasswordHash())) {
+                throw new Exception("PASSWORD_UPDATE_FAILED");
+            }
+        }
+
+        oldUser.setWorkerId(newData.getWorkerId());
+        oldUser.setFirstName(newData.getFirstName());
+        oldUser.setLastName(newData.getLastName());
+        oldUser.setRole(newData.getRole());
+
+        return userDAO.editUser(newData);
+    }
+
+    public boolean updateUserStatus(User user, boolean active) throws Exception {
+        return userDAO.updateUserStatus(user, active);
+    }
 }

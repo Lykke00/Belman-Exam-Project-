@@ -92,6 +92,11 @@ public class OperatorPicture extends StackPane {
         addCommentBtn.setFocusTraversable(false);
         retakeBtn.setFocusTraversable(false);
 
+////commentLabel.textProperty().bind(comment);
+  //      commentLabel.setWrapText(true);
+
+  //      HBox commentBox = new HBox(commentLabel);
+
         VBox spacer = new VBox();
         spacer.setMinHeight(0);
         VBox.setVgrow(spacer, Priority.ALWAYS);

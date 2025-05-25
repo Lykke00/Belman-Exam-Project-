@@ -10,4 +10,10 @@ public interface IUserDAO {
     User createUser(User user) throws Exception;
 
     List<User> getAllUsers() throws Exception;
+
+    boolean editUser(User newData) throws Exception;
+
+    boolean updatePassword(User user, String newPassword) throws Exception;
+
+    boolean updateUserStatus(User user, boolean status) throws Exception;
 }

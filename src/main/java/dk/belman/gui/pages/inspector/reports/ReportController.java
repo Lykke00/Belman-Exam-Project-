@@ -101,12 +101,12 @@ public class ReportController extends View implements Initializable {
 
     private void setupContextMenu(TableView<ReportItemModel> tableView) {
         List<MenuItemInfo<ReportItemModel>> menuItemInfos = List.of(
-                new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::loadPopUp),
+                new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::loadPopUp)/*,
                 new MenuItemInfo<>(true),
                 new MenuItemInfo<>(Feather.EDIT_2, new SimpleStringProperty("Change status"), System.out::println),
                 new MenuItemInfo<>(Feather.BOOK_OPEN, new SimpleStringProperty("Generate PDF"), System.out::println),
                 new MenuItemInfo<>(true),
-                new MenuItemInfo<>(Feather.TRASH, new SimpleStringProperty("Delete"), System.out::println)
+                new MenuItemInfo<>(Feather.TRASH, new SimpleStringProperty("Delete"), System.out::println)*/
             );
 
         var contextMenu = createContextMenu(menuItemInfos, tableView);

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="300.0" styleClass="report-view-modal" stylesheets="@../../css/belman.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.modals.useredit.UserEditController">
+   <children>
+      <Label fx:id="lblTitle" text="Edit user">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" top="10.0" />
+         </VBox.margin></Label>
+      <VBox prefWidth="100.0" spacing="10.0">
+         <children>
+            <HBox alignment="BOTTOM_LEFT" spacing="5.0">
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Worker Id" />
+                        <TextField fx:id="txtFieldWorkerId" />
+                     </children>
+                  </VBox>
+                  <Button fx:id="btnGenerateId" mnemonicParsing="false" text="Generate ID" />
+               </children>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label text="First name" />
+                        <TextField fx:id="txtFieldFirstName" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0">
+                     <children>
+                        <Label text="Last name" />
+                        <TextField fx:id="txtFieldLastName" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_CENTER" spacing="5.0">
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Password" />
+                        <TextField fx:id="txtFieldPassword" />
+                     </children>
+                  </VBox>
+                  <Button fx:id="btnGeneratePassword" mnemonicParsing="false" text="Generate" />
+               </children>
+            </HBox>
+            <VBox>
+               <children>
+                  <Label text="Role" />
+                  <ChoiceBox fx:id="choiceBoxRole" maxWidth="1.7976931348623157E308" />
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="15.0" left="10.0" right="10.0" />
+         </VBox.margin>
+      </VBox>
+      <Separator prefWidth="200.0" />
+      <HBox spacing="30.0">
+         <children>
+            <Button fx:id="btnCancel" maxWidth="1.7976931348623157E308" minWidth="100.0" mnemonicParsing="false" text="Cancel" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnUpdate" maxWidth="1.7976931348623157E308" minWidth="100.0" mnemonicParsing="false" text="Update" HBox.hgrow="ALWAYS" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>
