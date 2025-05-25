@@ -5,7 +5,7 @@ import dk.belman.be.Report;
 import dk.belman.dal.dao.IReportDAO;
 import dk.belman.dal.dao.ReportDAO;
 import dk.belman.enums.ReportStatus;
-import dk.belman.gui.pages.common.ReportItemModel;
+import dk.belman.gui.common.ReportItemModel;
 
 import java.util.List;
 

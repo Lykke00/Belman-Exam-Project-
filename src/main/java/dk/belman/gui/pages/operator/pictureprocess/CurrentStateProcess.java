@@ -1,6 +1,4 @@
-package dk.belman.gui.pages.operator.PictureProcess;
-
-import javafx.beans.property.SimpleStringProperty;
+package dk.belman.gui.pages.operator.pictureprocess;
 
 public enum CurrentStateProcess {
     BEGIN("Begin"),

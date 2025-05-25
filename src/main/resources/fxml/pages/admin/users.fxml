@@ -13,8 +13,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import dk.belman.gui.pages.inspector.reports.ReportController?>
-<ReportController xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.inspector.reports.ReportController">
+<?import dk.belman.gui.pages.admin.users.UsersController?>
+<UsersController xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.admin.users.UsersController">
    <center>
       <ScrollPane fx:id="scrollPaneView" fitToHeight="true" fitToWidth="true">
          <content>
@@ -22,7 +22,7 @@
                <children>
                   <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="background" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label text="Reports">
+                        <Label text="Users">
                            <font>
                               <Font name="System Bold" size="64.0" />
                            </font>
@@ -35,7 +35,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                            <children>
-                              <HBox spacing="10.0">
+                              <HBox fx:id="hBoxControls" spacing="10.0">
                                  <children>
                                     <ComboBox fx:id="cmbBoxItemsPerPage" prefWidth="150.0" />
                                     <HBox HBox.hgrow="ALWAYS" />
@@ -45,10 +45,10 @@
                               </HBox>
                               <TableView fx:id="tblView" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn fx:id="tblColOrderNumber" prefWidth="75.0" text="Order number" />
-                                  <TableColumn fx:id="tblColStatus" prefWidth="75.0" text="Status" />
-                                    <TableColumn fx:id="tblColCreated" prefWidth="75.0" text="Created" />
-                                    <TableColumn fx:id="tblColOperator" prefWidth="75.0" text="Operator" />
+                                  <TableColumn fx:id="tblColWorkerId" prefWidth="75.0" text="Worker Id" />
+                                  <TableColumn fx:id="tblColName" prefWidth="75.0" text="Name" />
+                                   <TableColumn fx:id="tblColRole" prefWidth="75.0" text="Role" />
+                                   <TableColumn fx:id="tblColStatus" prefWidth="75.0" text="Status" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -73,4 +73,4 @@
          </content>
       </ScrollPane>
    </center>
-</ReportController>
+</UsersController>

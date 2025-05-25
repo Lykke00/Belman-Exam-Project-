@@ -1,6 +1,6 @@
 package dk.belman.gui.pages.inspector.reports;
 
-import dk.belman.gui.pages.common.ReportItemModel;
+import dk.belman.gui.common.ReportItemModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;

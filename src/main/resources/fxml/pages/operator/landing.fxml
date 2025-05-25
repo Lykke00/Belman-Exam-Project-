@@ -11,7 +11,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.landing.LandingController">
+<?import dk.belman.gui.pages.operator.landing.LandingController?>
+<LandingController xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.landing.LandingController">
    <center>
       <VBox prefWidth="500.0" styleClass="outer-background" stylesheets="@../../../css/belman.css" BorderPane.alignment="CENTER">
          <children>
@@ -44,10 +45,14 @@
                               <Insets />
                            </VBox.margin>
                         </Separator>
-                        <Button fx:id="btnBegin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="begin-operator-btn" text="Begin">
+                        <Button fx:id="btnBegin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" text="Begin">
                            <font>
                               <Font size="59.0" />
                            </font>
+                           <styleClass>
+                              <String fx:value="begin-operator-btn" />
+                              <String fx:value="normal-btn" />
+                           </styleClass>
                         </Button>
                      </children>
                      <VBox.margin>
@@ -68,4 +73,4 @@
          </padding>
       </VBox>
    </center>
-</View>
+</LandingController>

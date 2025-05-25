@@ -1,6 +1,6 @@
 package dk.belman.gui.common;
 
-import dk.belman.gui.pages.common.UserModel;
+import dk.belman.gui.interactors.InteractorManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -17,7 +17,6 @@ public class AuthModel {
     private final SimpleObjectProperty<UserModel> user = new SimpleObjectProperty<>(null);
 
     private final SimpleBooleanProperty logOut = new SimpleBooleanProperty();
-
 
     public SimpleBooleanProperty databaseLoadingProperty() {
         return databaseLoading;
@@ -42,8 +41,10 @@ public class AuthModel {
 
     public void logOut(boolean value) {
         logOut.set(value);
-        notifyListeners();
 
+        userProperty().set(null);
+        InteractorManager.getInstance().reset();
+        notifyListeners();
     }
 
     public SimpleObjectProperty<UserModel> userProperty() {

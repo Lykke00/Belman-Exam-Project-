@@ -10,6 +10,7 @@ public class User {
     private String email;
     private String password;
     private UserRole role;
+    private boolean isActive;
 
     public User() {
     }
@@ -24,11 +25,22 @@ public class User {
         this.role = UserRole.fromRole(role);
     }
 
-    public User(int id, String firstName, String lastName, UserRole role) {
+    public User(int id, String workerId, String firstName, String lastName, UserRole role, boolean isActive) {
         this.id = id;
+        this.workerId = workerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.isActive = isActive;
+    }
+
+    public User(int id, String workerId, String firstName, String lastName, String role, boolean isActive) {
+        this.id = id;
+        this.workerId = workerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = UserRole.fromRole(role);
+        this.isActive = isActive;
     }
 
     public User(String workerId, String firstName, String lastName, String password, UserRole role) {
@@ -37,6 +49,7 @@ public class User {
         this.lastName = lastName;
         this.password = password;
         this.role = role;
+        this.isActive = true;
     }
 
     public User(int id, String workerId, String firstName, String lastName, String password, String role) {
@@ -104,6 +117,22 @@ public class User {
         this.workerId = workerId;
     }
 
+    public String getPasswordHash() {
+        return password;
+    }
+
+    public void setPasswordHash(String hashedPassword) {
+        this.password = hashedPassword;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -114,13 +143,5 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';
-    }
-
-    public String getPasswordHash() {
-        return password;
-    }
-
-    public void setPasswordHash(String hashedPassword) {
-        this.password = hashedPassword;
     }
 }

@@ -14,5 +14,8 @@ public class Routes {
         /* ----- Inspector Views ----- */
         appManager.addViewFactory(AppView.INSPECTOR_VIEW_REPORTS.getRoute(), () -> ViewLoader.load(AppView.INSPECTOR_VIEW_REPORTS));
         appManager.addViewFactory(AppView.INSPECTOR_VIEW_REPORT.getRoute(), () -> ViewLoader.load(AppView.INSPECTOR_VIEW_REPORT));
+
+        /* ----- Admin Views ----- */
+        appManager.addViewFactory(AppView.ADMIN_USERS_VIEW.getRoute(), () -> ViewLoader.load(AppView.ADMIN_USERS_VIEW));
     }
 }

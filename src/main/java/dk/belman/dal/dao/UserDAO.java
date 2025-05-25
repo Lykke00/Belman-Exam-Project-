@@ -5,6 +5,8 @@ import dk.belman.dal.DBConnector;
 import dk.belman.dal.IDBConnector;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO implements IUserDAO {
     private final IDBConnector dbConnector;
@@ -79,6 +81,37 @@ public class UserDAO implements IUserDAO {
         }
     }
 
+    @Override
+    public List<User> getAllUsers() throws Exception {
+        List<User> users = new ArrayList<>();
+
+        String query = """
+                    SELECT * FROM users;
+                """;
+
+        try (Connection conn = dbConnector.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String workerId2 = rs.getString("workerId");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String role = getRoleNameById(conn, rs.getInt("role"));
+
+                // står som en BIT i db så 1 == true og 0 == false
+                boolean active = rs.getBoolean("active");
+
+                users.add(new User(id, workerId2, firstName, lastName, role, active));
+            }
+
+            return users;
+        } catch (Exception e) {
+            throw new Exception("Users couldn't be retrieved", e);
+        }
+    }
+
     private int getRoleIdByName(Connection conn, String roleName) throws Exception {
         String query = "SELECT id FROM users_roles WHERE role = ?";
 
@@ -90,6 +123,21 @@ public class UserDAO implements IUserDAO {
                     return rs.getInt("id");
                 }
                 throw new Exception("Role not found: " + roleName);
+            }
+        }
+    }
+
+    private String getRoleNameById(Connection conn, int roleId) throws Exception {
+        String query = "SELECT role FROM users_roles WHERE id = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, roleId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("role");
+                }
+                throw new Exception("Role id not found: " + roleId);
             }
         }
     }

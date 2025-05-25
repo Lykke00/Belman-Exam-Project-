@@ -2,23 +2,28 @@ package dk.belman.gui.interactors;
 
 import dk.belman.be.OperatorReport;
 import dk.belman.bll.ReportManager;
-import dk.belman.gui.pages.operator.PictureProcess.PictureProcessModel;
+import dk.belman.gui.pages.operator.pictureprocess.PictureProcessModel;
 import dk.belman.gui.utils.BackgroundTaskExecutor;
 import dk.belman.gui.utils.DialogHandler;
 
 import java.util.function.Consumer;
 
 public class PictureProcessInteractor {
-    private final PictureProcessModel model;
+    private PictureProcessModel model;
     private ReportManager reportManager;
 
     public PictureProcessInteractor() {
-        this.model = new PictureProcessModel();
+        initialize();
+
         try {
             this.reportManager = new ReportManager();
         } catch (Exception e) {
             DialogHandler.showExceptionError("Error initializing ReportManager", "Couldn't initialize ReportManager, an unexpected error occurred", e);
         }
+    }
+
+    public void initialize() {
+        this.model = new PictureProcessModel();
     }
 
     public void sendReport(Consumer<Boolean> callback) {

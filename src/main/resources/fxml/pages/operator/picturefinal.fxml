@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.mvc.View?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
@@ -10,7 +11,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.PictureProcess.PictureFinalController">
+<?import dk.belman.gui.pages.operator.pictureprocess.PictureFinalController?>
+<PictureFinalController xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.pictureprocess.PictureFinalController">
    <center>
       <VBox styleClass="outer-background" stylesheets="@../../../css/belman.css" BorderPane.alignment="CENTER">
          <children>
@@ -30,10 +32,14 @@
                   <Separator maxWidth="700.0" prefWidth="500.0" VBox.vgrow="ALWAYS" />
                   <VBox alignment="CENTER" minHeight="250.0" spacing="20.0">
                      <children>
-                        <Button fx:id="btnSend" maxWidth="700.0" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="begin-operator-btn" text="Send">
+                        <Button fx:id="btnSend" maxWidth="700.0" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" text="Send">
                            <font>
                               <Font size="59.0" />
                            </font>
+                           <styleClass>
+                              <String fx:value="begin-operator-btn" />
+                              <String fx:value="normal-btn" />
+                           </styleClass>
                         </Button>
                      </children>
                      <VBox.margin>
@@ -54,4 +60,4 @@
          </padding>
       </VBox>
    </center>
-</View>
+</PictureFinalController>

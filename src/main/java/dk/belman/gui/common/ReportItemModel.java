@@ -1,8 +1,7 @@
-package dk.belman.gui.pages.common;
+package dk.belman.gui.common;
 
 import dk.belman.be.Report;
 import dk.belman.enums.ReportStatus;
-import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;

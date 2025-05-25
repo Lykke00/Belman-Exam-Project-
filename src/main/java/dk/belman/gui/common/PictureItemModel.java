@@ -1,7 +1,7 @@
-package dk.belman.gui.pages.common;
+package dk.belman.gui.common;
 
 import dk.belman.be.ReportImage;
-import dk.belman.gui.pages.operator.PictureProcess.CurrentStateProcess;
+import dk.belman.gui.pages.operator.pictureprocess.CurrentStateProcess;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

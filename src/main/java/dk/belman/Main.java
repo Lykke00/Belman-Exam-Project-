@@ -74,7 +74,7 @@ public class Main extends Application {
         appManager.start(stage);
         stage.setTitle("Belsign QR Report System");
 
-        appManager.switchView(AppView.INSPECTOR_VIEW_REPORTS.getRoute());
+        appManager.switchView(AppView.LOGIN.getRoute());
 
         appManager.getAppBar().setTitle(new Label("Belsign"));
 

@@ -1,12 +1,16 @@
-package dk.belman.gui.pages.operator.PictureProcess;
+package dk.belman.gui.pages.operator.pictureprocess;
 
 import com.gluonhq.charm.glisten.application.AppManager;
+import com.gluonhq.charm.glisten.application.ViewStackPolicy;
+import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.gui.AppView;
+import dk.belman.gui.common.AuthModel;
+import dk.belman.gui.components.CustomAppBar;
 import dk.belman.gui.components.GluonSnackbar;
 import dk.belman.gui.components.OperatorPicture;
 import dk.belman.gui.interactors.InteractorManager;
-import dk.belman.gui.pages.common.PictureItemModel;
+import dk.belman.gui.common.PictureItemModel;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,6 +44,11 @@ public class PictureFinalController extends View implements Initializable {
 
         updatePictures();
         sendBtnSetup();
+    }
+
+    @Override
+    public void updateAppBar(AppBar appBar) {
+        CustomAppBar.updateAppBar(appBar, "Confirm report", false);
     }
 
     private void sendBtnSetup() {
@@ -86,7 +95,9 @@ public class PictureFinalController extends View implements Initializable {
         InteractorManager.getInstance().getPictureProcessInteractor().sendReport(success -> {
             if (success) {
                 GluonSnackbar.showSnackbar("Report sent successfully");
-                AppManager.getInstance().switchView(AppView.LOGIN.getRoute());
+                AuthModel authModel = InteractorManager.getInstance().getAuthInteractor().getAuthModel();
+                authModel.logOut(true);
+                AppManager.getInstance().switchView(AppView.LOGIN.getRoute(), ViewStackPolicy.CLEAR);
             }
         });
     }

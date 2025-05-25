@@ -179,7 +179,7 @@ public class OperatorPicture extends StackPane {
         Button saveBtn = new Button("Save");
         saveBtn.setOnAction(ev -> {
             dialog.hide();
-            GluonSnackbar.showSnackbar("Comment saved: " + comment);
+            GluonSnackbar.showSnackbar("Comment saved: " + comment.get());
         });
 
         comment.bind(message.textProperty());

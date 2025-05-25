@@ -1,18 +1,18 @@
 package dk.belman.gui.interactors;
 
-import dk.belman.gui.common.QCReportModel;
-
 public class InteractorManager {
     private static InteractorManager instance;
 
     private final AuthInteractor authInteractor;
     private final PictureProcessInteractor pictureProcessInteractor;
     private final ReportInteractor reportInteractor;
+    private final UserInteractor userInteractor;
 
     private InteractorManager() {
         this.authInteractor = new AuthInteractor();
         this.pictureProcessInteractor = new PictureProcessInteractor();
         this.reportInteractor = new ReportInteractor();
+        this.userInteractor = new UserInteractor();
     }
 
     public static InteractorManager getInstance() {
@@ -32,6 +32,14 @@ public class InteractorManager {
 
     public ReportInteractor getReportInteractor() {
         return reportInteractor;
+    }
+
+    public UserInteractor getUserInteractor() {
+        return userInteractor;
+    }
+
+    public void reset() {
+        instance = null;
     }
 }
 

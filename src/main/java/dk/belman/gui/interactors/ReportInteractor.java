@@ -2,12 +2,11 @@ package dk.belman.gui.interactors;
 
 import dk.belman.bll.ReportManager;
 import dk.belman.enums.ReportStatus;
-import dk.belman.gui.pages.common.ReportItemModel;
+import dk.belman.gui.common.ReportItemModel;
 import dk.belman.gui.pages.inspector.reportview.ReportItemViewModel;
 import dk.belman.gui.pages.inspector.reports.ReportModel;
 import dk.belman.gui.utils.BackgroundTaskExecutor;
 import dk.belman.gui.utils.DialogHandler;
-import javafx.util.Callback;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -15,19 +14,22 @@ import java.util.function.Consumer;
 public class ReportInteractor {
     private ReportManager reportManager;
 
-
-    private final ReportModel reportModel;
-    private final ReportItemViewModel reportItemViewModel;
+    private ReportModel reportModel;
+    private ReportItemViewModel reportItemViewModel;
 
     public ReportInteractor() {
-        this.reportModel = new ReportModel();
-        this.reportItemViewModel = new ReportItemViewModel();
-
         try {
             this.reportManager = new ReportManager();
         } catch (Exception e) {
             DialogHandler.showExceptionError("Error initializing ReportManager", "Couldn't initialize ReportManager, an unexpected error occurred", e);
         }
+
+        initialize();
+    }
+
+    public void initialize() {
+        this.reportModel = new ReportModel();
+        this.reportItemViewModel = new ReportItemViewModel();
 
         loadReports();
     }

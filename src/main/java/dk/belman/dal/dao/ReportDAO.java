@@ -6,7 +6,7 @@ import dk.belman.be.OperatorReport;
 import dk.belman.dal.DBConnector;
 import dk.belman.dal.IDBConnector;
 import dk.belman.enums.ReportStatus;
-import dk.belman.gui.pages.common.ReportItemModel;
+import dk.belman.gui.common.ReportItemModel;
 
 import java.sql.*;
 import java.time.LocalDateTime;

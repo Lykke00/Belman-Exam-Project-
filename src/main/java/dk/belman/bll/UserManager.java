@@ -6,6 +6,8 @@ import dk.belman.dal.dao.IUserDAO;
 import dk.belman.dal.dao.UserDAO;
 import dk.belman.enums.UserRole;
 
+import java.util.List;
+
 public class UserManager {
     private final static int BCRYPT_COST = 12;
     private final IUserDAO userDAO;
@@ -42,7 +44,7 @@ public class UserManager {
     }
 
     public static void main(String[] args) throws Exception {
-        User user = new User("1234S", "Lykke", "Efternavn", "password", UserRole.OPERATOR);
+        User user = new User("1234AD", "Henrik", "Larsen", "a", UserRole.ADMIN);
 
         UserManager userManager = new UserManager();
         try {
@@ -51,12 +53,9 @@ public class UserManager {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
 
-        User loggedInUser = userManager.authenticateUser("1234S", "password");
-        if (loggedInUser != null) {
-            System.out.println("User authenticated successfully: " + loggedInUser.getFirstName() + " " + loggedInUser.getLastName());
-        } else {
-            System.out.println("Authentication failed.");
-        }
+    public List<User> getAll() throws Exception {
+        return userDAO.getAllUsers();
     }
 }

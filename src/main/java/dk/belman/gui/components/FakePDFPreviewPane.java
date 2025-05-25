@@ -1,6 +1,6 @@
 package dk.belman.gui.components;
 
-import dk.belman.gui.pages.common.PictureItemModel;
+import dk.belman.gui.common.PictureItemModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;

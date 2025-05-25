@@ -1,6 +1,8 @@
 * {
     -btn-blue-color: #00539B;
     -btn-blue-hover-color: #0260b2;
+    -btn-secondary-color: #7A9897;
+    -btn-secondary-hover-color: #8fb2b0;
 }
 
 /* Default styles override */
@@ -33,15 +35,15 @@
 }
 
 .normal-btn {
-    -fx-background-color: -btn-blue-color;
+    -fx-background-color: -btn-blue-color !important;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
-    -fx-text-fill: white;
+    -fx-text-fill: white !important;
 }
 
 .normal-btn:hover {
-    -fx-text-fill: white;
-    -fx-background-color: -btn-blue-hover-color;
+    -fx-text-fill: white !important;
+    -fx-background-color: -btn-blue-hover-color !important;
 }
 
 .normal-btn:focused,
@@ -51,18 +53,38 @@
     -fx-background-color: derive(-btn-blue-hover-color, -10%) !important;
 }
 
+.secondary-btn {
+    -fx-background-color: -btn-secondary-color !important;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-text-fill: white !important;
+}
+
+.secondary-btn:hover {
+    -fx-text-fill: white !important;
+    -fx-background-color: -btn-secondary-hover-color !important;
+}
+
+.secondary-btn:focused,
+.secondary-btn:pressed,
+.secondary-btn:armed {
+    -fx-text-fill: white !important;
+    -fx-background-color: derive(-btn-secondary-hover-color, -10%) !important;
+}
 
 .begin-operator-btn {
     -fx-font-size: 32px;
     -fx-font-weight: bold;
     -fx-background-color: -btn-blue-color;
     -fx-background-radius: 8px;
+    -fx-text-fill: white;
 }
 
 .generate-qc-report-btn {
     -fx-font-size: 32px;
     -fx-background-color: #7A9897;
     -fx-background-radius: 8px;
+    -fx-text-fill: white;
 }
 
 .generate-qc-report-btn:hover {
@@ -92,6 +114,7 @@
     -fx-font-size: 32px;
     -fx-background-color: -btn-blue-color;
     -fx-background-radius: 8px;
+    -fx-text-fill: white;
 }
 
 .hover-label:hover {

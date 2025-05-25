@@ -1,7 +1,8 @@
 package dk.belman.gui.modals;
 
 public enum Modal {
-    REPORT_ITEM_VIEW("/fxml/modals/ViewReportModal.fxml");
+    REPORT_ITEM_VIEW("/fxml/modals/ViewReportModal.fxml"),
+    USER_CREATE_NEW("/fxml/modals/UserCreateNewModal.fxml");
 
     private final String path;
     private Object controller;

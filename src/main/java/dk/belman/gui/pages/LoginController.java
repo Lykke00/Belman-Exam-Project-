@@ -14,11 +14,13 @@ import dk.belman.gui.interactors.AuthInteractor;
 import dk.belman.gui.interactors.InteractorManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextFormatter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +38,9 @@ public class LoginController extends View implements Initializable {
     private BarcodeScanService scanService;
 
 
+    private final StringProperty password = new SimpleStringProperty();
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         validate();
@@ -45,7 +50,26 @@ public class LoginController extends View implements Initializable {
         onScanQrCode();
         setupEnterKeyHandler();
 
+        setupPasswordTxtField();
         onLogOut();
+    }
+
+    private void setupPasswordTxtField() {
+        txtFieldPassword.setTextFormatter(new TextFormatter<String>(change -> {
+            if (change.isContentChange()) {
+                String newText = change.getControlNewText();
+
+                password.set(newText);
+
+                String maskedText = "*".repeat(newText.length());
+
+                change.setText(maskedText);
+                change.setRange(0, change.getControlText().length());
+                change.setCaretPosition(newText.length());
+                change.setAnchor(newText.length());
+            }
+            return change;
+        }));
     }
 
     private void onLogOut() {
@@ -96,22 +120,11 @@ public class LoginController extends View implements Initializable {
     private void onLogin() {
         btnLogin.setOnAction(event -> {
             String workerId = txtFieldUsername.getText();
-            String password = txtFieldPassword.getText();
+            String pass = password.get();
 
-            authInteractor.logIn(workerId, password, success -> {
-                if (!success) {
-                    GluonSnackbar.showSnackbar("Login failed", "OK", () -> {
-                        GluonSnackbar.hideSnackbar();
-                    });
-                    return;
-                }
-
-                GluonSnackbar.showSnackbar("Login succeeded");
-                AppManager.getInstance().switchView(AppView.OPERATOR_LANDING.getRoute());
-            });
+            authInteractor.logIn(workerId, pass);
         });
     }
-
 
     private void setupEnterKeyHandler() {
         txtFieldUsername.setOnKeyPressed(event -> {

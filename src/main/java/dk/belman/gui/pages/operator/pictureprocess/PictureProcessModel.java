@@ -1,9 +1,9 @@
-package dk.belman.gui.pages.operator.PictureProcess;
+package dk.belman.gui.pages.operator.pictureprocess;
 
 import dk.belman.be.ReportImage;
 import dk.belman.be.OperatorReport;
 import dk.belman.be.User;
-import dk.belman.gui.pages.common.PictureItemModel;
+import dk.belman.gui.common.PictureItemModel;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

@@ -4,7 +4,7 @@ import dk.belman.be.OperatorReport;
 import dk.belman.be.Report;
 import dk.belman.be.ReportImage;
 import dk.belman.enums.ReportStatus;
-import dk.belman.gui.pages.common.ReportItemModel;
+import dk.belman.gui.common.ReportItemModel;
 
 import java.util.List;
 

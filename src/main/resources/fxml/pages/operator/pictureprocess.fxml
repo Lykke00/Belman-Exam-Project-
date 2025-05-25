@@ -8,7 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.PictureProcess.PictureProcessController">
+<?import java.lang.String?>
+<?import dk.belman.gui.pages.operator.pictureprocess.PictureProcessController?>
+<PictureProcessController xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.belman.gui.pages.operator.pictureprocess.PictureProcessController">
    <center>
       <VBox prefWidth="500.0" styleClass="outer-background" stylesheets="@../../../css/belman.css" BorderPane.alignment="CENTER">
          <children>
@@ -21,10 +23,14 @@
                   </Label>
                   <VBox alignment="CENTER" minHeight="250.0">
                      <children>
-                        <Button fx:id="btnTakePicture" maxWidth="700.0" minWidth="-Infinity" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" styleClass="begin-operator-btn" text="Take picture">
+                        <Button fx:id="btnTakePicture" maxWidth="700.0" minWidth="-Infinity" mnemonicParsing="false" prefHeight="190.0" prefWidth="500.0" text="Take picture">
                            <font>
                               <Font size="59.0" />
                            </font>
+                           <styleClass>
+                              <String fx:value="login-btn" />
+                              <String fx:value="normal-btn" />
+                           </styleClass>
                         </Button>
                      </children>
                      <padding>
@@ -45,4 +51,4 @@
          </padding>
       </VBox>
    </center>
-</View>
+</PictureProcessController>

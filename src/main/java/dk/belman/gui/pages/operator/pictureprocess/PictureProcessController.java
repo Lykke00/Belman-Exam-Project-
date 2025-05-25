@@ -1,12 +1,14 @@
-package dk.belman.gui.pages.operator.PictureProcess;
+package dk.belman.gui.pages.operator.pictureprocess;
 
 import com.gluonhq.attach.pictures.PicturesService;
 import com.gluonhq.attach.util.Platform;
 import com.gluonhq.charm.glisten.application.AppManager;
+import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.gui.AppView;
+import dk.belman.gui.components.CustomAppBar;
 import dk.belman.gui.interactors.InteractorManager;
-import dk.belman.gui.pages.common.PictureItemModel;
+import dk.belman.gui.common.PictureItemModel;
 import dk.belman.gui.utils.DialogHandler;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -38,6 +40,11 @@ public class PictureProcessController extends View implements Initializable {
                         model.stateProperty()
                 )
         );
+    }
+
+    @Override
+    public void updateAppBar(AppBar appBar) {
+        CustomAppBar.updateAppBar(appBar, "Upload report", false);
     }
 
     private void btnNext(ActionEvent event) {
