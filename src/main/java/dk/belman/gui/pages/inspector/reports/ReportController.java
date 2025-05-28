@@ -67,6 +67,10 @@ public class ReportController extends View implements Initializable {
     private String currentFilterValue = PENDING_REPORTS;
     private String currentSearchText = "";
 
+    public ReportController() {
+        reportInteractor.initialize();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableView();

@@ -80,6 +80,10 @@ public class UsersController extends View implements Initializable {
     private String currentFilterValue = ACTIVE_USERS;
     private String currentSearchText = "";
 
+    public UsersController() {
+        userInteractor.initialize();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableView();
