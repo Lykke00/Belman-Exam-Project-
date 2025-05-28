@@ -1,0 +1,15 @@
+{
+  "resources": {
+    "includes": [
+      {
+        "pattern": "com/microsoft/sqlserver/jdbc/SQLServerResource.*"
+      },
+      {
+        "pattern": "com/microsoft/sqlserver/jdbc/SQLServerException.*"
+      },
+      {
+        "pattern": "com/microsoft/sqlserver/jdbc/.*\\.properties"
+      }
+    ]
+  }
+}

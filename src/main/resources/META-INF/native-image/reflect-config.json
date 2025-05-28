@@ -568,5 +568,17 @@
 {
   "name":"sun.security.x509.SubjectKeyIdentifierExtension",
   "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+  "allDeclaredConstructors": true,
+  "allPublicConstructors": true
+},
+{
+  "name": "com.microsoft.sqlserver.jdbc.SQLServerConnection",
+  "allDeclaredConstructors": true,
+  "allPublicConstructors": true,
+  "allDeclaredMethods": true,
+  "allPublicMethods": true
 }
 ]
