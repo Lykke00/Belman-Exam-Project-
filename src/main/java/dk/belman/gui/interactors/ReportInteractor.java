@@ -32,16 +32,12 @@ public class ReportInteractor {
     // metode bruges til at indlæse data eller indlog og sørge for at modeller blivern nulstillet
     public void initialize() {
         loadReports();
-
-        this.reportModel = new ReportModel();
-        this.reportItemViewModel = new ReportItemViewModel();
     }
 
     private void loadReports() {
         BackgroundTaskExecutor.executeWithExceptionHandling(
                 () -> reportManager.getAll(),
                 reports -> {
-                    System.out.println(reports.size());
                     List<ReportItemModel> reportModels = reports.stream()
                             .map(ReportItemModel::fromEntity)
                             .toList();

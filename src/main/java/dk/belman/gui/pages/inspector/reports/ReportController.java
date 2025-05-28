@@ -80,6 +80,7 @@ public class ReportController extends View implements Initializable {
         setupComboBoxFilter();
         setupContextMenu(tblView);
 
+
         Button btnRefresh = new Button("Refresh");
         btnRefresh.setOnAction(e -> {addTestData();});
         vBoxMain.getChildren().add(btnRefresh);
@@ -197,6 +198,7 @@ public class ReportController extends View implements Initializable {
         });
 
         model.loadedProperty().addListener((obs, wasLoaded, isNowLoaded) -> {
+            System.out.println(isNowLoaded);
             if (isNowLoaded) {
                 int pageSize = cmbBoxItemsPerPage.getValue() != null ? cmbBoxItemsPerPage.getValue() : 10;
                 model.pageSizeProperty().set(pageSize);

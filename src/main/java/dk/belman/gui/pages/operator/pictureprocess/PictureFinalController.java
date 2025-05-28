@@ -83,7 +83,6 @@ public class PictureFinalController extends View implements Initializable {
             OperatorPicture operatorPicture = new OperatorPicture(image, state.textProperty(), 125, 125);
 
             page.commentProperty().bind(operatorPicture.getComment());
-
             hBoxPicturesContainer.getChildren().add(operatorPicture);
         }
     }
