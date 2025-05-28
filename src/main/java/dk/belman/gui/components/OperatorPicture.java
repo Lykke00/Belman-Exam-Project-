@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -39,6 +40,7 @@ public class OperatorPicture extends StackPane {
     private Button retakeBtn;
     private EventHandler<ActionEvent> retakeAction;
     private String position;
+    private Rectangle rectangle;
 
     public OperatorPicture(String imagePath, String pos, int width, int height) {
         this.image = new Image(imagePath);
@@ -60,7 +62,7 @@ public class OperatorPicture extends StackPane {
 
         ImagePattern pattern = new ImagePattern(image);
 
-        Rectangle rectangle = new Rectangle(0, 0, width, height);
+        rectangle = new Rectangle(0, 0, width, height);
         rectangle.setArcWidth(10);
         rectangle.setArcHeight(10);
 
@@ -249,5 +251,11 @@ public class OperatorPicture extends StackPane {
 
     public Image getImage() {
         return imageView.getImage();
+    }
+
+    public void updateImage(Image newImage) {
+        this.image = newImage;
+        this.imageView.setImage(newImage);
+        this.rectangle.setFill(new ImagePattern(newImage));
     }
 }

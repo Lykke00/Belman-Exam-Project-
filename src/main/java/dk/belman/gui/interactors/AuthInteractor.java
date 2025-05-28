@@ -75,4 +75,9 @@ public class AuthInteractor {
     public AuthModel getAuthModel() {
         return authModel;
     }
+
+    public void logOut() {
+        InteractorManager.getInstance().reset();
+        authModel.userProperty().set(null);
+    }
 }

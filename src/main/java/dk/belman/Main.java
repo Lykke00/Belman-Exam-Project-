@@ -67,7 +67,8 @@ public class Main extends Application {
 
     @Override
     public void init() {
-        PictureManager.initialize();
+        if (!Platform.isDesktop())
+            PictureManager.initialize();
     }
 
     @Override

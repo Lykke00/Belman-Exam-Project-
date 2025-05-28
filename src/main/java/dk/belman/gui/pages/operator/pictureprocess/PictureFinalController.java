@@ -87,7 +87,7 @@ public class PictureFinalController extends View implements Initializable {
                 PictureManager.retakePicture(newImage -> {
                     PictureItemModel targetPage = model.getStateList().get(state);
                     targetPage.pictureProperty().set(newImage);
-                    operatorPicture.getImageView().setImage(newImage);
+                    operatorPicture.updateImage(newImage);
                 });
             });
 
