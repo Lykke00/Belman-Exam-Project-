@@ -10,13 +10,13 @@ import java.util.Properties;
 
 public class DBConnector implements IDBConnector {
     //designate file path for db settings
-    private static final String PROPERTIES_FILE = "config/config.settings";
+    //private static final String PROPERTIES_FILE = "config/config.settings";
     private final SQLServerDataSource dataSource;
 
     public DBConnector() throws IOException {
         //load db settings to properties
-        Properties props = new Properties();
-        props.load(new FileInputStream(PROPERTIES_FILE));
+    //    Properties props = new Properties();
+    //    props.load(new FileInputStream(PROPERTIES_FILE));
 
         //dataSource configured with database connection details
         dataSource = new SQLServerDataSource();
