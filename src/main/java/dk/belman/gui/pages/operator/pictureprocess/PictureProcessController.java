@@ -11,8 +11,6 @@ import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.common.PictureItemModel;
 import dk.belman.gui.utils.DialogHandler;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,6 +30,7 @@ public class PictureProcessController extends View implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupBindings();
+        setupMobilePictureListener();
     }
 
     private void setupBindings() {
@@ -77,6 +76,18 @@ public class PictureProcessController extends View implements Initializable {
         }
     }
 
+    private void setupMobilePictureListener() {
+        if (picturesService == null) {
+            picturesService = PicturesService.create().orElse(null);
+            if (picturesService == null) return;
+
+            picturesService.imageProperty().addListener((obs, ov, image) -> {
+                PictureItemModel currentPage = model.getStateList().get(model.stateProperty().get());
+                updateImage(currentPage, image);
+            });
+        }
+    }
+
     private void takePhotoDesktop(PictureItemModel page) {
        // Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icon.png")));
         Image image = new Image("file:///Users/lykkebernberg/Desktop/den%20sexet%20mand%20patrick/eksempler/4.jpg");
@@ -85,20 +96,6 @@ public class PictureProcessController extends View implements Initializable {
     }
 
     private void takePhotoMobile(PictureItemModel page) {
-        if (picturesService == null) {
-            picturesService = PicturesService.create().orElse(null);
-            if (picturesService == null) return;
-        }
-
-        ChangeListener<Image> listener = new ChangeListener<>() {
-            @Override
-            public void changed(ObservableValue<? extends Image> obs, Image oldImage, Image newImage) {
-                picturesService.imageProperty().removeListener(this);
-                updateImage(page, newImage);
-            }
-        };
-
-        picturesService.imageProperty().addListener(listener);
         picturesService.asyncTakePhoto(false);
     }
 
