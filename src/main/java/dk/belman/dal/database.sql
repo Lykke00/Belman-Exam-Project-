@@ -14,6 +14,7 @@ CREATE TABLE users (
     lastName VARCHAR(100),
     password VARCHAR(100) NOT NULL,
     role INT NOT NULL,
+    active BIT DEFAULT 1 CHECK (active IN (0, 1)),
     FOREIGN KEY (role) REFERENCES users_roles(id)
 );
 GO

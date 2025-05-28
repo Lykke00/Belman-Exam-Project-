@@ -20,10 +20,10 @@ public class DBConnector implements IDBConnector {
 
         //dataSource configured with database connection details
         dataSource = new SQLServerDataSource();
-        dataSource.setServerName(props.getProperty("Server"));
-        dataSource.setDatabaseName(props.getProperty("Database"));
-        dataSource.setUser(props.getProperty("User"));
-        dataSource.setPassword(props.getProperty("Password"));
+        dataSource.setServerName("86.52.144.128");
+        dataSource.setDatabaseName("belsign");
+        dataSource.setUser("lykke");
+        dataSource.setPassword("elskerpatrick");
         dataSource.setPortNumber(1433);
         dataSource.setTrustServerCertificate(true);
     }
