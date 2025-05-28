@@ -8,6 +8,7 @@ import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -35,16 +36,21 @@ public class OperatorPicture extends StackPane {
     private ImageView imageView;
     private PauseTransition longPressPause;
     private SimpleStringProperty comment = new SimpleStringProperty("");
+    private Button retakeBtn;
+    private EventHandler<ActionEvent> retakeAction;
+    private String position;
 
     public OperatorPicture(String imagePath, String pos, int width, int height) {
         this.image = new Image(imagePath);
         this.imageView = new ImageView(image);
+        this.position = pos;
         this.initialize(image, pos, width, height);
     }
 
     public OperatorPicture(Image image, String pos, int width, int height) {
         this.image = image;
         this.imageView = new ImageView(image);
+        this.position = pos;
         this.initialize(image, pos, width, height);
     }
 
@@ -55,7 +61,7 @@ public class OperatorPicture extends StackPane {
         ImagePattern pattern = new ImagePattern(image);
 
         Rectangle rectangle = new Rectangle(0, 0, width, height);
-        rectangle.setArcWidth(10);   // Corner radius
+        rectangle.setArcWidth(10);
         rectangle.setArcHeight(10);
 
         rectangle.setFill(pattern);
@@ -83,19 +89,16 @@ public class OperatorPicture extends StackPane {
 
         addCommentBtn.setOnAction(this::btnAddComment);
 
-        Button retakeBtn = new Button("Retake");
+        retakeBtn = new Button("Retake");
         retakeBtn.getStyleClass().add("warning-color");
         retakeBtn.setStyle("-fx-text-fill: white; -fx-background-radius: 8px; -fx-font-size: 16");
         retakeBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         HBox.setHgrow(retakeBtn, Priority.ALWAYS);
 
+        retakeBtn.setOnAction(this::handleRetakeAction);
+
         addCommentBtn.setFocusTraversable(false);
         retakeBtn.setFocusTraversable(false);
-
-////commentLabel.textProperty().bind(comment);
-  //      commentLabel.setWrapText(true);
-
-  //      HBox commentBox = new HBox(commentLabel);
 
         VBox spacer = new VBox();
         spacer.setMinHeight(0);
@@ -115,6 +118,14 @@ public class OperatorPicture extends StackPane {
         this.getStylesheets().add(getClass().getResource("/css/belman.css").toExternalForm());
         this.getStyleClass().add("picture-process-preview-container");
         this.setPickOnBounds(true);
+    }
+
+    private void handleRetakeAction(ActionEvent event) {
+        if (retakeAction != null) {
+            retakeAction.handle(event);
+        } else {
+            System.out.println("Retake clicked for position: " + position);
+        }
     }
 
     private void handleMousePressed(MouseEvent event) {
@@ -200,6 +211,32 @@ public class OperatorPicture extends StackPane {
         dialog.setContent(content);
 
         dialog.showAndWait();
+    }
+
+    // Public methods to access and configure the retake functionality
+
+    /**
+     * Set a custom action for the retake button
+     * @param action The action to perform when retake is clicked
+     */
+    public void setRetakeAction(EventHandler<ActionEvent> action) {
+        this.retakeAction = action;
+    }
+
+    /**
+     * Get the retake button for direct access (if needed)
+     * @return The retake button
+     */
+    public Button getRetakeButton() {
+        return retakeBtn;
+    }
+
+    /**
+     * Get the position string for identification
+     * @return The position string
+     */
+    public String getPosition() {
+        return position;
     }
 
     public SimpleStringProperty getComment() {

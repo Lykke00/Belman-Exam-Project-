@@ -7,6 +7,7 @@ import com.gluonhq.charm.glisten.visual.Swatch;
 import dk.belman.gui.*;
 import dk.belman.gui.components.DrawerManager;
 import dk.belman.gui.components.Snackbar;
+import dk.belman.gui.services.PictureManager;
 import dk.belman.gui.utils.LabelStyle;
 import dk.belman.gui.utils.ModalHandler;
 import javafx.application.Application;
@@ -66,7 +67,7 @@ public class Main extends Application {
 
     @Override
     public void init() {
-
+        PictureManager.initialize();
     }
 
     @Override
