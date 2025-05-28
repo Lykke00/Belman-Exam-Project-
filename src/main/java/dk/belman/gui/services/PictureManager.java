@@ -153,10 +153,8 @@ public class PictureManager {
     }
 
     private static void triggerCamera() {
-        // Add your camera triggering logic here
-        // This might be a method call to open camera, or platform-specific code
-        System.out.println("Triggering camera...");
-        // Example: if you have a camera service
-        // CameraService.openCamera();
+        if (picturesService != null) {
+            picturesService.asyncTakePhoto(false);
+        }
     }
 }
