@@ -14,6 +14,7 @@ CREATE TABLE users (
     lastName VARCHAR(100),
     password VARCHAR(100) NOT NULL,
     role INT NOT NULL,
+    active BIT DEFAULT 1 CHECK (active IN (0, 1)),
     FOREIGN KEY (role) REFERENCES users_roles(id)
 );
 GO
@@ -23,9 +24,10 @@ CREATE TABLE reports (
     order_number VARCHAR(50) NOT NULL,
     status VARCHAR(50) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Accepted', 'Rejected')),
     created_date DATETIME NOT NULL,
-    status_update_date DATETIME,
+    update_date DATETIME,
     operator_id INT NOT NULL,
     inspected_by INT,
+    inspector_comment VARCHAR(255),
     FOREIGN KEY (operator_id) REFERENCES users(id),
     FOREIGN KEY (inspected_by) REFERENCES users(id)
 );

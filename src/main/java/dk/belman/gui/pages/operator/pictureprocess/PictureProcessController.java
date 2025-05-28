@@ -9,6 +9,7 @@ import dk.belman.gui.AppView;
 import dk.belman.gui.components.CustomAppBar;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.common.PictureItemModel;
+import dk.belman.gui.services.PictureManager;
 import dk.belman.gui.utils.DialogHandler;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -22,7 +23,6 @@ import java.util.*;
 
 public class PictureProcessController extends View implements Initializable {
     private final PictureProcessModel model = InteractorManager.getInstance().getPictureProcessInteractor().getModel();
-    private PicturesService picturesService;
 
     @FXML
     private Button btnTakePicture;
@@ -83,16 +83,14 @@ public class PictureProcessController extends View implements Initializable {
     }
 
     private void takePhotoMobile(PictureItemModel page) {
-        if (picturesService == null) {
-            picturesService = PicturesService.create().orElse(null);
-            if (picturesService == null) return;
-
-            picturesService.imageProperty().addListener((obs, ov, image) -> {
-                updateImage(page, image);
+        try {
+            PictureManager.takePicture(image -> {
+                PictureItemModel currentPage = model.getStateList().get(model.stateProperty().get());
+                updateImage(currentPage, image);
             });
+        } catch (Exception e) {
+            DialogHandler.showExceptionError("Camera Error", "Failed to access camera", e);
         }
-
-        picturesService.asyncTakePhoto(false);
     }
 
     private void updateImage(PictureItemModel page, Image image) {

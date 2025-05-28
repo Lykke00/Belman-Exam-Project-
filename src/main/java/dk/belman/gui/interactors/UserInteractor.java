@@ -25,7 +25,9 @@ public class UserInteractor {
             DialogHandler.showExceptionError("Error initializing ReportManager", "Couldn't initialize ReportManager, an unexpected error occurred", e);
         }
 
-        initialize();
+        this.model = new AdminUsersModel();
+        this.userCreateNewModel = new UserCreateNewModel();
+        this.userEditModel = new UserEditModel();
     }
 
     public void initialize() {

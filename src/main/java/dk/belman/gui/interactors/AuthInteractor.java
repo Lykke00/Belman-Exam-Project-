@@ -35,7 +35,8 @@ public class AuthInteractor {
                     decideUserView(loggedInModel);
                 },
                 exception -> {
-                    GluonSnackbar.showSnackbar("Login failed... please try again");
+                    DialogHandler.showExceptionError("Error logging in", "couldnt login", exception);
+                    //GluonSnackbar.showSnackbar("Login failed... please try again");
                 },
                 loading -> {
                     authModel.databaseLoadingProperty().set(loading);
@@ -73,5 +74,10 @@ public class AuthInteractor {
 
     public AuthModel getAuthModel() {
         return authModel;
+    }
+
+    public void logOut() {
+        InteractorManager.getInstance().reset();
+        authModel.userProperty().set(null);
     }
 }

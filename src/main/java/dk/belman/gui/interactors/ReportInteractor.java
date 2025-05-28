@@ -24,13 +24,13 @@ public class ReportInteractor {
             DialogHandler.showExceptionError("Error initializing ReportManager", "Couldn't initialize ReportManager, an unexpected error occurred", e);
         }
 
-        initialize();
-    }
-
-    public void initialize() {
+        // vi sætter dem her for at sikre på de ikke er null i views
         this.reportModel = new ReportModel();
         this.reportItemViewModel = new ReportItemViewModel();
+    }
 
+    // metode bruges til at indlæse data eller indlog og sørge for at modeller blivern nulstillet
+    public void initialize() {
         loadReports();
     }
 
@@ -38,7 +38,6 @@ public class ReportInteractor {
         BackgroundTaskExecutor.executeWithExceptionHandling(
                 () -> reportManager.getAll(),
                 reports -> {
-                    System.out.println(reports.size());
                     List<ReportItemModel> reportModels = reports.stream()
                             .map(ReportItemModel::fromEntity)
                             .toList();

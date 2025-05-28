@@ -11,6 +11,7 @@ import dk.belman.gui.components.GluonSnackbar;
 import dk.belman.gui.components.OperatorPicture;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.common.PictureItemModel;
+import dk.belman.gui.services.PictureManager;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,10 +78,20 @@ public class PictureFinalController extends View implements Initializable {
             PictureItemModel page = model.getStateList().get(state);
             Image image = page.pictureProperty().get();
 
+            if (image == null)
+                continue;
+
             OperatorPicture operatorPicture = new OperatorPicture(image, state.textProperty(), 125, 125);
 
-            page.commentProperty().bind(operatorPicture.getComment());
+            operatorPicture.setRetakeAction(event -> {
+                PictureManager.retakePicture(newImage -> {
+                    PictureItemModel targetPage = model.getStateList().get(state);
+                    targetPage.pictureProperty().set(newImage);
+                    operatorPicture.updateImage(newImage);
+                });
+            });
 
+            page.commentProperty().bind(operatorPicture.getComment());
             hBoxPicturesContainer.getChildren().add(operatorPicture);
         }
     }

@@ -1,0 +1,60 @@
+{
+  "resources": {
+    "includes": [
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/SQLServerDriver.class\\E"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/SQLServerConnection.class\\E"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/SQLServerStatement.class\\E"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/SQLServerPreparedStatement.class\\E"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/SQLServerResultSet.class\\E"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/SQLServerDatabaseMetaData.class\\E"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/auth/\\E.*"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/dataclassification/\\E.*"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/osgi/\\E.*"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/java.sql.Driver\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/maven/com.microsoft.sqlserver/mssql-jdbc/pom.properties\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/maven/com.microsoft.sqlserver/mssql-jdbc/pom.xml\\E"
+      },
+      {
+        "pattern": "\\Qjavax/net/ssl/\\E.*"
+      },
+      {
+        "pattern": "\\Qjava/security/\\E.*"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/spatialdatatypes/\\E.*"
+      },
+      {
+        "pattern": "\\Qcom/microsoft/sqlserver/jdbc/geographic/\\E.*"
+      }
+    ]
+  },
+  "bundles": [
+    {
+      "name": "com.microsoft.sqlserver.jdbc.SQLServerResource",
+      "locales": ["en"]
+    }
+  ]
+}

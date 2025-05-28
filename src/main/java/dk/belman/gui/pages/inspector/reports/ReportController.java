@@ -67,6 +67,10 @@ public class ReportController extends View implements Initializable {
     private String currentFilterValue = PENDING_REPORTS;
     private String currentSearchText = "";
 
+    public ReportController() {
+        reportInteractor.initialize();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableView();
@@ -75,6 +79,7 @@ public class ReportController extends View implements Initializable {
         setupTextFieldSearch();
         setupComboBoxFilter();
         setupContextMenu(tblView);
+
 
         Button btnRefresh = new Button("Refresh");
         btnRefresh.setOnAction(e -> {addTestData();});
@@ -193,6 +198,7 @@ public class ReportController extends View implements Initializable {
         });
 
         model.loadedProperty().addListener((obs, wasLoaded, isNowLoaded) -> {
+            System.out.println(isNowLoaded);
             if (isNowLoaded) {
                 int pageSize = cmbBoxItemsPerPage.getValue() != null ? cmbBoxItemsPerPage.getValue() : 10;
                 model.pageSizeProperty().set(pageSize);
