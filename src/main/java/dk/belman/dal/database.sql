@@ -24,9 +24,10 @@ CREATE TABLE reports (
     order_number VARCHAR(50) NOT NULL,
     status VARCHAR(50) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Accepted', 'Rejected')),
     created_date DATETIME NOT NULL,
-    status_update_date DATETIME,
+    update_date DATETIME,
     operator_id INT NOT NULL,
     inspected_by INT,
+    inspector_comment VARCHAR(255),
     FOREIGN KEY (operator_id) REFERENCES users(id),
     FOREIGN KEY (inspected_by) REFERENCES users(id)
 );
