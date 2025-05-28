@@ -4,6 +4,8 @@ import dk.belman.be.ReportImage;
 import dk.belman.be.OperatorReport;
 import dk.belman.be.User;
 import dk.belman.gui.common.PictureItemModel;
+import dk.belman.gui.interactors.AuthInteractor;
+import dk.belman.gui.interactors.InteractorManager;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -75,8 +77,9 @@ public class PictureProcessModel {
             }
         }
 
+        int userLoggedInId = InteractorManager.getInstance().getAuthInteractor().getAuthModel().userProperty().get().idProperty().get();
         User user = new User();
-        user.setId(1);
+        user.setId(userLoggedInId);
         return new OperatorReport(qcReportId, user, imageEntities);
     }
 }

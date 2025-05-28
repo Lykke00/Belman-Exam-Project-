@@ -11,6 +11,8 @@ import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.common.PictureItemModel;
 import dk.belman.gui.utils.DialogHandler;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -86,12 +88,17 @@ public class PictureProcessController extends View implements Initializable {
         if (picturesService == null) {
             picturesService = PicturesService.create().orElse(null);
             if (picturesService == null) return;
-
-            picturesService.imageProperty().addListener((obs, ov, image) -> {
-                updateImage(page, image);
-            });
         }
 
+        ChangeListener<Image> listener = new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Image> obs, Image oldImage, Image newImage) {
+                picturesService.imageProperty().removeListener(this);
+                updateImage(page, newImage);
+            }
+        };
+
+        picturesService.imageProperty().addListener(listener);
         picturesService.asyncTakePhoto(false);
     }
 
