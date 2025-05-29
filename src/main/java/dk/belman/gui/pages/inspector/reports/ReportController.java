@@ -5,6 +5,7 @@ import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.enums.ReportStatus;
 import dk.belman.gui.components.ContextMenu.MenuItemInfo;
 import dk.belman.gui.components.CustomAppBar;
+import dk.belman.gui.interactors.EmailInteractor;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.interactors.ReportInteractor;
 import dk.belman.gui.modals.Modal;
@@ -37,6 +38,8 @@ import static dk.belman.gui.components.ContextMenu.CustomContextMenu.createConte
 public class ReportController extends View implements Initializable {
     private final ReportInteractor reportInteractor = InteractorManager.getInstance().getReportInteractor();
     private final ReportModel model = reportInteractor.getReportModel();
+
+    private final EmailInteractor emailInteractor = InteractorManager.getInstance().getEmailInteractor();
 
     private final static String ALL_REPORTS = "All";
     private final static String PENDING_REPORTS = "Pending";
@@ -106,17 +109,24 @@ public class ReportController extends View implements Initializable {
 
     private void setupContextMenu(TableView<ReportItemModel> tableView) {
         List<MenuItemInfo<ReportItemModel>> menuItemInfos = List.of(
-                new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::loadPopUp)/*,
+                new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::loadPopUp),
                 new MenuItemInfo<>(true),
-                new MenuItemInfo<>(Feather.EDIT_2, new SimpleStringProperty("Change status"), System.out::println),
+                new MenuItemInfo<>(Feather.EDIT_2, new SimpleStringProperty("Send email"), this::openEmailModal),
                 new MenuItemInfo<>(Feather.BOOK_OPEN, new SimpleStringProperty("Generate PDF"), System.out::println),
                 new MenuItemInfo<>(true),
-                new MenuItemInfo<>(Feather.TRASH, new SimpleStringProperty("Delete"), System.out::println)*/
+                new MenuItemInfo<>(Feather.TRASH, new SimpleStringProperty("Delete"), System.out::println)
             );
 
         var contextMenu = createContextMenu(menuItemInfos, tableView);
 
         tableView.setContextMenu(contextMenu);
+    }
+
+    private void openEmailModal(ReportItemModel reportItemModel) {
+        emailInteractor.getSendEmailModel().setReportItemModel(reportItemModel);
+        ModalHandler.getInstance().getModalOverlay().showFXML(Modal.SEND_EMAIL);
+
+       // contextMenuShow(reportItemModel);
     }
 
     private void contextMenuShow(ReportItemModel item) {

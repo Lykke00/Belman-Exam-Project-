@@ -7,12 +7,14 @@ public class InteractorManager {
     private final PictureProcessInteractor pictureProcessInteractor;
     private final ReportInteractor reportInteractor;
     private final UserInteractor userInteractor;
+    private final EmailInteractor emailInteractor;
 
     private InteractorManager() {
         this.authInteractor = new AuthInteractor();
         this.pictureProcessInteractor = new PictureProcessInteractor();
         this.reportInteractor = new ReportInteractor();
         this.userInteractor = new UserInteractor();
+        this.emailInteractor = new EmailInteractor();
     }
 
     public static InteractorManager getInstance() {
@@ -36,6 +38,10 @@ public class InteractorManager {
 
     public UserInteractor getUserInteractor() {
         return userInteractor;
+    }
+
+    public EmailInteractor getEmailInteractor() {
+        return emailInteractor;
     }
 
     public void reset() {
