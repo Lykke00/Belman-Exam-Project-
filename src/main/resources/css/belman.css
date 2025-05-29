@@ -188,3 +188,24 @@
     -fx-border-width: 1 0 0 0;
     -fx-border-color: lightgray transparent transparent transparent;
 }
+
+.logout-button-desktop {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-background-radius: 20px;
+    -fx-padding: 0;
+    -fx-alignment: center;
+}
+
+
+.logout-button-desktop:pressed,
+.logout-button-desktop:focused,
+.logout-button-desktop:armed,
+.logout-button-desktop:hover {
+    -fx-background-color: -btn-blue-hover-color;
+    -fx-cursor: hand !important;
+}

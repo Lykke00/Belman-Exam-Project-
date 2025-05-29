@@ -20,9 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.SVGPath;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.material2.Material2AL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,9 +60,19 @@ public class CustomAppBar {
         Button logOut;
 
         if (Platform.isDesktop()) {
-            // knappen driller meget
-            logOut = new Button(null, new FontIcon(Feather.LOG_OUT));
-            logOut.getStyleClass().addAll(Styles.BUTTON_CIRCLE, Styles.FLAT, Styles.DANGER);
+            logOut = new Button();
+            SVGPath svg = new SVGPath();
+            svg.setContent("M7 18H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3 M13 15 L17 10 L13 5 M17 10 L7 10");
+            svg.setFill(Color.TRANSPARENT);
+            svg.setStroke(Color.WHITE);
+            svg.setStrokeWidth(2.5);
+
+            svg.setScaleX(0.8);
+            svg.setScaleY(0.8);
+
+            logOut.setGraphic(svg);
+            logOut.getStyleClass().add("logout-button-desktop");
+
             logOut.setOnAction(e -> {
                 authModel.logOut(true);
                 AppManager.getInstance().switchView(AppView.LOGIN.getRoute(), ViewStackPolicy.CLEAR);
