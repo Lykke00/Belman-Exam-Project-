@@ -13,6 +13,7 @@ import dk.belman.gui.modals.Modal;
 import dk.belman.gui.common.ReportItemModel;
 import dk.belman.gui.utils.DialogHandler;
 import dk.belman.gui.utils.ModalHandler;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -124,7 +125,7 @@ public class ReportController extends View implements Initializable {
                 new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::loadPopUp),
                 new MenuItemInfo<>(true),
                 new MenuItemInfo<>(Feather.SEND, new SimpleStringProperty("Send email"), this::openEmailModal),
-                new MenuItemInfo<>(Feather.BOOK_OPEN, new SimpleStringProperty("Generate PDF"), System.out::println)
+                new MenuItemInfo<>(Feather.BOOK_OPEN, new SimpleStringProperty("Generate PDF"), this::savePdfToPc)
             );
 
         var contextMenu = createContextMenu(menuItemInfos, tableView);
