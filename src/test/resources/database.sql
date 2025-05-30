@@ -1,0 +1,39 @@
+CREATE TABLE users_roles (
+                             id INT PRIMARY KEY IDENTITY(1,1),
+                             role VARCHAR(50)
+);
+
+CREATE TABLE users (
+                       id INT PRIMARY KEY IDENTITY(1,1),
+                       workerId VARCHAR(50) NOT NULL,
+                       firstName VARCHAR(100),
+                       lastName VARCHAR(100),
+                       password VARCHAR(100) NOT NULL,
+                       role INT NOT NULL,
+                       active BIT DEFAULT 1 CHECK (active IN (0, 1)),
+                       FOREIGN KEY (role) REFERENCES users_roles(id)
+);
+
+CREATE TABLE reports (
+                         id INT PRIMARY KEY identity(1,1),
+                         order_number VARCHAR(50) NOT NULL,
+                         status VARCHAR(50) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Accepted', 'Rejected')),
+                         created_date DATETIME NOT NULL,
+                         update_date DATETIME,
+                         operator_id INT NOT NULL,
+                         inspected_by INT,
+                         inspector_comment VARCHAR(255),
+                         FOREIGN KEY (operator_id) REFERENCES users(id),
+                         FOREIGN KEY (inspected_by) REFERENCES users(id)
+);
+
+CREATE TABLE reports_images (
+                                id INT PRIMARY KEY IDENTITY(1,1),
+                                report_id INT NOT NULL,
+                                picture VARBINARY(MAX),
+                                comment VARCHAR(255),
+                                angle VARCHAR(50),
+                                FOREIGN KEY (report_id) REFERENCES reports(id)
+);
+
+INSERT INTO users_roles (role) VALUES ('Operator'), ('Inspector'), ('Administrator');

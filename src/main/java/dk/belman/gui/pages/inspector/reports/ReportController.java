@@ -1,5 +1,6 @@
 package dk.belman.gui.pages.inspector.reports;
 
+import atlantafx.base.theme.Styles;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import dk.belman.enums.ReportStatus;
@@ -19,10 +20,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.List;
 import java.util.Random;
@@ -45,6 +49,9 @@ public class ReportController extends View implements Initializable {
     private final static String PENDING_REPORTS = "Pending";
     private final static String ACCEPTED_REPORTS = "Accepted";
     private final static String REJECTED_REPORTS = "Rejected";
+
+    @FXML
+    private TableColumn<ReportItemModel, Void> tblColActions;
 
     @FXML
     private ComboBox<String> cmbBoxFilter;
@@ -297,6 +304,37 @@ public class ReportController extends View implements Initializable {
                 }
             });
             return row;
+        });
+
+        tblColActions.setCellFactory(col -> new TableCell<ReportItemModel, Void>() {
+            private final Button btnView = new Button();
+
+            {
+                btnView.setGraphic(new FontIcon(Feather.EYE)); // 👁️
+                btnView.getStyleClass().addAll(Styles.BUTTON_CIRCLE, Styles.FLAT);
+                btnView.setTooltip(new Tooltip("View Report"));
+                btnView.setOnAction(event -> {
+                    ReportItemModel item = getTableView().getItems().get(getIndex());
+                    loadPopUp(item);
+                });
+            }
+
+            private final HBox actionBox = new HBox(btnView);
+
+            {
+                actionBox.setAlignment(Pos.CENTER);
+                actionBox.setSpacing(5);
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(actionBox);
+                }
+            }
         });
     }
 

@@ -49,6 +49,7 @@
                                   <TableColumn fx:id="tblColStatus" prefWidth="75.0" text="Status" />
                                     <TableColumn fx:id="tblColCreated" prefWidth="75.0" text="Created" />
                                     <TableColumn fx:id="tblColOperator" prefWidth="75.0" text="Operator" />
+                                    <TableColumn fx:id="tblColActions" prefWidth="75.0" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
