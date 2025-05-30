@@ -12,6 +12,10 @@ import java.util.List;
 public class ReportManager {
     private final IReportDAO reportDAO;
 
+    public ReportManager(IReportDAO reportDAO) {
+        this.reportDAO = reportDAO;
+    }
+
     public ReportManager() throws Exception {
         this.reportDAO = new ReportDAO();
     }

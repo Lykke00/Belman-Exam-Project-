@@ -16,6 +16,10 @@ import java.util.List;
 public class ReportDAO implements IReportDAO {
     private final IDBConnector connector;
 
+    public ReportDAO(IDBConnector connector) {
+        this.connector = connector;
+    }
+
     public ReportDAO() throws Exception {
         this.connector = new DBConnector();
     }
