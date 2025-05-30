@@ -20,12 +20,14 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -46,6 +48,9 @@ public class UsersController extends View implements Initializable {
     private final static String ALL_USERS = "All";
     private final static String ACTIVE_USERS = "Active";
     private final static String INACTIVE_USERS = "Inactive";
+
+    @FXML
+    private TableColumn<UserModel, Void> tblColActions;
 
     @FXML
     private HBox hBoxControls;
@@ -253,7 +258,6 @@ public class UsersController extends View implements Initializable {
         });
 
         model.databaseLoadingProperty().addListener((obs, wasLoaded, isDatabaseLoading) -> {
-            System.out.println(isDatabaseLoading + " " + "nigger");
             if (!isDatabaseLoading) {
                 int pageSize = cmbBoxItemsPerPage.getValue() != null ? cmbBoxItemsPerPage.getValue() : 10;
                 model.pageSizeProperty().set(pageSize);
@@ -328,5 +332,77 @@ public class UsersController extends View implements Initializable {
                 }
             }
         });
+
+        tblColActions.setCellFactory(col -> new TableCell<UserModel, Void>() {
+            private final Button btnEdit = new Button();
+            private final Button btnToggleActive = new Button();
+            private UserModel currentUser;
+
+            private final HBox actionBox = new HBox(btnEdit, btnToggleActive);
+
+            private final ChangeListener<Boolean> activeChangeListener = (obs, oldVal, newVal) -> {
+                updateToggleButton(newVal);
+            };
+
+            {
+                btnEdit.setGraphic(new FontIcon(Feather.EDIT));
+                btnEdit.getStyleClass().addAll(Styles.BUTTON_CIRCLE, Styles.FLAT);
+                btnEdit.setTooltip(new Tooltip("Edit User"));
+                btnEdit.setOnAction(event -> {
+                    if (currentUser != null) loadEditPopUp(currentUser);
+                });
+
+                // Toggle active/inactive
+                btnToggleActive.getStyleClass().addAll(Styles.BUTTON_CIRCLE, Styles.FLAT);
+                btnToggleActive.setOnAction(event -> {
+                    if (currentUser != null) {
+                        if (currentUser.activeProperty().get()) {
+                            loadDialogDeleteUser(currentUser);
+                        } else {
+                            loadDialogSetActiveUser(currentUser);
+                        }
+                    }
+                });
+
+                actionBox.setAlignment(Pos.CENTER_RIGHT);
+                actionBox.setSpacing(0);
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                    if (currentUser != null) {
+                        currentUser.activeProperty().removeListener(activeChangeListener);
+                        currentUser = null;
+                    }
+                } else {
+                    UserModel newUser = getTableView().getItems().get(getIndex());
+
+                    if (currentUser != null) {
+                        currentUser.activeProperty().removeListener(activeChangeListener);
+                    }
+
+                    currentUser = newUser;
+                    currentUser.activeProperty().addListener(activeChangeListener);
+
+                    updateToggleButton(currentUser.activeProperty().get());
+                    setGraphic(actionBox);
+                }
+            }
+
+            private void updateToggleButton(boolean isActive) {
+                if (isActive) {
+                    btnToggleActive.setGraphic(new FontIcon(Feather.USER_X));
+                    btnToggleActive.setTooltip(new Tooltip("Deactivate User"));
+                } else {
+                    btnToggleActive.setGraphic(new FontIcon(Feather.USER_CHECK));
+                    btnToggleActive.setTooltip(new Tooltip("Activate User"));
+                }
+            }
+        });
+
     }
 }

@@ -31,10 +31,6 @@ public class UserInteractor {
     }
 
     public void initialize() {
-        this.model = new AdminUsersModel();
-        this.userCreateNewModel = new UserCreateNewModel();
-        this.userEditModel = new UserEditModel();
-
         getAllUsers();
     }
 

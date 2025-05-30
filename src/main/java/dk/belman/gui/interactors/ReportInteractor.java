@@ -3,10 +3,12 @@ package dk.belman.gui.interactors;
 import dk.belman.bll.ReportManager;
 import dk.belman.enums.ReportStatus;
 import dk.belman.gui.common.ReportItemModel;
+import dk.belman.gui.pages.inspector.reports.ReportGeneratePdf;
 import dk.belman.gui.pages.inspector.reportview.ReportItemViewModel;
 import dk.belman.gui.pages.inspector.reports.ReportModel;
 import dk.belman.gui.utils.BackgroundTaskExecutor;
 import dk.belman.gui.utils.DialogHandler;
+import dk.belman.gui.utils.PDFGenerator;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -16,6 +18,7 @@ public class ReportInteractor {
 
     private ReportModel reportModel;
     private ReportItemViewModel reportItemViewModel;
+    private ReportGeneratePdf reportGeneratePdf;
 
     public ReportInteractor() {
         try {
@@ -27,6 +30,7 @@ public class ReportInteractor {
         // vi sætter dem her for at sikre på de ikke er null i views
         this.reportModel = new ReportModel();
         this.reportItemViewModel = new ReportItemViewModel();
+        this.reportGeneratePdf = new ReportGeneratePdf();
     }
 
     // metode bruges til at indlæse data eller indlog og sørge for at modeller blivern nulstillet
@@ -107,6 +111,48 @@ public class ReportInteractor {
                     reportItemViewModel.inspectorUpdatingProperty().set(!loading);
                 }
         );
+    }
+
+    public void generatePdfReport(ReportItemModel report, Consumer<byte[]> callback) {
+        BackgroundTaskExecutor.executeWithExceptionHandling(
+                () -> {
+                    byte[] pdfBytes = PDFGenerator.generatePdfWithImages(report.getOrderNumber(), report.getInspectedBy(), report.getImages());
+
+                    if (pdfBytes.length == 0)
+                        throw new Exception("Failed to generate PDF");
+
+                    return pdfBytes;
+                },
+                pdfBytes -> {
+                        callback.accept(pdfBytes);
+                },
+                error -> {
+                    DialogHandler.showExceptionError("Error generating PDF", "Couldn't generate PDF report, an unexpected error occurred", error);
+                    callback.accept(null);
+                }
+        );
+    }
+
+    public void fetchImagesForReport(ReportItemModel report, Consumer<Boolean> callback) {
+        BackgroundTaskExecutor.executeWithExceptionHandling(
+                () -> reportManager.getReport(report),
+                dbReport -> {
+                    reportGeneratePdf.reportModelProperty().set(ReportItemModel.fromEntity(dbReport));
+                    callback.accept(true);
+                },
+                error -> {
+                    DialogHandler.showExceptionError("Image Fetching Error",
+                            "An error occurred while fetching images for the QC report.", error);
+                    callback.accept(false);
+                },
+                loading -> {
+                    report.isGeneratingPdfFileProperty().set(loading);
+                }
+        );
+    }
+
+    public ReportGeneratePdf getGenerateReportModel() {
+        return reportGeneratePdf;
     }
 
     public ReportModel getReportModel() {

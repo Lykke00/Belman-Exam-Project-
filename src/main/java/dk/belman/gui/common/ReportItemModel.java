@@ -2,10 +2,7 @@ package dk.belman.gui.common;
 
 import dk.belman.be.Report;
 import dk.belman.enums.ReportStatus;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,6 +18,8 @@ public class ReportItemModel {
     private final SimpleStringProperty operatorId = new SimpleStringProperty();
     private final SimpleStringProperty inspectedBy = new SimpleStringProperty();
     private final SimpleStringProperty inspectorComment = new SimpleStringProperty();
+
+    private final SimpleBooleanProperty isGeneratingPdfFile = new SimpleBooleanProperty(false);
 
     private final ObservableList<PictureItemModel> images = FXCollections.observableArrayList();
 
@@ -86,6 +85,10 @@ public class ReportItemModel {
 
     public SimpleStringProperty inspectorCommentProperty() {
         return inspectorComment;
+    }
+
+    public SimpleBooleanProperty isGeneratingPdfFileProperty() {
+        return isGeneratingPdfFile;
     }
 
     public void setImages(ObservableList<PictureItemModel> images) {

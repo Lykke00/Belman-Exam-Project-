@@ -6,10 +6,6 @@ import com.resend.services.emails.model.Attachment;
 import com.resend.services.emails.model.SendEmailRequest;
 import com.resend.services.emails.model.SendEmailResponse;
 
-import dk.belman.gui.common.PictureItemModel;
-import dk.belman.gui.utils.PDFGenerator;
-import javafx.collections.ObservableList;
-
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -17,9 +13,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 import java.util.Properties;
 
 public class EmailSender {

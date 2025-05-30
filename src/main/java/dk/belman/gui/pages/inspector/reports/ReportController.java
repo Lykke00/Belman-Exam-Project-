@@ -11,6 +11,7 @@ import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.interactors.ReportInteractor;
 import dk.belman.gui.modals.Modal;
 import dk.belman.gui.common.ReportItemModel;
+import dk.belman.gui.utils.DialogHandler;
 import dk.belman.gui.utils.ModalHandler;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -25,9 +26,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -42,6 +47,7 @@ import static dk.belman.gui.components.ContextMenu.CustomContextMenu.createConte
 public class ReportController extends View implements Initializable {
     private final ReportInteractor reportInteractor = InteractorManager.getInstance().getReportInteractor();
     private final ReportModel model = reportInteractor.getReportModel();
+    private final ReportGeneratePdf reportGeneratePdfModel = reportInteractor.getGenerateReportModel();
 
     private final EmailInteractor emailInteractor = InteractorManager.getInstance().getEmailInteractor();
 
@@ -90,7 +96,6 @@ public class ReportController extends View implements Initializable {
         setupComboBoxFilter();
         setupContextMenu(tblView);
 
-
         Button btnRefresh = new Button("Refresh");
         btnRefresh.setOnAction(e -> {addTestData();});
         vBoxMain.getChildren().add(btnRefresh);
@@ -118,10 +123,8 @@ public class ReportController extends View implements Initializable {
         List<MenuItemInfo<ReportItemModel>> menuItemInfos = List.of(
                 new MenuItemInfo<>(Feather.EYE, new SimpleStringProperty("Show"), this::loadPopUp),
                 new MenuItemInfo<>(true),
-                new MenuItemInfo<>(Feather.EDIT_2, new SimpleStringProperty("Send email"), this::openEmailModal),
-                new MenuItemInfo<>(Feather.BOOK_OPEN, new SimpleStringProperty("Generate PDF"), System.out::println),
-                new MenuItemInfo<>(true),
-                new MenuItemInfo<>(Feather.TRASH, new SimpleStringProperty("Delete"), System.out::println)
+                new MenuItemInfo<>(Feather.SEND, new SimpleStringProperty("Send email"), this::openEmailModal),
+                new MenuItemInfo<>(Feather.BOOK_OPEN, new SimpleStringProperty("Generate PDF"), System.out::println)
             );
 
         var contextMenu = createContextMenu(menuItemInfos, tableView);
@@ -132,8 +135,6 @@ public class ReportController extends View implements Initializable {
     private void openEmailModal(ReportItemModel reportItemModel) {
         emailInteractor.getSendEmailModel().setReportItemModel(reportItemModel);
         ModalHandler.getInstance().getModalOverlay().showFXML(Modal.SEND_EMAIL);
-
-       // contextMenuShow(reportItemModel);
     }
 
     private void contextMenuShow(ReportItemModel item) {
@@ -215,7 +216,6 @@ public class ReportController extends View implements Initializable {
         });
 
         model.loadedProperty().addListener((obs, wasLoaded, isNowLoaded) -> {
-            System.out.println(isNowLoaded);
             if (isNowLoaded) {
                 int pageSize = cmbBoxItemsPerPage.getValue() != null ? cmbBoxItemsPerPage.getValue() : 10;
                 model.pageSizeProperty().set(pageSize);
@@ -308,6 +308,8 @@ public class ReportController extends View implements Initializable {
 
         tblColActions.setCellFactory(col -> new TableCell<ReportItemModel, Void>() {
             private final Button btnView = new Button();
+            private final Button btnSendEmail = new Button();
+            private final Button btnGeneratePDF = new Button();
 
             {
                 btnView.setGraphic(new FontIcon(Feather.EYE)); // 👁️
@@ -317,13 +319,29 @@ public class ReportController extends View implements Initializable {
                     ReportItemModel item = getTableView().getItems().get(getIndex());
                     loadPopUp(item);
                 });
+
+                btnSendEmail.setGraphic(new FontIcon(Feather.SEND));
+                btnSendEmail.getStyleClass().addAll(Styles.BUTTON_CIRCLE, Styles.FLAT);
+                btnSendEmail.setTooltip(new Tooltip("Send Email"));
+                btnSendEmail.setOnAction(event -> {
+                    ReportItemModel item = getTableView().getItems().get(getIndex());
+                    openEmailModal(item);
+                });
+
+                btnGeneratePDF.setGraphic(new FontIcon(Feather.BOOK_OPEN));
+                btnGeneratePDF.getStyleClass().addAll(Styles.BUTTON_CIRCLE, Styles.FLAT);
+                btnGeneratePDF.setTooltip(new Tooltip("Generate PDF"));
+                btnGeneratePDF.setOnAction(event -> {
+                    ReportItemModel item = getTableView().getItems().get(getIndex());
+                    savePdfToPc(item);
+                });
             }
 
-            private final HBox actionBox = new HBox(btnView);
+            private final HBox actionBox = new HBox(btnView, btnSendEmail, btnGeneratePDF);
 
             {
-                actionBox.setAlignment(Pos.CENTER);
-                actionBox.setSpacing(5);
+                actionBox.setAlignment(Pos.CENTER_RIGHT);
+                actionBox.setSpacing(0);
             }
 
             @Override
@@ -332,8 +350,37 @@ public class ReportController extends View implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
+                    ReportItemModel reportItem = getTableView().getItems().get(getIndex());
+
+                    btnGeneratePDF.disableProperty().unbind();
+                    btnGeneratePDF.disableProperty().bind(reportItem.isGeneratingPdfFileProperty());
+
                     setGraphic(actionBox);
                 }
+            }
+        });
+    }
+
+    private void savePdfToPc(ReportItemModel item) {
+        reportInteractor.fetchImagesForReport(item, fetched -> {
+            if (fetched) {
+                reportInteractor.generatePdfReport(item, pdfBytes -> {
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("Save PDF Report");
+                    fileChooser.getExtensionFilters().add(
+                            new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+                    fileChooser.setInitialFileName(item.getOrderNumber() + ".pdf");
+
+                    File file = fileChooser.showSaveDialog(null);
+                    if (file != null) {
+                        try (FileOutputStream fos = new FileOutputStream(file)) {
+                            fos.write(pdfBytes);
+                        } catch (Exception e) {
+                            DialogHandler.showExceptionError("File Save Error", "Could not save PDF file.", e);
+                        }
+                    }
+
+                });
             }
         });
     }
