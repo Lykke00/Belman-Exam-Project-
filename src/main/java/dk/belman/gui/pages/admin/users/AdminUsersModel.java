@@ -1,6 +1,5 @@
 package dk.belman.gui.pages.admin.users;
 
-import dk.belman.gui.common.ReportItemModel;
 import dk.belman.gui.common.UserModel;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -9,12 +8,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 public class AdminUsersModel {
     private final ObservableList<UserModel> users = FXCollections.observableArrayList();
-    private final FilteredList<UserModel> filteredUsers = new FilteredList<>(users, s -> true);
+    private final SortedList<UserModel> sortedUsers = new SortedList<>(users);
+    private final FilteredList<UserModel> filteredUsers = new FilteredList<>(sortedUsers, s -> true);
     private final FilteredList<UserModel> pagedUsers = new FilteredList<>(filteredUsers, s -> true);
 
     private Predicate<UserModel> userFilter = s -> true;
@@ -24,16 +26,19 @@ public class AdminUsersModel {
     private final SimpleIntegerProperty pageCount = new SimpleIntegerProperty(1);
 
     public AdminUsersModel() {
+        sortByNewest();
+
         users.addListener((ListChangeListener<UserModel>) change -> {
             updatePageCount();
             updatePagePredicate();
         });
+    }
 
-        /*
-        filteredUsers.addListener((ListChangeListener<UserModel>) change -> {
-            updatePageCount();
-            updatePagePredicate();
-        });*/
+    private void sortByNewest() {
+        sortedUsers.setComparator(Comparator.comparing(
+                UserModel::getId,
+                Comparator.reverseOrder()
+        ));
     }
 
     public void setFilter(Predicate<UserModel> predicate) {
@@ -43,7 +48,6 @@ public class AdminUsersModel {
         updatePageCount();
         updatePagePredicate();
     }
-
 
     public void setPage(int pageIndex, int itemsPerPage) {
         currentPage.set(pageIndex);
@@ -68,6 +72,10 @@ public class AdminUsersModel {
         int itemCount = filteredUsers.size();
         int newPageCount = (int) Math.ceil((double) itemCount / pageSize.get());
         pageCount.set(Math.max(1, newPageCount));
+    }
+
+    public SortedList<UserModel> sortedUsersProperty() {
+        return sortedUsers;
     }
 
     public FilteredList<UserModel> filteredUsersProperty() {

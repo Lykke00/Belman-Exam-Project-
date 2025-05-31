@@ -342,25 +342,23 @@ public class ReportController extends View implements Initializable {
 
     private void savePdfToPc(ReportItemModel item) {
         reportInteractor.fetchImagesForReport(item, fetched -> {
-            if (fetched) {
-                reportInteractor.generatePdfReport(item, pdfBytes -> {
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.setTitle("Save PDF Report");
-                    fileChooser.getExtensionFilters().add(
-                            new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-                    fileChooser.setInitialFileName(item.getOrderNumber() + ".pdf");
+            reportInteractor.generatePdfReport(fetched, pdfBytes -> {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save PDF Report");
+                fileChooser.getExtensionFilters().add(
+                        new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+                fileChooser.setInitialFileName(fetched.getOrderNumber() + ".pdf");
 
-                    File file = fileChooser.showSaveDialog(null);
-                    if (file != null) {
-                        try (FileOutputStream fos = new FileOutputStream(file)) {
-                            fos.write(pdfBytes);
-                        } catch (Exception e) {
-                            DialogHandler.showExceptionError("File Save Error", "Could not save PDF file.", e);
-                        }
+                File file = fileChooser.showSaveDialog(null);
+                if (file != null) {
+                    try (FileOutputStream fos = new FileOutputStream(file)) {
+                        fos.write(pdfBytes);
+                    } catch (Exception e) {
+                        DialogHandler.showExceptionError("File Save Error", "Could not save PDF file.", e);
                     }
+                }
 
-                });
-            }
+            });
         });
     }
 

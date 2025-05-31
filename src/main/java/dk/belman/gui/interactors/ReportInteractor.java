@@ -133,17 +133,22 @@ public class ReportInteractor {
         );
     }
 
-    public void fetchImagesForReport(ReportItemModel report, Consumer<Boolean> callback) {
+    public void fetchImagesForReport(ReportItemModel report, Consumer<ReportItemModel> callback) {
         BackgroundTaskExecutor.executeWithExceptionHandling(
                 () -> reportManager.getReport(report),
                 dbReport -> {
+                    if (dbReport == null)
+                        callback.accept(null);
+
+                    ReportItemModel reportItemModel = ReportItemModel.fromEntity(dbReport);
                     reportGeneratePdf.reportModelProperty().set(ReportItemModel.fromEntity(dbReport));
-                    callback.accept(true);
+
+                    callback.accept(reportItemModel);
                 },
                 error -> {
                     DialogHandler.showExceptionError("Image Fetching Error",
                             "An error occurred while fetching images for the QC report.", error);
-                    callback.accept(false);
+                    callback.accept(null);
                 },
                 loading -> {
                     report.isGeneratingPdfFileProperty().set(loading);

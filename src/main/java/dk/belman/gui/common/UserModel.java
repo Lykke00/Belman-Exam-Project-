@@ -81,4 +81,8 @@ public class UserModel {
         this.role.set(userModel.role.get());
         this.active.set(userModel.active.get());
     }
+
+    public int getId() {
+        return id.get();
+    }
 }

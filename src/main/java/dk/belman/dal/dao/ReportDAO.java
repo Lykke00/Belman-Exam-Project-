@@ -30,13 +30,14 @@ public class ReportDAO implements IReportDAO {
         String status = rs.getString("status");
         Timestamp createdDate = rs.getTimestamp("created_date");
         Timestamp updatedDate = rs.getTimestamp("update_date");
-        int operatorId = rs.getInt("operator_id");
+        //int operatorId = rs.getInt("operator_id");
+        String workerId = rs.getString("workerId");
         int inspectedBy = rs.getInt("inspected_by");
         String inspectorComment = rs.getString("inspector_comment");
 
         LocalDateTime updatedDateConvert = updatedDate != null ? updatedDate.toLocalDateTime() : null;
 
-        return new Report(reportId, orderNumber, "" + operatorId, createdDate.toLocalDateTime(), updatedDateConvert, status, inspectorComment);
+        return new Report(reportId, orderNumber, workerId, createdDate.toLocalDateTime(), updatedDateConvert, status, inspectorComment);
     }
 
     @Override
@@ -101,7 +102,8 @@ public class ReportDAO implements IReportDAO {
         List<Report> reports = new ArrayList<>();
 
         String query = """
-                    SELECT * FROM reports
+                SELECT *, u.workerId FROM reports
+               JOIN users AS u ON reports.operator_id = u.id
                 """;
 
         try (Connection conn = connector.getConnection();
@@ -120,8 +122,9 @@ public class ReportDAO implements IReportDAO {
     @Override
     public Report getReport(ReportItemModel report) throws Exception {
         String query = """
-                SELECT * FROM reports
-                WHERE id = ?
+                SELECT *, u.workerId FROM reports
+                JOIN users AS u ON reports.operator_id = u.id
+                WHERE reports.id = ?
             """;
 
         try (Connection conn = connector.getConnection();

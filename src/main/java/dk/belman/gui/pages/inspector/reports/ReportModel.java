@@ -92,11 +92,6 @@ public class ReportModel {
         pageCount.set(Math.max(1, newPageCount));
     }
 
-    // Method to add new reports at the correct position
-    public void addReport(ReportItemModel report) {
-        reports.add(report); // SortedList will automatically position it correctly
-    }
-
     public SimpleBooleanProperty loadedProperty() {
         return loaded;
     }

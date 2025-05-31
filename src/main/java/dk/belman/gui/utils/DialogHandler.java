@@ -41,8 +41,8 @@ public class DialogHandler {
         alert.setHeaderText(headerText);
         alert.setContentText(message);
 
-        ButtonType confirmButton = new ButtonType("Bekræft", ButtonBar.ButtonData.YES);
-        ButtonType cancelButton = new ButtonType("Annuller", ButtonType.CANCEL.getButtonData());
+        ButtonType confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.YES);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonType.CANCEL.getButtonData());
 
         alert.getButtonTypes().setAll(cancelButton, confirmButton);
 
