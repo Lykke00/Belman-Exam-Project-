@@ -43,18 +43,6 @@ public class UserManager {
         return userDAO.createUser(user);
     }
 
-    public static void main(String[] args) throws Exception {
-        User user = new User("1234AD", "Henrik", "Larsen", "a", UserRole.ADMIN);
-
-        UserManager userManager = new UserManager();
-        try {
-            userManager.registerUser(user);
-            System.out.println("User registered successfully.");
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
     public List<User> getAll() throws Exception {
         return userDAO.getAllUsers();
     }

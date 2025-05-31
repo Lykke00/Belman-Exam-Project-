@@ -32,13 +32,4 @@ public class DBConnector implements IDBConnector {
     public Connection getConnection() throws SQLServerException {
         return dataSource.getConnection();
     }
-
-    //method to check whether connection to database is true or false
-    public static void main(String[] args) throws Exception {
-        DBConnector dbConnecter = new DBConnector();
-
-        try (Connection connection = dbConnecter.getConnection()) {
-            System.out.println("open = " + !connection.isClosed());
-        } //Connection gets closed here
-    }
 }

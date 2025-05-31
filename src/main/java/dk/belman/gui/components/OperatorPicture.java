@@ -125,8 +125,6 @@ public class OperatorPicture extends StackPane {
     private void handleRetakeAction(ActionEvent event) {
         if (retakeAction != null) {
             retakeAction.handle(event);
-        } else {
-            System.out.println("Retake clicked for position: " + position);
         }
     }
 

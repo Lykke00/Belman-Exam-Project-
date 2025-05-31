@@ -116,10 +116,6 @@ public class ReportController extends View implements Initializable {
         ModalHandler.getInstance().getModalOverlay().showFXML(Modal.SEND_EMAIL);
     }
 
-    private void contextMenuShow(ReportItemModel item) {
-        System.out.println("Context menu shown " + item.orderNumberProperty().get());
-    }
-
     private void setupComboBoxFilter() {
         ObservableList<String> filterOptions = FXCollections.observableArrayList(ALL_REPORTS, PENDING_REPORTS, ACCEPTED_REPORTS, REJECTED_REPORTS);
         cmbBoxFilter.setItems(filterOptions);
