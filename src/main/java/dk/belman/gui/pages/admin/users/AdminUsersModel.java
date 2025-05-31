@@ -1,7 +1,6 @@
 package dk.belman.gui.pages.admin.users;
 
 import dk.belman.gui.common.UserModel;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;

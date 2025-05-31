@@ -2,7 +2,6 @@ package dk.belman.gui.modals.useredit;
 
 import atlantafx.base.theme.Styles;
 import com.gluonhq.charm.glisten.mvc.View;
-import dk.belman.be.User;
 import dk.belman.enums.UserRole;
 import dk.belman.gui.common.UserModel;
 import dk.belman.gui.components.GluonSnackbar;
@@ -15,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;

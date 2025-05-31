@@ -6,7 +6,6 @@ import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.visual.Swatch;
 import dk.belman.gui.*;
 import dk.belman.gui.components.DrawerManager;
-import dk.belman.gui.components.Snackbar;
 import dk.belman.gui.services.PictureManager;
 import dk.belman.gui.utils.LabelStyle;
 import dk.belman.gui.utils.ModalHandler;
@@ -43,7 +42,6 @@ public class Main extends Application {
         ModalHandler.getInstance().setRoot(rootStack);
 
         scene.setRoot(rootStack);
-        Snackbar.setStackPane(rootStack);
 
         // Setup Views
         Routes.setupViews(appManager);

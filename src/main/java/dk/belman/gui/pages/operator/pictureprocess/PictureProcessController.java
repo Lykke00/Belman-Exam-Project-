@@ -1,6 +1,5 @@
 package dk.belman.gui.pages.operator.pictureprocess;
 
-import com.gluonhq.attach.pictures.PicturesService;
 import com.gluonhq.attach.util.Platform;
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.AppBar;

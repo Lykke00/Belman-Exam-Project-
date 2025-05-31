@@ -8,7 +8,6 @@ import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.NavigationDrawer;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import dk.belman.gui.AppView;
-import dk.belman.gui.Routes;
 import javafx.scene.image.Image;
 
 import java.util.Objects;

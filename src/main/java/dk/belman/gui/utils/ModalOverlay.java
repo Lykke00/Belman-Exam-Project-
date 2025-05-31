@@ -2,21 +2,15 @@ package dk.belman.gui.utils;
 
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.layout.ModalBox;
-import atlantafx.base.theme.Styles;
 import dk.belman.gui.modals.IModalController;
 import dk.belman.gui.modals.Modal;
 import javafx.animation.Animation;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Control;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 

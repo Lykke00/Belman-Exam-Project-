@@ -13,7 +13,6 @@ import dk.belman.gui.modals.Modal;
 import dk.belman.gui.common.ReportItemModel;
 import dk.belman.gui.utils.DialogHandler;
 import dk.belman.gui.utils.ModalHandler;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -33,9 +32,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 
 import java.net.URL;

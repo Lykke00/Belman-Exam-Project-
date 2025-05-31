@@ -1,6 +1,5 @@
 package dk.belman.gui.components;
 
-import atlantafx.base.theme.Styles;
 import com.gluonhq.attach.util.Platform;
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.application.ViewStackPolicy;
@@ -9,7 +8,6 @@ import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import dk.belman.gui.AppView;
 import dk.belman.gui.common.AuthModel;
 import dk.belman.gui.common.UserModel;
-import dk.belman.gui.interactors.AuthInteractor;
 import dk.belman.gui.interactors.InteractorManager;
 import dk.belman.gui.utils.LabelStyle;
 import javafx.beans.binding.Bindings;
@@ -21,10 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.SVGPath;
-import org.kordamp.ikonli.feather.Feather;
-import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

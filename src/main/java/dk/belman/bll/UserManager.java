@@ -4,7 +4,6 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import dk.belman.be.User;
 import dk.belman.dal.dao.IUserDAO;
 import dk.belman.dal.dao.UserDAO;
-import dk.belman.enums.UserRole;
 
 import java.util.List;
 
