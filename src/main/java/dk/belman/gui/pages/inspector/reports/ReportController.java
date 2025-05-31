@@ -96,29 +96,7 @@ public class ReportController extends View implements Initializable {
         setupTextFieldSearch();
         setupComboBoxFilter();
         setupContextMenu(tblView);
-
-        Button btnRefresh = new Button("Refresh");
-        btnRefresh.setOnAction(e -> {addTestData();});
-        vBoxMain.getChildren().add(btnRefresh);
     }
-
-    private void addTestData() {
-        ReportStatus[] statuses = {ReportStatus.ACCEPTED, ReportStatus.REJECTED, ReportStatus.PENDING};
-
-        Random random = new Random(System.currentTimeMillis());
-
-        ReportItemModel item = new ReportItemModel();
-        item.orderNumberProperty().set("Order #" + System.currentTimeMillis() % 1000);
-
-        ReportStatus randomStatus = statuses[random.nextInt(statuses.length)];
-        item.statusProperty().set(randomStatus);
-
-        item.createdDateProperty().set(LocalDateTime.now());
-        item.operatorIdProperty().set("Operator #" + random.nextInt(10));
-
-        model.reportsProperty().add(item);
-    }
-
 
     private void setupContextMenu(TableView<ReportItemModel> tableView) {
         List<MenuItemInfo<ReportItemModel>> menuItemInfos = List.of(

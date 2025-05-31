@@ -8,11 +8,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 public class ReportModel {
     private final ObservableList<ReportItemModel> reports = FXCollections.observableArrayList();
-    private final FilteredList<ReportItemModel> filteredReports = new FilteredList<>(reports, s -> true);
+    private final SortedList<ReportItemModel> sortedReports = new SortedList<>(reports);
+    private final FilteredList<ReportItemModel> filteredReports = new FilteredList<>(sortedReports, s -> true);
     private final FilteredList<ReportItemModel> pagedReports = new FilteredList<>(filteredReports, s -> true);
 
     private final SimpleBooleanProperty loaded = new SimpleBooleanProperty(false);
@@ -23,6 +26,8 @@ public class ReportModel {
     private Predicate<ReportItemModel> userFilter = s -> true;
 
     public ReportModel() {
+        sortByNewest();
+
         reports.addListener((ListChangeListener<ReportItemModel>) change -> {
             updatePageCount();
             updatePagePredicate();
@@ -34,8 +39,19 @@ public class ReportModel {
         });
     }
 
+    private void sortByNewest() {
+        sortedReports.setComparator(Comparator.comparing(
+                ReportItemModel::getCreatedDate,
+                Comparator.reverseOrder()
+        ));
+    }
+
     public ObservableList<ReportItemModel> reportsProperty() {
         return reports;
+    }
+
+    public SortedList<ReportItemModel> sortedReportsProperty() {
+        return sortedReports;
     }
 
     public FilteredList<ReportItemModel> filteredReportsProperty() {
@@ -74,6 +90,11 @@ public class ReportModel {
         int itemCount = filteredReports.size();
         int newPageCount = (int) Math.ceil((double) itemCount / pageSize.get());
         pageCount.set(Math.max(1, newPageCount));
+    }
+
+    // Method to add new reports at the correct position
+    public void addReport(ReportItemModel report) {
+        reports.add(report); // SortedList will automatically position it correctly
     }
 
     public SimpleBooleanProperty loadedProperty() {
