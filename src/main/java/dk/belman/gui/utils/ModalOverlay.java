@@ -71,7 +71,7 @@ public class ModalOverlay extends ModalPane {
                 modal.setController(loader.getController());
                 modalCache.put(modal, modalNode);
             } catch (Exception e) {
-                throw new RuntimeException("Failed to load Modal: " + modal.getPath(), e);
+                DialogHandler.showExceptionError("Modal error", "Modal couldn't load", e);
             }
         }
 

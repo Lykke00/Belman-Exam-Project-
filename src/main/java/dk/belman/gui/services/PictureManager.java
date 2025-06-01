@@ -1,6 +1,7 @@
 package dk.belman.gui.services;
 
 import com.gluonhq.attach.pictures.PicturesService;
+import dk.belman.gui.utils.DialogHandler;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -23,7 +24,7 @@ public class PictureManager {
         if (picturesService == null) {
             picturesService = PicturesService.create().orElse(null);
             if (picturesService == null) {
-                throw new RuntimeException("Failed to initialize PicturesService");
+                DialogHandler.showExceptionError("Picture manager", "Picture service couldn't be loaded", new Exception("PicturesService is not available on this platform."));
             }
         }
     }

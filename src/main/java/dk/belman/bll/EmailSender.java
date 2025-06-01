@@ -31,7 +31,7 @@ public class EmailSender {
         resend = new Resend(properties.getProperty("resend.apiKey"));
     }
 
-    private String loadCssFromResource() {
+    private String loadCssFromResource() throws Exception {
         StringBuilder contentBuilder = new StringBuilder();
         try (InputStream inputStream = this.getClass().getResourceAsStream("/css/email.css");
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -39,8 +39,8 @@ public class EmailSender {
             while ((line = reader.readLine()) != null)
                 contentBuilder.append(line).append("\n");
 
-        } catch (IOException e) {
-            throw new RuntimeException("Error trying to read /css/email.css file\n " + e);
+        } catch (Exception e) {
+            throw new Exception("Error trying to read /css/email.css file\n " + e);
         }
 
         return contentBuilder.toString();

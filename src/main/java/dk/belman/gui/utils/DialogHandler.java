@@ -37,7 +37,7 @@ public class DialogHandler {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
         Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
-        alertStage.getIcons().add(new Image(LoginController.class.getResourceAsStream("/images/icon1.png")));
+       // alertStage.getIcons().add(new Image(LoginController.class.getResourceAsStream("/images/icon1.png")));
 
         alert.setTitle(title);
         alert.setHeaderText(headerText);
@@ -67,7 +67,7 @@ public class DialogHandler {
             var alert = new Alert(Alert.AlertType.ERROR);
 
             Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
-            alertStage.getIcons().add(new Image(LoginController.class.getResourceAsStream("/images/icon1.png")));
+           // alertStage.getIcons().add(new Image(LoginController.class.getResourceAsStream("/images/icon1.png")));
 
             alert.setTitle(title);
             alert.setHeaderText(title);

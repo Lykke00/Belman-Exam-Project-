@@ -57,6 +57,7 @@ public class Main extends Application {
         if (Platform.isDesktop()) {
             registerStorage();
 
+            // skal være en runtime da det kun er i runtime denne bliver håndteret
             ROOT_DIR = Services.get(StorageService.class)
                     .flatMap(StorageService::getPrivateStorage)
                     .orElseThrow(() -> new RuntimeException("Error retrieving private storage"));
