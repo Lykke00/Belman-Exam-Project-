@@ -40,26 +40,41 @@ public class ReportDAO implements IReportDAO {
         return new Report(reportId, orderNumber, workerId, createdDate.toLocalDateTime(), updatedDateConvert, status, inspectorComment);
     }
 
+    /* * Denne metode opretter en rapport i databasen.
+     * Den tager en OperatorReport som parameter, som indeholder information om rapporten og billederne.
+     * Den håndterer transaktioner ved at sætte autocommit til false, og ruller tilbage ved fejl.
+     */
     @Override
     public boolean createReport(OperatorReport report) throws Exception {
+        // try-with-resources for at den automatisk lukker forbindelsen
         try (Connection conn = connector.getConnection()) {
+
+            // sæt autocommit til false for at håndtere transaktioner
             conn.setAutoCommit(false);
 
+            // SQL for at indsætte rapporten
             String insertReportSQL = """
                     INSERT INTO reports (order_number, created_date, operator_id)
                     VALUES (?, ?, ?)
                     """;
 
+            // Forbered statement for at indsætte rapporten for at undgå SQL injektion
             try (PreparedStatement reportStmt = conn.prepareStatement(insertReportSQL, Statement.RETURN_GENERATED_KEYS)) {
+
+                // Sæt data på spørgsmålstegnene i querien
                 reportStmt.setString(1, report.getOrderNumber());
                 reportStmt.setTimestamp(2, Timestamp.valueOf(report.getDate()));
                 reportStmt.setInt(3, report.getOperator().getId());
 
+                // prøv at kør query og se om der er nogle rækker der blev påvirket
                 int affectedRows = reportStmt.executeUpdate();
                 if (affectedRows == 0)
                     throw new Exception("Creating report failed, no rows affected.");
 
                 int reportId;
+
+                // tjekker resultatet for at få fat i den genereret primær nøgle, som databasen har lavet
+                // altså id
                 try (ResultSet generatedKeys = reportStmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         reportId = generatedKeys.getInt(1);
@@ -68,30 +83,37 @@ public class ReportDAO implements IReportDAO {
                     }
                 }
 
+                // SQL for at indsætte billederne
                 String insertImageSQL = """
                         INSERT INTO reports_images (report_id, picture, comment, angle)
                         VALUES (?, ?, ?, ?)
                     """;
 
+                // Forbered statement for at indsætte billederne
                 try (PreparedStatement imageStmt = conn.prepareStatement(insertImageSQL)) {
+                    // looper igennem hvert billede fra rapporten og tilføjer den som en batch
                     for (ReportImage image : report.getPhotos()) {
                         imageStmt.setInt(1, reportId);
                         imageStmt.setBytes(2, image.getImage());
                         imageStmt.setString(3, image.getComment());
                         imageStmt.setString(4, image.getTakenFromAngle());
+
+                        // tilføj til batchen
                         imageStmt.addBatch();
                     }
 
+                    // når loopet er kørt igennem, så kør batchen
                     imageStmt.executeBatch();
                 }
 
+                // hvis vi når hertil, så er alt gået godt, og vi kan committe transaktionen
                 conn.commit();
                 return true;
             } catch (SQLException e) {
+                // hvis der sker en fejl under indsættelse af rapporten eller billederne, så ruller vi tilbage
                 conn.rollback();
                 throw new Exception("Creating report failed", e);
             }
-
         } catch (SQLException e) {
             throw new Exception("Database error", e);
         }
