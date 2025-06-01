@@ -24,6 +24,9 @@ public class UserManager {
         if (user == null)
             throw new Exception("DOESNT_EXIST");
 
+        if (!user.isActive())
+            throw new Exception("USER_INACTIVE");
+
         boolean okPassword = BCrypt.verifyer().verify(password.toCharArray(), user.getPasswordHash()).verified;
         if (!okPassword)
             throw new Exception("PASSWORD_INCORRECT");

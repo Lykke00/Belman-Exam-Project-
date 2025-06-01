@@ -22,7 +22,7 @@ public class UserDAO implements IUserDAO {
     @Override
     public User getUserByWorkerId(String workerId) throws Exception {
         String query = """
-                SELECT users.id, users.workerId, users.firstName, users.lastName, users.password, users_roles.role as role_name 
+                SELECT users.id, users.workerId, users.firstName, users.lastName, users.active, users.password, users_roles.role as role_name 
                 FROM users
                 JOIN users_roles ON users.role = users_roles.id
                 WHERE users.workerId = ?
@@ -41,8 +41,9 @@ public class UserDAO implements IUserDAO {
                 String lastName = rs.getString("lastName");
                 String passwordHash = rs.getString("password");
                 String role = rs.getString("role_name");
+                boolean isActive = rs.getBoolean("active");
 
-                return new User(id, workerId2, firstName, lastName, passwordHash, role);
+                return new User(id, workerId2, firstName, lastName, passwordHash, role, isActive);
             }
 
             return null;

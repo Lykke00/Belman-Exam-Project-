@@ -52,13 +52,14 @@ public class User {
         this.isActive = true;
     }
 
-    public User(int id, String workerId, String firstName, String lastName, String password, String role) {
+    public User(int id, String workerId, String firstName, String lastName, String password, String role, boolean isActive) {
         this.id = id;
         this.workerId = workerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.role = UserRole.fromRole(role);
+        this.isActive = isActive;
     }
 
     public int getId() {
