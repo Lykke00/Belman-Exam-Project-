@@ -50,7 +50,7 @@ public class Main extends Application {
         DrawerManager.getInstance();
 
         Swatch.BLUE.assignTo(scene);
-        ((Stage) scene.getWindow()).getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/icon.png"))));
+        ((Stage) scene.getWindow()).getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/images/logo1.png"))));
     }
 
     static {

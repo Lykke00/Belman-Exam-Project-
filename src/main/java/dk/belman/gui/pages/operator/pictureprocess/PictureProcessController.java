@@ -75,8 +75,7 @@ public class PictureProcessController extends View implements Initializable {
     }
 
     private void takePhotoDesktop(PictureItemModel page) {
-       // Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icon.png")));
-        Image image = new Image("file:///Users/lykkebernberg/Desktop/den%20sexet%20mand%20patrick/eksempler/4.jpg");
+        Image image = new Image("file:///Users/lykkebernberg/Desktop/testbilleder/eksempler/4.jpg");
 
         updateImage(page, image);
     }

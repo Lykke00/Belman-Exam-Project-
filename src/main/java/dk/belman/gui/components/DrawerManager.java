@@ -34,7 +34,7 @@ public class DrawerManager {
 
             NavigationDrawer.Header header = new NavigationDrawer.Header("Belsign",
                     "QR Report System",
-                    new Avatar(21, new Image(Objects.requireNonNull(DrawerManager.class.getResourceAsStream("/icon.png")))));
+                    new Avatar(21, new Image(Objects.requireNonNull(DrawerManager.class.getResourceAsStream("/images/logo1.png")))));
             drawer.setHeader(header);
 
 

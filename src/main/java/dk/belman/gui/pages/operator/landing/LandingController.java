@@ -67,7 +67,6 @@ public class LandingController extends View implements Initializable {
         BooleanBinding isValid = txtFieldOrderNumber.textProperty()
                 .isNotEmpty()
                 .and(txtFieldOrderNumber.textProperty().length().greaterThan(0));
-        // .and(txtFieldOrderNumber.textProperty().length().lessThan(20));
 
         btnBegin.disableProperty().bind(isValid.not());
     }
@@ -78,39 +77,26 @@ public class LandingController extends View implements Initializable {
             model.stateProperty().set(CurrentStateProcess.nextState(model.stateProperty().get()));
 
             AppManager.getInstance().switchView(AppView.OPERATOR_PICTURE_PROCESS.getRoute());
-            /*
-            model.getImages().clear();
-            picturePane.getChildren().clear();
-
-            if (Platform.isDesktop()) {
-                takePhotoDesktop();
-                showPictures();
-            } else {
-                takePhotoMobile();
-                showPictures();
-            }*/
         });
     }
 
     private void takePhotoDesktop() {
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icon.png")));
-        Image image2 = new Image("file:///C:/Users/mathi/OneDrive%20-%20Family%20business/Desktop/pb/gta/0e92e6bc9e0dea6fe8219e62355d7a3e.jpg");
-        Image image3 = new Image("file:///C:/Users/mathi/OneDrive%20-%20Family%20business/Desktop/pb/gta/b24eb6cec0c947981ab87179767412cf.jpg");
-        Image image4 = new Image("file:///C:/Users/mathi/OneDrive%20-%20Family%20business/Desktop/pb/gta/f4f8fa688188e83490ec26618b3d267c.jpg");
-        Image image5 = new Image("file:///C:/Users/mathi/OneDrive%20-%20Family%20business/Desktop/pb/gta/6a96f3f37956b2c39425f94d721e48c8.jpg");
-        Image image6 = new Image("file:///C:/Users/mathi/OneDrive%20-%20Family%20business/Desktop/pb/gta/fa73b7090ade51e87d78607e23fafef0.jpg");
+        Image image1 = new Image("file:///Users/lykkebernberg/Desktop/testbilleder/eksempler/1.jpg");
+        Image image2 = new Image("file:///Users/lykkebernberg/Desktop/testbilleder/eksempler/2.jpg");
+        Image image3 = new Image("file:///Users/lykkebernberg/Desktop/testbilleder/eksempler/3.jpeg");
+        Image image4 = new Image("file:///Users/lykkebernberg/Desktop/testbilleder/eksempler/4.jpg");
+        Image image5 = new Image("file:///Users/lykkebernberg/Desktop/testbilleder/eksempler/5.png");
 
-        if (image.isError()) {
-            System.err.println("Failed to load image: " + image.getException());
+        if (image1.isError()) {
+            System.err.println("Failed to load image: " + image1.getException());
         } else {
-            SelectableImageView imageView = new SelectableImageView(image, PICTURE_WIDTH, PICTURE_HEIGHT);
+            SelectableImageView imageView1 = new SelectableImageView(image1, PICTURE_WIDTH, PICTURE_HEIGHT);
             SelectableImageView imageView2 = new SelectableImageView(image2, PICTURE_WIDTH, PICTURE_HEIGHT);
             SelectableImageView imageView3 = new SelectableImageView(image3, PICTURE_WIDTH, PICTURE_HEIGHT);
             SelectableImageView imageView4 = new SelectableImageView(image4, PICTURE_WIDTH, PICTURE_HEIGHT);
             SelectableImageView imageView5 = new SelectableImageView(image5, PICTURE_WIDTH, PICTURE_HEIGHT);
-            SelectableImageView imageView6 = new SelectableImageView(image6, PICTURE_WIDTH, PICTURE_HEIGHT);
 
-            picturePane.getChildren().addAll(imageView, imageView2, imageView3, imageView4, imageView5, imageView6);
+            picturePane.getChildren().addAll(imageView1, imageView2, imageView3, imageView4, imageView5);
         }
     }
 
